@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head.ejs') %>
+    <title>Workout</title>
+</head>
+
+<body>
+    <%- include('./partials/nav', { user }) %>
+    <main class="max-w-2xl mx-auto px-4 pt-12">
+        <h1 class="text-2xl text-gray-900">Welcome <%= user.username %> </h1>
+    </main>
+</body>
+
+</html>
