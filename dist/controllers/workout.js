@@ -13,23 +13,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const auth_1 = require("./auth");
 const connection_1 = __importDefault(require("../db/connection"));
 const router = express_1.default.Router();
+/**
+ * Render the workout page
+ */
+router.get('/workout', auth_1.checkAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const [exercises] = yield connection_1.default.query('SElECT * FROM exercise');
+    const user = req.user ? req.user : undefined;
+    res.render('workout', {
+        exercises,
+        user,
+    });
+}));
+/**
+ * Post a completed workout
+ */
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // check if the user is logged in
     if (!req.user) {
         res.status(500).send({ msg: 'User not logged in' });
     }
     const sets = req.body.workout;
     try {
+        // insert a new workout
         const [workout] = yield connection_1.default.execute('INSERT INTO `workout` ( title, user_id ) VALUES( ?, ? )', ['test', req.user.id]);
         sets.forEach((set) => __awaiter(void 0, void 0, void 0, function* () {
+            // insert sets beloning to the workout
             yield connection_1.default.execute('INSERT INTO `set` ( reps, weight, exercise_id, workout_id ) VALUES( ?, ?, ?, ? )', [set.reps, set.weight, set.exerciseId, workout.insertId]);
         }));
-        res.status(200).send({ msg: `workout posted!` });
+        res.status(200).send({ msg: 'workout posted!' });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).send({ msg: "couldn't post workout" });
+        res.status(500).send({ msg: 'Couldn\'t post workout' });
     }
 }));
 exports.default = router;

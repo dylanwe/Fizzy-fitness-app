@@ -91,10 +91,16 @@ const checkNotAuthenticated = (req, res, next) => {
 };
 exports.checkNotAuthenticated = checkNotAuthenticated;
 const router = express_1.default.Router();
+/**
+ * Render the signup page
+ */
 router.get('/signup', checkNotAuthenticated, (req, res) => {
     const user = (req.user) ? req.user : undefined;
     res.render('signup', { user });
 });
+/**
+ * Create an account
+ */
 router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const hashedPassword = yield bcrypt_1.default.hash(req.body.password, 10);
@@ -107,6 +113,9 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.redirect('/signup');
     }
 }));
+/**
+ * Render the login page
+ */
 router.get('/login', checkNotAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = (req.user) ? req.user : undefined;
     res.render('login', { user });
@@ -117,6 +126,9 @@ router.get('/login', checkNotAuthenticated, (req, res) => __awaiter(void 0, void
 router.post('/login', passport_1.default.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
     res.redirect('/');
 });
+/**
+ * Logout the user in via the passport configuration
+ */
 router.delete('/logout', function (req, res, next) {
     req.logout(function (err) {
         if (err) {

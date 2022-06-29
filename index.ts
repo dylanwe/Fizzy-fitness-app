@@ -29,7 +29,7 @@ app.use(
 		secret: <string>process.env.SESSION_SECRET,
 		resave: false,
 		saveUninitialized: false,
-		store: new MySQLStore({}, db) 
+		store: new MySQLStore({}, db),
 	})
 );
 // make passport use the session to store an authenticated user
@@ -37,25 +37,13 @@ app.use(passport.authenticate('session'));
 
 // render the homepage
 app.get('/', (req: Request, res: Response) => {
-	const user = (req.user) ? req.user : undefined;
-	res.render('homepage', {user});
+	const user = req.user ? req.user : undefined;
+	res.render('homepage', { user });
 });
 
 // sub routers
 app.use('/', authRouter);
 app.use('/workout', workoutRouter);
-
-// render the workout page
-app.get('/workout', checkAuthenticated, async (req: any, res: Response) => {
-	const [exercises] = await db.query('SElECT * FROM exercise');
-
-	const user = (req.user) ? req.user : undefined;
-
-	res.render('workout', {
-		exercises,
-		user,
-	});
-});
 
 app.listen(port, () => {
 	console.log(`Example app listening on port http://localhost:${port}`);

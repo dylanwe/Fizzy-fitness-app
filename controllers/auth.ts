@@ -94,16 +94,18 @@ const checkNotAuthenticated = (req: any, res: any, next: any) => {
 
 const router = express.Router();
 
-router.get(
-	'/signup',
-	checkNotAuthenticated,
-	(req: Request, res: Response) => {
-		const user = (req.user) ? req.user : undefined;
+/**
+ * Render the signup page
+ */
+router.get('/signup', checkNotAuthenticated, (req: Request, res: Response) => {
+	const user = req.user ? req.user : undefined;
 
-		res.render('signup', { user });
-	}
-);
+	res.render('signup', { user });
+});
 
+/**
+ * Create an account
+ */
 router.post('/signup', async (req: Request, res: Response) => {
 	try {
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -121,11 +123,14 @@ router.post('/signup', async (req: Request, res: Response) => {
 	}
 });
 
+/**
+ * Render the login page
+ */
 router.get(
 	'/login',
 	checkNotAuthenticated,
 	async (req: Request, res: Response) => {
-		const user = (req.user) ? req.user : undefined;
+		const user = req.user ? req.user : undefined;
 		res.render('login', { user });
 	}
 );
@@ -141,6 +146,9 @@ router.post(
 	}
 );
 
+/**
+ * Logout the user in via the passport configuration
+ */
 router.delete('/logout', function (req: any, res: Response, next: any) {
 	req.logout(function (err: Error) {
 		if (err) {
