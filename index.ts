@@ -5,6 +5,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import authRouter, { checkAuthenticated } from './controllers/auth';
 import workoutRouter from './controllers/workout';
+const MySQLStore = require('express-mysql-session')(session);
 import db from './db/connection';
 
 const app: Express = express();
@@ -28,6 +29,7 @@ app.use(
 		secret: <string>process.env.SESSION_SECRET,
 		resave: false,
 		saveUninitialized: false,
+		store: new MySQLStore({}, db) 
 	})
 );
 // make passport use the session to store an authenticated user

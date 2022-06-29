@@ -42,6 +42,7 @@ const express_session_1 = __importDefault(require("express-session"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const auth_1 = __importStar(require("./controllers/auth"));
 const workout_1 = __importDefault(require("./controllers/workout"));
+const MySQLStore = require('express-mysql-session')(express_session_1.default);
 const connection_1 = __importDefault(require("./db/connection"));
 const app = (0, express_1.default)();
 const port = parseInt(process.env.PORT);
@@ -59,6 +60,7 @@ app.use((0, express_session_1.default)({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: new MySQLStore({}, connection_1.default)
 }));
 // make passport use the session to store an authenticated user
 app.use(passport_1.default.authenticate('session'));
