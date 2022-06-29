@@ -14,10 +14,10 @@
         <p class="mt-2 text-gray-500">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum, unde ipsa ex
             omnis accusantium.</p>
 
-        <form data-excersises class="my-6">
-            <%# excersise template %>
-                <template id="excersise">
-                    <div data-excersise-id="x" class="my-6">
+        <form data-exercises class="my-6">
+            <%# exercise template %>
+                <template id="exercise">
+                    <div data-exercise-id="x" class="my-6">
                         <h2 class="font-bold text-lg text-gray-600">Push ups</h2>
                         <div class="relative overflow-x-auto rounded-md border mt-2 mb-4">
                             <table class="w-full text-sm text-left text-gray-500">
@@ -104,7 +104,7 @@
                     </template>
         </form>
 
-        <button data-add-excersise type="button" class="block w-full bg-cyan-100 border-2 border-cyan-500 text-cyan-500 rounded-md p-2">
+        <button data-add-exercise type="button" class="block w-full bg-cyan-100 border-2 border-cyan-500 text-cyan-500 rounded-md p-2">
             Add excerise
         </button>
 
@@ -113,7 +113,7 @@
         </button>
 
         <!-- Main modal -->
-        <div data-excersise-picker tabindex="-1" aria-hidden="true"
+        <div data-exercise-picker tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-black bg-opacity-40">
             <div class="relative p-4 w-full max-w-md h-full md:h-auto mx-auto">
                 <!-- Modal content -->
@@ -130,18 +130,18 @@
                     <!-- Modal header -->
                     <div class="py-4 px-6 rounded-t border-b dark:border-gray-600">
                         <h3 class="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
-                            Select excersise
+                            Select exercise
                         </h3>
                     </div>
                     <!-- Modal body -->
                     <div class="p-6">
                         <ul class="my-4 space-y-3">
-                            <% excersises.forEach(excersise=> { %>
-                                <li data-excersise-pick="<%= excersise.id %>" class="flex items-center p-3 text-base
+                            <% exercises.forEach(exercise=> { %>
+                                <li data-exercise-pick="<%= exercise.id %>" class="flex items-center p-3 text-base
                                     font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow
                                     hover:cursor-pointer">
                                     <span class="flex-1 ml-3 whitespace-nowrap capitalize">
-                                        <%= excersise["name"] %>
+                                        <%= exercise["name"] %>
                                     </span>
                                 </li>
                                 <% }) %>

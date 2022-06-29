@@ -13,12 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const connection_1 = __importDefault(require("../db/connection"));
-class Excersise {
+class exercise {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const excersises = yield connection_1.default.query('SElECT * FROM excersise');
-            return excersises[0];
+            const exercises = yield connection_1.default.query('SElECT * FROM exercise');
+            return exercises[0];
         });
     }
 }
-exports.default = Excersise;
+exports.default = exercise;

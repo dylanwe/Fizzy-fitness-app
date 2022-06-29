@@ -43,20 +43,12 @@ app.use('/', authRouter);
 app.use('/workout', workoutRouter);
 
 // render the workout page
-// app.get('/workout', checkAuthenticated, async (req: any, res: Response) => {
-// 	const [excersises] = await db.query('SElECT * FROM excersise');
-
-// 	res.render('workout', {
-// 		excersises,
-// 		username: req.user.username,
-// 	});
-// });
-app.get('/workout', async (req: any, res: Response) => {
-	const [excersises] = await db.query('SElECT * FROM excersise');
+app.get('/workout', checkAuthenticated, async (req: any, res: Response) => {
+	const [exercises] = await db.query('SElECT * FROM exercise');
 
 	res.render('workout', {
-		excersises,
-		username: 'test',
+		exercises,
+		username: req.user.username,
 	});
 });
 

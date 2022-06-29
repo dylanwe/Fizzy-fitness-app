@@ -1,23 +1,23 @@
-// get templates and excersises body
-const excersiseTemplate = document.querySelector('#excersise');
+// get templates and exercises body
+const exerciseTemplate = document.querySelector('#exercise');
 const setTemplate = document.querySelector('#set');
-const excersises = document.querySelector('[data-excersises]');
+const exercises = document.querySelector('[data-exercises]');
 
 /**
- * Get the parent excersise of the give child
+ * Get the parent exercise of the give child
  *
- * @param {Element} child the child element you want the parent excersise for
- * @returns the excersise above the given child
+ * @param {Element} child the child element you want the parent exercise for
+ * @returns the exercise above the given child
  */
-const getExcersiseFromChild = (child) => {
-	let excersise = child;
+const getexerciseFromChild = (child) => {
+	let exercise = child;
 
-	// find set excersise parent
-	while (!excersise.hasAttribute('data-excersise-id')) {
-		excersise = excersise.parentNode;
+	// find set exercise parent
+	while (!exercise.hasAttribute('data-exercise-id')) {
+		exercise = exercise.parentNode;
 	}
 
-	return excersise;
+	return exercise;
 };
 
 /**
@@ -36,34 +36,34 @@ const addSetEvents = (set) => {
 };
 
 /**
- * Add an excersise to the form
+ * Add an exercise to the form
  *
- * @param {number} id the id of the excersise in the database
- * @param {string} name the name of the excersise
+ * @param {number} id the id of the exercise in the database
+ * @param {string} name the name of the exercise
  */
-const addExcersise = (id, name) => {
-	const clone = excersiseTemplate.content.cloneNode(true);
+const addexercise = (id, name) => {
+	const clone = exerciseTemplate.content.cloneNode(true);
 
 	clone
-		.querySelector('[data-excersise-id]')
-		.setAttribute('data-excersise-id', id);
+		.querySelector('[data-exercise-id]')
+		.setAttribute('data-exercise-id', id);
 	clone.querySelector('h2').innerText = name;
 
-	excersises.appendChild(clone);
+	exercises.appendChild(clone);
 
-	// get excersise
-	const excersise = excersises.querySelectorAll('[data-excersise-id]')[
-		excersises.querySelectorAll('[data-excersise-id]').length - 1
+	// get exercise
+	const exercise = exercises.querySelectorAll('[data-exercise-id]')[
+		exercises.querySelectorAll('[data-exercise-id]').length - 1
 	];
 
 	// get set
 	const set =
-		excersise.querySelectorAll('[data-set]')[
-			excersise.querySelectorAll('[data-set]').length - 1
+		exercise.querySelectorAll('[data-set]')[
+			exercise.querySelectorAll('[data-set]').length - 1
 		];
 
 	// add events
-	excersise
+	exercise
 		.querySelector('[data-add-set]')
 		.addEventListener('click', (event) => {
 			addSet(event.target);
@@ -102,19 +102,19 @@ const completeSet = (checkbox, set) => {
  * @param {Element} addSetButton the pressed button
  */
 const addSet = (addSetButton) => {
-	const excersise = addSetButton.parentNode;
+	const exercise = addSetButton.parentNode;
 	const clone = setTemplate.content.cloneNode(true);
 
 	// fill set data
 	clone.querySelector('[data-set-number]').innerText =
-		excersise.querySelectorAll('[data-set]').length + 1;
+		exercise.querySelectorAll('[data-set]').length + 1;
 
 	// append to set rows
-	excersise.querySelector('[data-set-rows]').appendChild(clone);
+	exercise.querySelector('[data-set-rows]').appendChild(clone);
 
 	const set =
-		excersise.querySelectorAll('[data-set]')[
-			excersise.querySelectorAll('[data-set]').length - 1
+		exercise.querySelectorAll('[data-set]')[
+			exercise.querySelectorAll('[data-set]').length - 1
 		];
 
 	addSetEvents(set);
@@ -127,14 +127,14 @@ const addSet = (addSetButton) => {
  * @returns void
  */
 const removeSet = (set) => {
-	let excersise = getExcersiseFromChild(set);
+	let exercise = getexerciseFromChild(set);
 
 	set.remove();
 
-	// remove excersise if there are 0 sets
-	const sets = excersise.querySelectorAll('[data-set]');
+	// remove exercise if there are 0 sets
+	const sets = exercise.querySelectorAll('[data-set]');
 	if (sets.length === 0) {
-		excersise.remove();
+		exercise.remove();
 		return;
 	}
 
@@ -147,18 +147,18 @@ const removeSet = (set) => {
 /**
  * Collect the data of the workout form
  *
- * @returns all excersises with its sets
+ * @returns all exercises with its sets
  */
 const getFormData = () => {
 	let data = [];
-	document.querySelectorAll('[data-excersise-id]').forEach((exceresise) => {
-		const id = exceresise.getAttribute('data-excersise-id');
+	document.querySelectorAll('[data-exercise-id]').forEach((exceresise) => {
+		const id = parseInt(exceresise.getAttribute('data-exercise-id'));
 		exceresise.querySelectorAll('[data-set]').forEach((set) => {
 			if (set.querySelector('input[name="completed"]').checked) {
 				const setData = {
-					exceresiseId: id,
-					weight: set.querySelector('input[name="weight"]').value,
-					reps: set.querySelector('input[name="reps"]').value,
+					exerciseId: id,
+					weight: parseInt(set.querySelector('input[name="weight"]').value),
+					reps: parseInt(set.querySelector('input[name="reps"]').value),
 				};
 
 				data.push(setData);
@@ -188,27 +188,27 @@ const postWorkout = async (workout) => {
 };
 
 // open modal
-document.querySelector('[data-add-excersise]').addEventListener('click', () => {
+document.querySelector('[data-add-exercise]').addEventListener('click', () => {
 	document
-		.querySelector('[data-excersise-picker]')
+		.querySelector('[data-exercise-picker]')
 		.classList.remove('hidden');
 });
 
 // close modal
 document.querySelector('[data-modal-toggle]').addEventListener('click', () => {
-	document.querySelector('[data-excersise-picker]').classList.add('hidden');
+	document.querySelector('[data-exercise-picker]').classList.add('hidden');
 });
 
-// add event to all excerises in the picker to add the clicked excersise
-document.querySelectorAll('[data-excersise-pick]').forEach((exceresise) => {
+// add event to all excerises in the picker to add the clicked exercise
+document.querySelectorAll('[data-exercise-pick]').forEach((exceresise) => {
 	exceresise.addEventListener('click', () => {
-		const id = exceresise.getAttribute('data-excersise-pick');
+		const id = exceresise.getAttribute('data-exercise-pick');
 		const name = exceresise.querySelector('span').innerText;
 
-		addExcersise(id, name);
+		addexercise(id, name);
 
 		document
-			.querySelector('[data-excersise-picker]')
+			.querySelector('[data-exercise-picker]')
 			.classList.add('hidden');
 	});
 });
