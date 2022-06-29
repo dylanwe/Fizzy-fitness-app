@@ -37,7 +37,8 @@ app.use(passport.authenticate('session'));
 
 // render the homepage
 app.get('/', (req: Request, res: Response) => {
-	res.render('homepage');
+	const user = (req.user) ? req.user : undefined;
+	res.render('homepage', {user});
 });
 
 // sub routers
@@ -48,9 +49,11 @@ app.use('/workout', workoutRouter);
 app.get('/workout', checkAuthenticated, async (req: any, res: Response) => {
 	const [exercises] = await db.query('SElECT * FROM exercise');
 
+	const user = (req.user) ? req.user : undefined;
+
 	res.render('workout', {
 		exercises,
-		username: req.user.username,
+		user,
 	});
 });
 

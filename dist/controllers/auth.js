@@ -92,7 +92,8 @@ const checkNotAuthenticated = (req, res, next) => {
 exports.checkNotAuthenticated = checkNotAuthenticated;
 const router = express_1.default.Router();
 router.get('/signup', checkNotAuthenticated, (req, res) => {
-    res.render('signup');
+    const user = (req.user) ? req.user : undefined;
+    res.render('signup', { user });
 });
 router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -107,7 +108,8 @@ router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 }));
 router.get('/login', checkNotAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.render('login');
+    const user = (req.user) ? req.user : undefined;
+    res.render('login', { user });
 }));
 /**
  * log the user in via the passport configuration

@@ -5,6 +5,8 @@
     <title>Signup</title>
 </head>
 <body>
+    <%- include('./partials/nav', { user }) %>
+
     <h1>Hallo</h1>
     <form action="/signup" method="POST">
         <input type="email" placeholder="email" name="email">

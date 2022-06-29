@@ -3,13 +3,16 @@
 
 <head>
     <%- include('./partials/head.ejs') %>
-        <title>Workout</title>
+    <script src="/js/pages/workoutForm.js" defer></script>
+    <title>Workout</title>
 </head>
 
 <body>
+    <%- include('./partials/nav', { user }) %>
+
     <main class="max-w-lg mx-auto px-4 my-4">
         <h1 class="text-4xl text-gray-800 font-bold">Workout 🏋️‍♂️</h1>
-        <p class="my-2 text-gray-500">Hello <%= username %>
+        <p class="my-2 text-gray-500">Hello <%= user.username %>
         </p>
         <p class="mt-2 text-gray-500">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum, unde ipsa ex
             omnis accusantium.</p>
@@ -151,8 +154,6 @@
             </div>
         </div>
     </main>
-
-    <script src="/js/workoutForm.js"></script>
 </body>
 
 </html>

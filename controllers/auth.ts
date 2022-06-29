@@ -98,7 +98,9 @@ router.get(
 	'/signup',
 	checkNotAuthenticated,
 	(req: Request, res: Response) => {
-		res.render('signup');
+		const user = (req.user) ? req.user : undefined;
+
+		res.render('signup', { user });
 	}
 );
 
@@ -123,7 +125,8 @@ router.get(
 	'/login',
 	checkNotAuthenticated,
 	async (req: Request, res: Response) => {
-		res.render('login');
+		const user = (req.user) ? req.user : undefined;
+		res.render('login', { user });
 	}
 );
 

@@ -66,7 +66,8 @@ app.use((0, express_session_1.default)({
 app.use(passport_1.default.authenticate('session'));
 // render the homepage
 app.get('/', (req, res) => {
-    res.render('homepage');
+    const user = (req.user) ? req.user : undefined;
+    res.render('homepage', { user });
 });
 // sub routers
 app.use('/', auth_1.default);
@@ -74,9 +75,10 @@ app.use('/workout', workout_1.default);
 // render the workout page
 app.get('/workout', auth_1.checkAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const [exercises] = yield connection_1.default.query('SElECT * FROM exercise');
+    const user = (req.user) ? req.user : undefined;
     res.render('workout', {
         exercises,
-        username: req.user.username,
+        user,
     });
 }));
 app.listen(port, () => {
