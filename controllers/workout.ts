@@ -7,7 +7,7 @@ const router = express.Router();
 /**
  * Render the workout page
  */
-router.get('/workout', checkAuthenticated, async (req: any, res: Response) => {
+router.get('/', checkAuthenticated, async (req: any, res: Response) => {
 	const [exercises] = await db.query('SElECT * FROM exercise');
 	const user = req.user ? req.user : undefined;
 
