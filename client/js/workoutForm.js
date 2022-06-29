@@ -144,6 +144,49 @@ const removeSet = (set) => {
 	}
 };
 
+/**
+ * Collect the data of the workout form
+ *
+ * @returns all excersises with its sets
+ */
+const getFormData = () => {
+	let data = [];
+	document.querySelectorAll('[data-excersise-id]').forEach((exceresise) => {
+		const id = exceresise.getAttribute('data-excersise-id');
+		exceresise.querySelectorAll('[data-set]').forEach((set) => {
+			if (set.querySelector('input[name="completed"]').checked) {
+				const setData = {
+					exceresiseId: id,
+					weight: set.querySelector('input[name="weight"]').value,
+					reps: set.querySelector('input[name="reps"]').value,
+				};
+
+				data.push(setData);
+			}
+		});
+	});
+
+	return data;
+};
+
+const postWorkout = async (workout) => {
+	const resp = await fetch('http://localhost:3000/workout', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ workout }),
+	});
+
+	const respBody = await resp.json();
+
+	if (resp.status === 200) {
+		console.log(respBody.msg);
+	} else {
+		console.log(respBody.msg);
+	}
+};
+
 // open modal
 document.querySelector('[data-add-excersise]').addEventListener('click', () => {
 	document
@@ -169,3 +212,13 @@ document.querySelectorAll('[data-excersise-pick]').forEach((exceresise) => {
 			.classList.add('hidden');
 	});
 });
+
+document
+	.querySelector('[data-complete]')
+	.addEventListener('click', async () => {
+		const workout = getFormData();
+
+		if (!workout.length == 0) {
+			await postWorkout(workout);
+		}
+	});

@@ -1,9 +1,10 @@
 import express, { Express, Request, Response } from 'express';
 import 'dotenv/config';
-import passport from "passport";
-import session from "express-session";
-import bodyParser from "body-parser";
+import passport from 'passport';
+import session from 'express-session';
+import bodyParser from 'body-parser';
 import authRouter, { checkAuthenticated } from './controllers/auth';
+import workoutRouter from './controllers/workout';
 import db from './db/connection';
 
 const app: Express = express();
@@ -20,6 +21,7 @@ app.use(
 		extended: false,
 	})
 );
+app.use(bodyParser.json());
 // configure the session in which things are stored
 app.use(
 	session({
@@ -38,14 +40,23 @@ app.get('/', (req: Request, res: Response) => {
 
 // sub routers
 app.use('/', authRouter);
+app.use('/workout', workoutRouter);
 
 // render the workout page
-app.get('/workout', checkAuthenticated, async (req: any, res: Response) => {
+// app.get('/workout', checkAuthenticated, async (req: any, res: Response) => {
+// 	const [excersises] = await db.query('SElECT * FROM excersise');
+
+// 	res.render('workout', {
+// 		excersises,
+// 		username: req.user.username,
+// 	});
+// });
+app.get('/workout', async (req: any, res: Response) => {
 	const [excersises] = await db.query('SElECT * FROM excersise');
 
 	res.render('workout', {
 		excersises,
-		username: req.user.username,
+		username: 'test',
 	});
 });
 

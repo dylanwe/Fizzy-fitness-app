@@ -90,11 +90,11 @@ const checkNotAuthenticated = (req, res, next) => {
     next();
 };
 exports.checkNotAuthenticated = checkNotAuthenticated;
-const authRouter = express_1.default.Router();
-authRouter.get('/signup', checkNotAuthenticated, (req, res) => {
+const router = express_1.default.Router();
+router.get('/signup', checkNotAuthenticated, (req, res) => {
     res.render('signup');
 });
-authRouter.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const hashedPassword = yield bcrypt_1.default.hash(req.body.password, 10);
         // add the new user to the database
@@ -106,16 +106,16 @@ authRouter.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.redirect('/signup');
     }
 }));
-authRouter.get('/login', checkNotAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/login', checkNotAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.render('login');
 }));
 /**
  * log the user in via the passport configuration
  */
-authRouter.post('/login', passport_1.default.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
+router.post('/login', passport_1.default.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
     res.redirect('/');
 });
-authRouter.delete('/logout', function (req, res, next) {
+router.delete('/logout', function (req, res, next) {
     req.logout(function (err) {
         if (err) {
             return next(err);
@@ -123,4 +123,4 @@ authRouter.delete('/logout', function (req, res, next) {
         res.redirect('/');
     });
 });
-exports.default = authRouter;
+exports.default = router;

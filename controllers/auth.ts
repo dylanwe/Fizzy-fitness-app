@@ -92,9 +92,9 @@ const checkNotAuthenticated = (req: any, res: any, next: any) => {
 	next();
 };
 
-const authRouter = express.Router();
+const router = express.Router();
 
-authRouter.get(
+router.get(
 	'/signup',
 	checkNotAuthenticated,
 	(req: Request, res: Response) => {
@@ -102,7 +102,7 @@ authRouter.get(
 	}
 );
 
-authRouter.post('/signup', async (req: Request, res: Response) => {
+router.post('/signup', async (req: Request, res: Response) => {
 	try {
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -119,7 +119,7 @@ authRouter.post('/signup', async (req: Request, res: Response) => {
 	}
 });
 
-authRouter.get(
+router.get(
 	'/login',
 	checkNotAuthenticated,
 	async (req: Request, res: Response) => {
@@ -130,7 +130,7 @@ authRouter.get(
 /**
  * log the user in via the passport configuration
  */
-authRouter.post(
+router.post(
 	'/login',
 	passport.authenticate('local', { failureRedirect: '/login' }),
 	(req: Request, res: Response) => {
@@ -138,7 +138,7 @@ authRouter.post(
 	}
 );
 
-authRouter.delete('/logout', function (req: any, res: Response, next: any) {
+router.delete('/logout', function (req: any, res: Response, next: any) {
 	req.logout(function (err: Error) {
 		if (err) {
 			return next(err);
@@ -148,4 +148,4 @@ authRouter.delete('/logout', function (req: any, res: Response, next: any) {
 });
 
 export { checkAuthenticated, checkNotAuthenticated };
-export default authRouter;
+export default router;
