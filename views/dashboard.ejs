@@ -3,14 +3,158 @@
 
 <head>
     <%- include('./partials/head.ejs') %>
-    <title>Workout</title>
+        <title>Workout</title>
 </head>
 
 <body>
-    <%- include('./partials/nav', { user }) %>
-    <main class="max-w-2xl mx-auto px-4 pt-12">
-        <h1 class="text-2xl text-gray-900">Welcome <%= user.username %> </h1>
-    </main>
+    <%# include('./partials/nav', { user }) %>
+    <div class="flex flex-row-reverse md:flex-row">
+        <%- include('./partials/sidebar', { user }) %>
+        <main class="w-screen max-w-2xl mx-auto px-4 py-12">
+            <h1 class="text-4xl text-slate-900 font-semibold">👋 <span class="text-slate-400 font-normal">Hi,</span>
+                @<%= user.username %>
+            </h1>
+    
+            <%# history %>
+            <section class="mt-8">
+                <h2 class="text-2xl text-slate-900 font-semibold flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -2 24 24" width="24" fill="currentColor"><path d="M3 0h10a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3zm0 2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3zm2 1h6a1 1 0 0 1 0 2H5a1 1 0 1 1 0-2zm0 12h2a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2zm0-4h6a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2zm0-4h6a1 1 0 0 1 0 2H5a1 1 0 1 1 0-2z"></path></svg>
+                    <span class="ml-2">Workouts</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                    <div class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
+                        <h4 class="font-semibold text-lg">Leg day</h4>
+                        <ul
+                            class="list-none text-slate-400 text-ellipsis whitespace-nowrap overflow-hidden text-sm">
+                            <li>3 x Squats 10 kg x 8</li>
+                            <li>2 x Calf raises 10 kg x 8</li>
+                            <li>4 x Lunges 10 kg x 8</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
+                        <h4 class="font-semibold text-lg">Push day</h4>
+                        <ul
+                            class="list-none text-slate-400 text-ellipsis whitespace-nowrap overflow-hidden text-sm">
+                            <li>3 x Push ups 10 kg x 8</li>
+                            <li>2 x Bench press 10 kg x 8</li>
+                            <li>4 x Pull downs 10 kg x 8</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
+                        <h4 class="font-semibold text-lg">Pull day</h4>
+                        <ul
+                            class="list-none text-slate-400 text-ellipsis whitespace-nowrap overflow-hidden text-sm">
+                            <li>3 x Pull ups 10 kg x 8</li>
+                            <li>2 x Rows 10 kg x 8</li>
+                            <li>4 x Curls 10 kg x 8</li>
+                        </ul>
+                    </div>
+                    <div
+                        class="p-4 border-2 border-cyan-300 rounded-lg hover:border-cyan-500 transition-colors cursor-pointer bg-cyan-300 flex justify-center items-center flex-col">
+                        <p class="text-cyan-900 text-2xl font-bold">+</p>
+                        <h4 class="text-cyan-900">Add template</h4>
+                    </div>
+                    <a href="/workout"
+                        class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer bg-slate-100 flex justify-center items-center flex-col">
+                        <p class="text-slate-700 text-2xl font-bold mb-2"><svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="-2 -2 24 24" width="24" fill="currentColor">
+                                <path
+                                    d="M10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1.586-7H6a1 1 0 0 1 0-2h5.586L9.05 6.464a1 1 0 1 1 1.414-1.414l4.243 4.243a.997.997 0 0 1 0 1.414l-4.243 4.243a1 1 0 1 1-1.414-1.414L11.586 11z">
+                                </path>
+                            </svg></p>
+                        <h4 class="text-slate-700">Start empty workout</h4>
+                    </a>
+                </div>
+            </section>
+    
+            <%# pinned stats %>
+            <section class="mt-16">
+                <h2 class="text-2xl text-slate-900 font-semibold flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -2.5 24 24" width="24" fill="currentColor"><path d="M12.626 11.346l-.184-1.036 4.49-4.491-2.851-2.852-4.492 4.49-1.035-.184a5.05 5.05 0 0 0-2.734.269l6.538 6.537a5.05 5.05 0 0 0 .268-2.733zm-4.25 1.604L2.67 18.654a1.008 1.008 0 0 1-1.426-1.426l5.705-5.704L2.67 7.245a7.051 7.051 0 0 1 6.236-1.958l3.747-3.747a2.017 2.017 0 0 1 2.853 0l2.852 2.853a2.017 2.017 0 0 1 0 2.852l-3.747 3.747a7.051 7.051 0 0 1-1.958 6.236L8.376 12.95z"></path></svg>
+                    <span class="ml-2">Stats</span>
+                </h2>
+    
+                <h4 class="mt-4 text-xl text-slate-500 font-medium">Squat</h4>
+                <div>
+                    <canvas id="myChart" class="w-full max-h-40"></canvas>
+                </div>
+            </section>
+    
+            <%# history %>
+            <section class="mt-16">
+                <h2 class="text-2xl text-slate-900 font-semibold flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -2 24 24" width="24" fill="currentColor"><path d="M13.106 9h3.953c.546 0 .988.448.988 1s-.442 1-.988 1h-4.941a.994.994 0 0 1-.988-1V4c0-.552.442-1 .988-1s.988.448.988 1v5zm6-6.071A10.029 10.029 0 0 1 22 10c0 5.523-4.424 10-9.882 10v-2c4.366 0 7.906-3.582 7.906-8a8.02 8.02 0 0 0-2.316-5.657A7.834 7.834 0 0 0 12.118 2C8.574 2 5.574 4.36 4.571 7.612l1.352-.923a.981.981 0 0 1 1.372.27 1.007 1.007 0 0 1-.267 1.388l-3.277 2.237a.981.981 0 0 1-1.372-.27L.17 6.998a1.007 1.007 0 0 1 .267-1.389.981.981 0 0 1 1.372.27l.839 1.259C3.863 3.01 7.643 0 12.118 0c2.729 0 5.2 1.12 6.988 2.929z"></path></svg>
+                    <span class="ml-2">Recent workouts</span>
+                </h2>
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <% workouts.forEach(workout=> { %>
+                        <div class="p-4 border rounded-lg hover:shadow-md transition-all cursor-pointer">
+                            <h2 class="font-semibold text-lg">
+                                <%= workout.title %>
+                            </h2>
+                            <time class="text-sm text-slate-400">
+                                <%= workout.date %>
+                            </time>
+                            <%# - time - total lift - prs - exercise list %>
+                        </div>
+                        <% }) %>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
+    <script>
+        // create the chart
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        var gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(103, 232, 249, 1)');   
+        gradient.addColorStop(0.4, 'rgba(103, 232, 249, 0)');
+
+        const data = [65, 59, 80, 81, 56, 55, 90];
+
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['24-06-2022', '25-06-2022', '26-06-2022', '27-06-2022', '28-06-2022', '29-06-2022', '30-06-2022'],
+                datasets: [{
+                    label: 'Squat',
+                    data: data,
+                    borderColor: [
+                        'rgba(6, 182, 212)',
+                        'rgba(103, 232, 249, 1)',
+                    ],
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0,
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: (Math.max(...data) + 20),
+                        ticks: {
+                            display: false,
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            display: false,
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

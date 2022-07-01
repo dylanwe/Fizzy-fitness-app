@@ -30,7 +30,7 @@ router.post('/', async (req: Request | any, res: Response) => {
 
 	try {
 		// the structure of a set from the request
-		interface Set {
+		type Set = {
 			exerciseId: number;
 			weight: number;
 			reps: number;

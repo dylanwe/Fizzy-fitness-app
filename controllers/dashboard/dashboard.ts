@@ -4,8 +4,10 @@ import db from '../../db/connection';
 
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response) => {
-	res.render('dashboard', { user: req.user });
+router.get('/', async (req: Request, res: Response) => {
+	const [workouts] = await db.query('SELECT title, DATE_FORMAT(date, "%d-%m-%Y") as date FROM `workout`');
+
+	res.render('dashboard', { user: req.user, workouts });
 });
 
 export default router;

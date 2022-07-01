@@ -142,7 +142,7 @@ router.post(
 	'/login',
 	passport.authenticate('local', { failureRedirect: '/login' }),
 	(req: Request, res: Response) => {
-		res.redirect('/');
+		res.redirect('/dashboard');
 	}
 );
 
