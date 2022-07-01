@@ -9,11 +9,16 @@ const router = express.Router();
  */
 router.get('/', checkAuthenticated, async (req: any, res: Response) => {
 	const [exercises] = await db.query('SElECT * FROM exercise');
-	const user = req.user ? req.user : undefined;
+	const { user } = req;
+	
+	// get todays date
+	const today = new Date(Date.now());
+	const formattedDate = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
 
 	res.render('workout', {
-		exercises,
 		user,
+		exercises,
+		formattedDate,
 	});
 });
 

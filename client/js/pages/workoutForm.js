@@ -2,6 +2,47 @@
 const exerciseTemplate = document.querySelector('#exercise');
 const setTemplate = document.querySelector('#set');
 const exercises = document.querySelector('[data-exercises]');
+const startTime = new Date();
+
+const timer = () => {
+	const elapsed = new Date(new Date() - startTime);
+	const [hours, minutes, seconds] = [
+		elapsed.getHours(),
+		elapsed.getMinutes(),
+		elapsed.getSeconds(),
+	];
+
+	/**
+	 * add a zero to the string if it's lower than 10
+	 *
+	 * @param {number} number the given time measurement
+	 * @returns {string} a number + a 0 if it's lower than 10
+	 */
+	const addZero = (number) => {
+		return number < 10
+			? `0${number.toLocaleString()}`
+			: number.toLocaleString();
+	};
+
+	/**
+	 * create and return the time in propper format
+	 *
+	 * @returns {string} the time displayed in format HH:MM:SS
+	 */
+	const getDisplay = () => {
+		if (hours !== 0) {
+			return `${addZero(minutes)}:${addZero(seconds)}`;
+		}
+
+		return `${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)}`;
+	};
+
+	document.querySelector('[data-time]').innerText = getDisplay();
+};
+
+setInterval(() => {
+	timer();
+}, 1000);
 
 /**
  * Get the parent exercise of the give child
@@ -52,9 +93,10 @@ const addexercise = (id, name) => {
 	exercises.appendChild(clone);
 
 	// get exercise
-	const exercise = exercises.querySelectorAll('[data-exercise-id]')[
-		exercises.querySelectorAll('[data-exercise-id]').length - 1
-	];
+	const exercise =
+		exercises.querySelectorAll('[data-exercise-id]')[
+			exercises.querySelectorAll('[data-exercise-id]').length - 1
+		];
 
 	// get set
 	const set =
@@ -157,8 +199,12 @@ const getFormData = () => {
 			if (set.querySelector('input[name="completed"]').checked) {
 				const setData = {
 					exerciseId: id,
-					weight: parseInt(set.querySelector('input[name="weight"]').value),
-					reps: parseInt(set.querySelector('input[name="reps"]').value),
+					weight: parseInt(
+						set.querySelector('input[name="weight"]').value
+					),
+					reps: parseInt(
+						set.querySelector('input[name="reps"]').value
+					),
 				};
 
 				data.push(setData);
@@ -170,7 +216,7 @@ const getFormData = () => {
 };
 
 const postWorkout = async (workout) => {
-	const resp = await fetch('http://localhost:3000/workout', {
+	const resp = await fetch('http://localhost:3000/dashboard/workout', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -181,17 +227,13 @@ const postWorkout = async (workout) => {
 	const respBody = await resp.json();
 
 	if (resp.status === 200) {
-		console.log(respBody.msg);
-	} else {
-		console.log(respBody.msg);
+		window.location.replace('/dashboard');
 	}
 };
 
 // open modal
 document.querySelector('[data-add-exercise]').addEventListener('click', () => {
-	document
-		.querySelector('[data-exercise-picker]')
-		.classList.remove('hidden');
+	document.querySelector('[data-exercise-picker]').classList.remove('hidden');
 });
 
 // close modal

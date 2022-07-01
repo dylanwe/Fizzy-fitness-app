@@ -11,119 +11,143 @@
     <div class="flex flex-row-reverse md:flex-row">
         <%- include('./partials/sidebar', { user }) %>
         
-        <main class="max-w-lg mx-auto px-4 py-12">
-            <h1 class="text-4xl text-gray-800 font-bold">Workout 🏋️‍♂️</h1>
-            <p class="my-2 text-gray-500">Hello <%= user.username %>
-            </p>
-            <p class="mt-2 text-gray-500">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum, unde ipsa ex
-                omnis accusantium.</p>
+        <main class="max-w-2xl mx-auto px-4 py-12">
+            <h1 class="text-4xl text-slate-800 font-bold">Workout 🏋️‍♂️</h1>
 
-            <form data-exercises class="my-6">
-                <%# exercise template %>
-                    <template id="exercise">
-                        <div data-exercise-id="x" class="my-6">
-                            <h2 class="font-bold text-lg text-gray-600">Push ups</h2>
-                            <div class="relative overflow-x-auto rounded-md border mt-2 mb-4">
-                                <table class="w-full text-sm text-left text-gray-500">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3">
-                                                Set
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                kg
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Reps
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                <span class="sr-only">Delete set</span>
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                <span class="sr-only">Completeded</span>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody data-set-rows>
-                                        <tr data-set class="bg-white">
-                                            <th data-set-number scope="row"
-                                                class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap">
-                                                1
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                <input name="weight" class="inline-block w-16 border-none bg-gray-50 rounded"
-                                                    type="number" value="20">
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <input name="reps" class="inline-block w-16 border-none bg-gray-50 rounded"
-                                                    type="number" value="12">
-                                            </td>
-                                            <td class="px-6 py-4 text-right">
-                                                <button data-remove href="#" class="font-medium text-red-600">X</button>
-                                            </td>
-                                            <td class="w-4 p-4">
-                                                <div class="flex items-center">
-                                                    <input data-checkbox type="checkbox"
-                                                        class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 rounded focus:ring-0" name="completed">
-                                                    <label for="checkbox-table-1" class="sr-only">checkbox</label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+            <div class="flex flex-col-reverse lg:flex-row">
+                <div class="w-full sm:min-w-[520px]">
+                    <p class="mt-2 text-slate-500">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum, unde ipsa ex
+                        omnis accusantium.</p>
 
-                            <button data-add-set type="button"
-                                class="block text-center w-full bg-gray-100 p-2 text-gray-800 rounded-md text-sm">Add
-                                set</button>
-                        </div>
-                    </template>
-
-                    <%# set template %>
-                    <template id="set">
-                        <tr data-set class="bg-white">
-                            <th data-set-number scope="row"
-                                class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap">
-                                1
-                            </th>
-                            <td class="px-6 py-4">
-                                <input name="weight" class="inline-block w-16 border-none bg-gray-50 rounded"
-                                    type="number" value="20">
-                            </td>
-                            <td class="px-6 py-4">
-                                <input name="reps" class="inline-block w-16 border-none bg-gray-50 rounded"
-                                    type="number" value="12">
-                            </td>
-                            <td class="px-6 py-4 text-right">
-                                <button data-remove href="#" class="font-medium text-red-600">X</button>
-                            </td>
-                            <td class="w-4 p-4">
-                                <div class="flex items-center">
-                                    <input data-checkbox type="checkbox"
-                                        class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 rounded focus:ring-0" name="completed">
-                                    <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                    <form data-exercises class="my-6">
+                        <%# exercise template %>
+                            <template id="exercise">
+                                <div data-exercise-id="x" class="my-6">
+                                    <h2 class="font-bold text-lg text-slate-600">Push ups</h2>
+                                    <div class="relative overflow-x-auto rounded-md border mt-2 mb-4">
+                                        <table class="w-full text-sm text-left text-slate-500">
+                                            <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Set
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        kg
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Reps
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        <span class="sr-only">Delete set</span>
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        <span class="sr-only">Completeded</span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody data-set-rows>
+                                                <tr data-set class="bg-white">
+                                                    <th data-set-number scope="row"
+                                                        class="px-6 py-4 font-bold text-slate-900 whitespace-nowrap">
+                                                        1
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        <input name="weight" class="inline-block w-16 border-none bg-slate-50 rounded"
+                                                            type="number" value="20">
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        <input name="reps" class="inline-block w-16 border-none bg-slate-50 rounded"
+                                                            type="number" value="12">
+                                                    </td>
+                                                    <td class="px-6 py-4 text-right">
+                                                        <button data-remove href="#" class="font-medium text-red-600">X</button>
+                                                    </td>
+                                                    <td class="w-4 p-4">
+                                                        <div class="flex items-center">
+                                                            <input data-checkbox type="checkbox"
+                                                                class="w-4 h-4 text-green-500 bg-slate-100 border-slate-300 rounded focus:ring-0" name="completed">
+                                                            <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+        
+                                    <button data-add-set type="button"
+                                        class="block text-center w-full bg-slate-100 hover:bg-slate-200 transition-colors p-2 text-slate-800 rounded-md text-sm">Add
+                                        set</button>
                                 </div>
-                            </td>
-                        </tr>
-                    </template>
-            </form>
+                            </template>
+        
+                            <%# set template %>
+                            <template id="set">
+                                <tr data-set class="bg-white">
+                                    <th data-set-number scope="row"
+                                        class="px-6 py-4 font-bold text-slate-900 whitespace-nowrap">
+                                        1
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <input name="weight" class="inline-block w-16 border-none bg-slate-50 rounded"
+                                            type="number" value="20">
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <input name="reps" class="inline-block w-16 border-none bg-slate-50 rounded"
+                                            type="number" value="12">
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button data-remove href="#" class="font-medium text-red-600">X</button>
+                                    </td>
+                                    <td class="w-4 p-4">
+                                        <div class="flex items-center">
+                                            <input data-checkbox type="checkbox"
+                                                class="w-4 h-4 text-green-500 bg-slate-100 border-slate-300 rounded focus:ring-0" name="completed">
+                                            <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                    </form>
+        
+                    <button data-add-exercise type="button" class="block w-full bg-cyan-50 border-2 border-cyan-100 hover:border-cyan-300 text-cyan-900 rounded-md transition-all p-2">
+                        Add excerise
+                    </button>
+        
+                    <button data-complete type="button" class="mt-2 w-full border-2 border-cyan-300 bg-cyan-300 rounded-lg hover:border-cyan-500 transition-colors text-cyan-900 p-2 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" fill="currentColor"><path d="M5.486 9.73a.997.997 0 0 1-.707-.292L.537 5.195A1 1 0 1 1 1.95 3.78l3.535 3.535L11.85.952a1 1 0 0 1 1.415 1.414L6.193 9.438a.997.997 0 0 1-.707.292z"></path></svg>
+                        <span class="ml-2">Complete workout</span>
+                        
+                    </button>
+                </div>
 
-            <button data-add-exercise type="button" class="block w-full bg-cyan-100 border-2 border-cyan-500 text-cyan-500 rounded-md p-2">
-                Add excerise
-            </button>
+                <div class="min-w-[200px] pl-0 lg:pl-4 relative">
+                    <ul class="grid grid-cols-3 lg:grid-cols-1 gap-4 bg-white lg:bg-slate-100 pt-4 lg:p-4 rounded-lg lg:sticky lg:top-4">
+                        <li class="text-slate-500 flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -3 24 24" width="24" fill="currentColor"><path d="M18 7V5a1 1 0 0 0-1-1h-1v1a1 1 0 0 1-2 0V4H6v1a1 1 0 1 1-2 0V4H3a1 1 0 0 0-1 1v2h16zm0 2H2v6a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9zm-2-7h1a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h1V1a1 1 0 1 1 2 0v1h8V1a1 1 0 0 1 2 0v1z"></path></svg>
+                            <time class="ml-2"><%= formattedDate %></time>
+                        </li>
+                        <li class="text-slate-500 flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -2 24 24" width="24" fill="currentColor"><path d="M9 11h2a1 1 0 0 1 0 2H8a.997.997 0 0 1-1-1V8a1 1 0 1 1 2 0v3zM1.869 6.861a1.5 1.5 0 1 1 2.077-1.76 7.967 7.967 0 0 1 1.126-.548A2.5 2.5 0 0 1 6.5 0h3a2.5 2.5 0 0 1 1.428 4.553c.39.154.767.337 1.126.548a1.5 1.5 0 1 1 2.077 1.76 8 8 0 1 1-12.263 0zM8 18A6 6 0 1 0 8 6a6 6 0 0 0 0 12zM6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3z"></path></svg>
+                            <time data-time class="ml-2">00:00</time>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
 
-            <button data-complete type="button" class="mt-2 block w-full bg-cyan-500 text-white rounded-md p-2">
-                Complete workout
-            </button>
+            
+            
+
+            
 
             <!-- Main modal -->
             <div data-exercise-picker tabindex="-1" aria-hidden="true"
-                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-black bg-opacity-40">
+                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal h-full bg-black bg-opacity-40">
                 <div class="relative p-4 w-full max-w-md h-full md:h-auto mx-auto">
                     <!-- Modal content -->
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div class="relative bg-white rounded-lg shadow dark:bg-slate-700">
                         <button type="button"
-                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                            class="absolute top-3 right-2.5 text-slate-400 bg-transparent hover:bg-slate-200 hover:text-slate-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-slate-800 dark:hover:text-white"
                             data-modal-toggle>
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
@@ -132,8 +156,8 @@
                             </svg>
                         </button>
                         <!-- Modal header -->
-                        <div class="py-4 px-6 rounded-t border-b dark:border-gray-600">
-                            <h3 class="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
+                        <div class="py-4 px-6 rounded-t border-b dark:border-slate-600">
+                            <h3 class="text-base font-semibold text-slate-900 lg:text-xl dark:text-white">
                                 Select exercise
                             </h3>
                         </div>
@@ -142,13 +166,13 @@
                             <ul class="my-4 space-y-3">
                                 <% exercises.forEach(exercise=> { %>
                                     <li data-exercise-pick="<%= exercise.id %>" class="flex items-center p-3 text-base
-                                        font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow
+                                        font-bold text-slate-900 bg-slate-50 rounded-lg hover:bg-slate-100 group
                                         hover:cursor-pointer">
                                         <span class="flex-1 ml-3 whitespace-nowrap capitalize">
                                             <%= exercise["name"] %>
                                         </span>
                                     </li>
-                                    <% }) %>
+                                <% }) %>
                             </ul>
                         </div>
                     </div>

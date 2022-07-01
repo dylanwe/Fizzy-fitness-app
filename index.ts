@@ -45,7 +45,7 @@ app.get('/', (req: Request, res: Response) => {
 // sub routers
 app.use('/', authRouter);
 app.use('/dashboard', checkAuthenticated, dashboardRouter);
-app.use('/workout', workoutRouter);
+app.use('/dashboard/workout', workoutRouter);
 
 app.listen(port, () => {
 	console.log(`Example app listening on port http://localhost:${port}`);
