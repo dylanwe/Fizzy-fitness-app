@@ -5,7 +5,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import authRouter, { checkAuthenticated } from './controllers/auth';
 import dashboardRouter from './controllers/dashboard/dashboard';
-import workoutRouter from './controllers/workout';
+import workoutRouter from './controllers/dashboard/workout';
 const MySQLStore = require('express-mysql-session')(session);
 import db from './db/connection';
 
@@ -45,7 +45,7 @@ app.get('/', (req: Request, res: Response) => {
 // sub routers
 app.use('/', authRouter);
 app.use('/dashboard', checkAuthenticated, dashboardRouter);
-app.use('/dashboard/workout', workoutRouter);
+app.use('/dashboard/workout', checkAuthenticated, workoutRouter);
 
 app.listen(port, () => {
 	console.log(`Example app listening on port http://localhost:${port}`);

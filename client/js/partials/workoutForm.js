@@ -2,47 +2,6 @@
 const exerciseTemplate = document.querySelector('#exercise');
 const setTemplate = document.querySelector('#set');
 const exercises = document.querySelector('[data-exercises]');
-const startTime = new Date();
-
-const timer = () => {
-	const elapsed = new Date(new Date() - startTime);
-	const [hours, minutes, seconds] = [
-		elapsed.getHours(),
-		elapsed.getMinutes(),
-		elapsed.getSeconds(),
-	];
-
-	/**
-	 * add a zero to the string if it's lower than 10
-	 *
-	 * @param {number} number the given time measurement
-	 * @returns {string} a number + a 0 if it's lower than 10
-	 */
-	const addZero = (number) => {
-		return number < 10
-			? `0${number.toLocaleString()}`
-			: number.toLocaleString();
-	};
-
-	/**
-	 * create and return the time in propper format
-	 *
-	 * @returns {string} the time displayed in format HH:MM:SS
-	 */
-	const getDisplay = () => {
-		if (hours !== 0) {
-			return `${addZero(minutes)}:${addZero(seconds)}`;
-		}
-
-		return `${addZero(hours)}:${addZero(minutes)}:${addZero(seconds)}`;
-	};
-
-	document.querySelector('[data-time]').innerText = getDisplay();
-};
-
-setInterval(() => {
-	timer();
-}, 1000);
 
 /**
  * Get the parent exercise of the give child
@@ -67,7 +26,7 @@ const getexerciseFromChild = (child) => {
  * @param {Element} set the set you want to add events to
  */
 const addSetEvents = (set) => {
-	set.querySelector('[data-checkbox]').addEventListener('click', (event) =>
+	set.querySelector('[data-checkbox]')?.addEventListener('click', (event) =>
 		completeSet(event.target, set)
 	);
 
@@ -186,50 +145,7 @@ const removeSet = (set) => {
 	}
 };
 
-/**
- * Collect the data of the workout form
- *
- * @returns all exercises with its sets
- */
-const getFormData = () => {
-	let data = [];
-	document.querySelectorAll('[data-exercise-id]').forEach((exceresise) => {
-		const id = parseInt(exceresise.getAttribute('data-exercise-id'));
-		exceresise.querySelectorAll('[data-set]').forEach((set) => {
-			if (set.querySelector('input[name="completed"]').checked) {
-				const setData = {
-					exerciseId: id,
-					weight: parseInt(
-						set.querySelector('input[name="weight"]').value
-					),
-					reps: parseInt(
-						set.querySelector('input[name="reps"]').value
-					),
-				};
 
-				data.push(setData);
-			}
-		});
-	});
-
-	return data;
-};
-
-const postWorkout = async (workout) => {
-	const resp = await fetch('http://localhost:3000/dashboard/workout', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ workout }),
-	});
-
-	const respBody = await resp.json();
-
-	if (resp.status === 200) {
-		window.location.replace('/dashboard');
-	}
-};
 
 // open modal
 document.querySelector('[data-add-exercise]').addEventListener('click', () => {
@@ -254,13 +170,3 @@ document.querySelectorAll('[data-exercise-pick]').forEach((exceresise) => {
 			.classList.add('hidden');
 	});
 });
-
-document
-	.querySelector('[data-complete]')
-	.addEventListener('click', async () => {
-		const workout = getFormData();
-
-		if (!workout.length == 0) {
-			await postWorkout(workout);
-		}
-	});

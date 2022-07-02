@@ -1,0 +1,95 @@
+<form data-exercises class="my-6">
+    <%# exercise template %>
+    <template id="exercise">
+        <div data-exercise-id="x" class="my-6">
+            <h2 class="font-bold text-lg text-slate-600">Push ups</h2>
+            <div class="relative overflow-x-auto rounded-md border mt-2 mb-4">
+                <table class="w-full text-sm text-left text-slate-500">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Set
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                kg
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Reps
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <span class="sr-only">Delete set</span>
+                            </th>
+                            <% if (active) { %>
+                                <th scope="col" class="px-6 py-3">
+                                    <span class="sr-only">Completeded</span>
+                                </th>
+                            <% } %>
+                        </tr>
+                    </thead>
+                    <tbody data-set-rows>
+                        <tr data-set class="bg-white">
+                            <th data-set-number scope="row"
+                                class="px-6 py-4 font-bold text-slate-900 whitespace-nowrap">
+                                1
+                            </th>
+                            <td class="px-6 py-4">
+                                <input name="weight" class="inline-block w-16 border-none bg-slate-50 rounded"
+                                    type="number" value="20">
+                            </td>
+                            <td class="px-6 py-4">
+                                <input name="reps" class="inline-block w-16 border-none bg-slate-50 rounded"
+                                    type="number" value="12">
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button data-remove href="#" class="font-medium text-red-600">X</button>
+                            </td>
+                            <% if (active) { %>
+                                <td class="w-4 p-4">
+                                    <div class="flex items-center">
+                                        <input data-checkbox type="checkbox"
+                                            class="w-4 h-4 text-green-500 bg-slate-100 border-slate-300 rounded focus:ring-0" name="completed">
+                                        <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                                    </div>
+                                </td>
+                            <% } %>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button data-add-set type="button"
+                class="block text-center w-full bg-slate-100 hover:bg-slate-200 transition-colors p-2 text-slate-800 rounded-md text-sm">Add
+                set</button>
+        </div>
+    </template>
+
+    <%# set template %>
+    <template id="set">
+        <tr data-set class="bg-white">
+            <th data-set-number scope="row"
+                class="px-6 py-4 font-bold text-slate-900 whitespace-nowrap">
+                1
+            </th>
+            <td class="px-6 py-4">
+                <input name="weight" class="inline-block w-16 border-none bg-slate-50 rounded"
+                    type="number" value="20">
+            </td>
+            <td class="px-6 py-4">
+                <input name="reps" class="inline-block w-16 border-none bg-slate-50 rounded"
+                    type="number" value="12">
+            </td>
+            <td class="px-6 py-4 text-right">
+                <button data-remove href="#" class="font-medium text-red-600">X</button>
+            </td>
+            <% if (active) { %>
+                <td class="w-4 p-4">
+                    <div class="flex items-center">
+                        <input data-checkbox type="checkbox"
+                            class="w-4 h-4 text-green-500 bg-slate-100 border-slate-300 rounded focus:ring-0" name="completed">
+                        <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                    </div>
+                </td>
+            <% } %>
+        </tr>
+    </template>
+</form>

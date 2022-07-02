@@ -1,25 +1,53 @@
 import express, { Express, Request, Response } from 'express';
-import { checkAuthenticated } from './auth';
-import db from '../db/connection';
+import db from '../../db/connection';
 
 const router = express.Router();
 
 /**
- * Render the workout page
+ * Render the empty workout page
  */
-router.get('/', checkAuthenticated, async (req: any, res: Response) => {
+router.get('/', async (req: any, res: Response) => {
 	const [exercises] = await db.query('SElECT * FROM exercise');
 	const { user } = req;
-	
+
 	// get todays date
-	const today = new Date(Date.now());
-	const formattedDate = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
+	const today: Date = new Date(Date.now());
+	const formattedDate: string = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
 
 	res.render('workout', {
 		user,
 		exercises,
 		formattedDate,
 	});
+});
+
+/**
+ * Render the template creation page
+ */
+router.get('/template', async (req: Request, res: Response) => {
+	// ❌ include excersise modal
+	// ❌ make database workout templates 
+	// ❌ check in excersise templates if completion should be rendered
+	const [exercises] = await db.query('SElECT * FROM exercise');
+
+	res.render('template', {
+		user: req.user,
+		exercises,
+	});
+});
+
+/**
+ * Render the template edit page
+ */
+router.get('/template/:templateId', async (req: Request, res: Response) => {
+	res.send('template edit');
+});
+
+/**
+ * Render the workout page loaded with the given template
+ */
+ router.get('/:templateId', async (req: any, res: Response) => {
+	res.send('workout with template');
 });
 
 /**
@@ -39,7 +67,7 @@ router.post('/', async (req: Request | any, res: Response) => {
 			exerciseId: number;
 			weight: number;
 			reps: number;
-		}
+		};
 
 		// insert a new workout
 		const [workout]: any = await db.execute(
