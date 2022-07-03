@@ -14,7 +14,7 @@ router.get('/', async (req: any, res: Response) => {
 	const today: Date = new Date(Date.now());
 	const formattedDate: string = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
 
-	res.render('workout', {
+	res.render('dashboard/workout', {
 		user,
 		exercises,
 		formattedDate,
@@ -25,12 +25,9 @@ router.get('/', async (req: any, res: Response) => {
  * Render the template creation page
  */
 router.get('/template', async (req: Request, res: Response) => {
-	// ❌ include excersise modal
-	// ❌ make database workout templates 
-	// ❌ check in excersise templates if completion should be rendered
 	const [exercises] = await db.query('SElECT * FROM exercise');
 
-	res.render('template', {
+	res.render('dashboard/template', {
 		user: req.user,
 		exercises,
 	});
@@ -46,7 +43,7 @@ router.get('/template/:templateId', async (req: Request, res: Response) => {
 /**
  * Render the workout page loaded with the given template
  */
- router.get('/:templateId', async (req: any, res: Response) => {
+router.get('/:templateId', async (req: any, res: Response) => {
 	res.send('workout with template');
 });
 

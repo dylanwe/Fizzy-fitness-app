@@ -1,3 +1,7 @@
+/**
+ * The code that makes the workout form of adding and completing exercises work
+ */
+
 // get templates and exercises body
 const exerciseTemplate = document.querySelector('#exercise');
 const setTemplate = document.querySelector('#set');

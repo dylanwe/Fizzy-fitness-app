@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <%- include('./partials/head.ejs') %>
+    <%- include('./../partials/head.ejs') %>
     <script src="/js/partials/workoutForm.js" defer></script>
     <script src="/js/pages/workoutTemplate.js" defer></script>
     <title>Workout</title>
@@ -10,7 +10,7 @@
 
 <body>
     <div class="flex flex-row-reverse md:flex-row">
-        <%- include('./partials/sidebar', { user }) %>
+        <%- include('./../partials/sidebar', { user }) %>
         
         <main class="w-full max-w-xl mx-auto px-4 py-12">
             <h1 class="text-4xl text-slate-800 font-bold">Build template 🏋️‍♂️</h1>
@@ -18,7 +18,7 @@
             <p class="mt-2 text-slate-500">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum, unde ipsa ex
                 omnis accusantium.</p>
             
-            <%- include('./partials/exerciseForm', { active: false }) %>
+            <%- include('./../partials/exerciseForm', { active: false }) %>
 
             <button data-add-exercise type="button" class="block w-full bg-cyan-50 border-2 border-cyan-100 hover:border-cyan-300 text-cyan-900 rounded-md transition-all p-2">
                 Add excerise
@@ -29,7 +29,7 @@
                 <span class="ml-2">Save template</span>
             </button>
 
-            <%- include('./partials/exercisePicker', { exercises }) %>
+            <%- include('./../partials/exercisePicker', { exercises }) %>
             
             <!-- Main modal -->
             <div data-save-modal tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-full bg-black bg-opacity-40">

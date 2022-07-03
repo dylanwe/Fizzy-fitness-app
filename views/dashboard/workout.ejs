@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <%- include('./partials/head.ejs') %>
+    <%- include('./../partials/head.ejs') %>
     <script src="/js/partials/workoutForm.js" defer></script>
     <script src="/js/pages/workout.js" defer></script>
     <title>Workout</title>
@@ -10,7 +10,7 @@
 
 <body>
     <div class="flex flex-row-reverse md:flex-row">
-        <%- include('./partials/sidebar', { user }) %>
+        <%- include('./../partials/sidebar', { user }) %>
         
         <main class="max-w-2xl mx-auto px-4 py-12">
             <h1 class="text-4xl text-slate-800 font-bold">Workout 🏋️‍♂️</h1>
@@ -20,7 +20,7 @@
                     <p class="mt-2 text-slate-500">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum, unde ipsa ex
                         omnis accusantium.</p>
                     
-                    <%- include('./partials/exerciseForm', { active: true }) %>
+                    <%- include('./../partials/exerciseForm', { active: true }) %>
         
                     <button data-add-exercise type="button" class="block w-full bg-cyan-50 border-2 border-cyan-100 hover:border-cyan-300 text-cyan-900 rounded-md transition-all p-2">
                         Add excerise
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <%- include('./partials/exercisePicker', { exercises }) %>
+            <%- include('./../partials/exercisePicker', { exercises }) %>
         </main>
     </div>
 </body>
