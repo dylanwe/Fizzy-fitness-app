@@ -53,6 +53,7 @@ setInterval(() => {
     
 	document.querySelectorAll('[data-exercise-id]').forEach((exceresise) => {
 		const id = parseInt(exceresise.getAttribute('data-exercise-id'));
+		
 		exceresise.querySelectorAll('[data-set]').forEach((set) => {
 			if (set.querySelector('input[name="completed"]').checked) {
 				const setData = {
@@ -76,15 +77,15 @@ setInterval(() => {
 /**
  * Store the workout in the database
  * 
- * @param {Array} workout the data of the workout you want to post
+ * @param {Array} sets the sets of the workout you want to post
  */
-const postWorkout = async (workout) => {
+const postWorkout = async (sets) => {
 	const resp = await fetch('http://localhost:3000/dashboard/workout', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({ workout }),
+		body: JSON.stringify({ sets }),
 	});
 
 	if (resp.status === 200) {

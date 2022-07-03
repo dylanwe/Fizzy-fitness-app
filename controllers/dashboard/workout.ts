@@ -51,12 +51,7 @@ router.get('/:templateId', async (req: any, res: Response) => {
  * Post a completed workout
  */
 router.post('/', async (req: Request | any, res: Response) => {
-	// check if the user is logged in
-	if (!req.user) {
-		res.status(500).send({ msg: 'User not logged in' });
-	}
-
-	const sets = req.body.workout;
+	const { sets } = req.body;
 
 	try {
 		// the structure of a set from the request
@@ -68,21 +63,54 @@ router.post('/', async (req: Request | any, res: Response) => {
 
 		// insert a new workout
 		const [workout]: any = await db.execute(
-			'INSERT INTO `workout` ( title, user_id ) VALUES( ?, ? )',
+			'INSERT INTO `workout` ( name, user_id ) VALUES( ?, ? )',
 			['test', req.user.id]
 		);
 
+		// insert sets beloning to the workout
 		sets.forEach(async (set: Set) => {
-			// insert sets beloning to the workout
 			await db.execute(
 				'INSERT INTO `set` ( reps, weight, exercise_id, workout_id ) VALUES( ?, ?, ?, ? )',
 				[set.reps, set.weight, set.exerciseId, workout.insertId]
 			);
 		});
 
-		res.status(200).send({ msg: 'workout posted!' });
+		res.status(200).send({ msg: 'Workout posted!' });
 	} catch (error) {
 		res.status(500).send({ msg: "Couldn't post workout" });
+	}
+});
+
+router.post('/template', async (req: Request | any, res: Response) => {
+	try {
+		const { name, sets } = req.body;
+
+		// the structure of a set from the request
+		type Set = {
+			exerciseId: number;
+			weight: number;
+			reps: number;
+		};
+
+		// save a template
+		const [template]: any = await db.execute(
+			'INSERT INTO `template` ( name, user_id ) VALUES( ?, ? )',
+			[name, req.user.id]
+		);
+		
+		// save sets that belong to the workout
+		sets.forEach(async (set: Set) => {
+			await db.execute(
+				'INSERT INTO `template_set` (reps, weight, exercise_id, template_id) VALUES ( ?, ?, ?, ?)',
+				[set.reps, set.weight, set.exerciseId, template.insertId]
+			);
+		});
+
+
+		res.status(200).send({ msg: 'Saved template' });
+	} catch (error) {
+		console.log(error);
+		res.status(500).send({ msg: "Couldn't save template" });
 	}
 });
 

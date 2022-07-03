@@ -21,33 +21,16 @@
                     <span class="ml-2">Workouts</span>
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                    <div class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
-                        <h4 class="font-semibold text-lg">Leg day</h4>
-                        <ul
-                            class="list-none text-slate-400 text-ellipsis whitespace-nowrap overflow-hidden text-sm">
-                            <li>3 x Squats 10 kg x 8</li>
-                            <li>2 x Calf raises 10 kg x 8</li>
-                            <li>4 x Lunges 10 kg x 8</li>
-                        </ul>
-                    </div>
-                    <div class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
-                        <h4 class="font-semibold text-lg">Push day</h4>
-                        <ul
-                            class="list-none text-slate-400 text-ellipsis whitespace-nowrap overflow-hidden text-sm">
-                            <li>3 x Push ups 10 kg x 8</li>
-                            <li>2 x Bench press 10 kg x 8</li>
-                            <li>4 x Pull downs 10 kg x 8</li>
-                        </ul>
-                    </div>
-                    <div class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
-                        <h4 class="font-semibold text-lg">Pull day</h4>
-                        <ul
-                            class="list-none text-slate-400 text-ellipsis whitespace-nowrap overflow-hidden text-sm">
-                            <li>3 x Pull ups 10 kg x 8</li>
-                            <li>2 x Rows 10 kg x 8</li>
-                            <li>4 x Curls 10 kg x 8</li>
-                        </ul>
-                    </div>
+                    <% templates.forEach(template => { %>
+                        <a href="/dashboard/workout/<%= template.id%> " class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
+                            <h4 class="font-semibold text-lg"><%= template.name %></h4>
+                            <ul class="list-none text-slate-400 text-ellipsis whitespace-nowrap overflow-hidden text-sm">
+                                <% template.exercises.forEach(exercise => { %>
+                                    <li class="capitalize"><%= exercise.name %> </li>
+                                <% }) %>
+                            </ul>
+                        </a>
+                    <% }) %>
                     <a href="/dashboard/workout/template"
                         class="p-4 border-2 border-cyan-300 rounded-lg hover:border-cyan-500 transition-colors cursor-pointer bg-cyan-300 flex justify-center items-center flex-col">
                         <p class="text-cyan-900 text-2xl font-bold">+</p>
@@ -89,14 +72,14 @@
                     <% workouts.forEach(workout=> { %>
                         <div class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
                             <h2 class="font-semibold text-lg">
-                                <%= workout.title %>
+                                <%= workout.name %>
                             </h2>
                             <time class="text-sm text-slate-400">
                                 <%= workout.date %>
                             </time>
                             <%# - time - total lift - prs - exercise list %>
                         </div>
-                        <% }) %>
+                    <% }) %>
                 </div>
             </section>
         </main>
