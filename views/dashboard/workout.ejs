@@ -13,14 +13,20 @@
         <%- include('./../partials/sidebar', { user }) %>
         
         <main class="max-w-2xl mx-auto px-4 py-12">
-            <h1 class="text-4xl text-slate-800 font-bold">Workout 🏋️‍♂️</h1>
+            <h1 class="text-4xl text-slate-800 font-bold capitalize">
+                <%= (locals.template) ? template.name : 'Workout' %> 🏋️‍♂️
+            </h1>
 
             <div class="flex flex-col-reverse lg:flex-row">
                 <div class="w-full sm:min-w-[520px]">
                     <p class="mt-2 text-slate-500">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum, unde ipsa ex
                         omnis accusantium.</p>
                     
-                    <%- include('./../partials/exerciseForm', { active: true }) %>
+                    <% if (locals.template) { %>
+                        <%- include('./../partials/exerciseForm', { active: true, template }) %>
+                    <% } else { %>
+                        <%- include('./../partials/exerciseForm', { active: true }) %>
+                    <% } %>
         
                     <button data-add-exercise type="button" class="block w-full bg-cyan-50 border-2 border-cyan-100 hover:border-cyan-300 text-cyan-900 rounded-md transition-all p-2">
                         Add excerise

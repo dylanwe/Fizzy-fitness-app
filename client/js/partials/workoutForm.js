@@ -7,6 +7,9 @@ const exerciseTemplate = document.querySelector('#exercise');
 const setTemplate = document.querySelector('#set');
 const exercises = document.querySelector('[data-exercises]');
 
+// empty form on load
+exercises.reset();
+
 /**
  * Get the parent exercise of the give child
  *
@@ -162,10 +165,10 @@ document.querySelector('[data-modal-toggle]').addEventListener('click', () => {
 });
 
 // add event to all excerises in the picker to add the clicked exercise
-document.querySelectorAll('[data-exercise-pick]').forEach((exceresise) => {
-	exceresise.addEventListener('click', () => {
-		const id = exceresise.getAttribute('data-exercise-pick');
-		const name = exceresise.querySelector('span').innerText;
+document.querySelectorAll('[data-exercise-pick]').forEach((exercise) => {
+	exercise.addEventListener('click', () => {
+		const id = exercise.getAttribute('data-exercise-pick');
+		const name = exercise.querySelector('span').innerText;
 
 		addexercise(id, name);
 
@@ -174,3 +177,18 @@ document.querySelectorAll('[data-exercise-pick]').forEach((exceresise) => {
 			.classList.add('hidden');
 	});
 });
+
+/**
+ * add the events for all template exercises
+ */
+document.querySelectorAll('[data-exercise-id]')?.forEach((exercise) => {
+	exercise
+		.querySelector('[data-add-set]')
+		.addEventListener('click', (event) => {
+			addSet(event.target);
+		});
+
+	exercise.querySelectorAll('[data-set]').forEach((set) => {
+		addSetEvents(set);
+	})
+})

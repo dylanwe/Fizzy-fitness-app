@@ -7,11 +7,13 @@ router.get('/', async (req: Request | any, res: Response) => {
 	const { user } = req;
 	const templates: any[] = [];
 
+	// get the template names and id
 	const [templateNames]: any = await db.query(
 		'SELECT id, name FROM template WHERE user_id = ?;',
 		[user.id]
 	);
 
+	// get all exercises that belong to the template
 	templateNames.forEach(async (temp: any) => {
 		const template = {
 			id: temp.id,

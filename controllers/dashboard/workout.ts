@@ -43,8 +43,57 @@ router.get('/template/:templateId', async (req: Request, res: Response) => {
 /**
  * Render the workout page loaded with the given template
  */
-router.get('/:templateId', async (req: any, res: Response) => {
-	res.send('workout with template');
+router.get('/:templateId', async (req: Request, res: Response) => {
+	const [exercises]: any = await db.query('SElECT * FROM exercise');
+	const { user }: any = req;
+	const { templateId } = req.params;
+
+	// get all templates
+	const [rawTemplate]: any = await db.query(
+		`
+		SELECT T.name AS template_name, TS.reps, TS.weight, E.id, E.name FROM
+		template AS T
+		INNER JOIN template_set AS TS
+		ON TS.template_id = T.id
+		INNER JOIN exercise AS E
+		ON TS.exercise_id = E.id
+		WHERE T.user_id = ? && T.id = ?;	
+	`,
+		[user.id, templateId]
+	);
+
+	const template: any = {
+		name: rawTemplate[0].template_name,
+		exercises: [],
+	};
+
+	let lastExercise: string = '';
+
+	// collect every rawTemplate nicely into the template object
+	rawTemplate.forEach((raw: any) => {
+		if (raw.id === lastExercise) {
+			template.exercises[raw.id].sets.push(raw);
+		} else {
+			lastExercise = raw.id;
+			template.exercises[raw.id] = {
+				id: raw.id,
+				name: raw.name,
+				sets: [],
+			};
+			template.exercises[raw.id].sets.push(raw);
+		}
+	});
+
+	// get todays date
+	const today: Date = new Date(Date.now());
+	const formattedDate: string = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
+
+	res.render('dashboard/workout', {
+		user,
+		exercises,
+		formattedDate,
+		template,
+	});
 });
 
 /**
@@ -97,7 +146,7 @@ router.post('/template', async (req: Request | any, res: Response) => {
 			'INSERT INTO `template` ( name, user_id ) VALUES( ?, ? )',
 			[name, req.user.id]
 		);
-		
+
 		// save sets that belong to the workout
 		sets.forEach(async (set: Set) => {
 			await db.execute(
@@ -105,7 +154,6 @@ router.post('/template', async (req: Request | any, res: Response) => {
 				[set.reps, set.weight, set.exerciseId, template.insertId]
 			);
 		});
-
 
 		res.status(200).send({ msg: 'Saved template' });
 	} catch (error) {
