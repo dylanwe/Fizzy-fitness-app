@@ -49,7 +49,12 @@ setInterval(() => {
  * @returns all exercises with its sets
  */
  const getFormData = () => {
-	let data = [];
+	const name = document.querySelector('[data-workout-name]').value;
+
+	let data = {
+		name,
+		sets: [],
+	};
     
 	document.querySelectorAll('[data-exercise-id]').forEach((exceresise) => {
 		const id = parseInt(exceresise.getAttribute('data-exercise-id'));
@@ -66,7 +71,7 @@ setInterval(() => {
 					),
 				};
 
-				data.push(setData);
+				data.sets.push(setData);
 			}
 		});
 	});
@@ -77,15 +82,15 @@ setInterval(() => {
 /**
  * Store the workout in the database
  * 
- * @param {Array} sets the sets of the workout you want to post
+ * @param {Array} workout the workout you want to post
  */
-const postWorkout = async (sets) => {
+const postWorkout = async (workout) => {
 	const resp = await fetch('http://localhost:3000/dashboard/workout', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({ sets }),
+		body: JSON.stringify({ workout }),
 	});
 
 	if (resp.status === 200) {
@@ -94,11 +99,11 @@ const postWorkout = async (sets) => {
 };
 
 document
-	.querySelector('[data-complete]')
+	.querySelector('[data-save]')
 	.addEventListener('click', async () => {
 		const workout = getFormData();
 
-		if (!workout.length == 0) {
+		if (workout.sets.length !== 0 && workout.name !== '') {
 			await postWorkout(workout);
 		}
 	});

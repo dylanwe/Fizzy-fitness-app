@@ -100,7 +100,7 @@ router.get('/:templateId', async (req: Request, res: Response) => {
  * Post a completed workout
  */
 router.post('/', async (req: Request | any, res: Response) => {
-	const { sets } = req.body;
+	const { workout }: any = req.body;
 
 	try {
 		// the structure of a set from the request
@@ -111,16 +111,16 @@ router.post('/', async (req: Request | any, res: Response) => {
 		};
 
 		// insert a new workout
-		const [workout]: any = await db.execute(
+		const [insertedWorkout]: any = await db.execute(
 			'INSERT INTO `workout` ( name, user_id ) VALUES( ?, ? )',
-			['test', req.user.id]
+			[workout.name, req.user.id]
 		);
 
 		// insert sets beloning to the workout
-		sets.forEach(async (set: Set) => {
+		workout.sets.forEach(async (set: Set) => {
 			await db.execute(
 				'INSERT INTO `set` ( reps, weight, exercise_id, workout_id ) VALUES( ?, ?, ?, ? )',
-				[set.reps, set.weight, set.exerciseId, workout.insertId]
+				[set.reps, set.weight, set.exerciseId, insertedWorkout.insertId]
 			);
 		});
 

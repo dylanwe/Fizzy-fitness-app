@@ -152,8 +152,6 @@ const removeSet = (set) => {
 	}
 };
 
-
-
 // open modal
 document.querySelector('[data-add-exercise]').addEventListener('click', () => {
 	document.querySelector('[data-exercise-picker]').classList.remove('hidden');
@@ -178,9 +176,7 @@ document.querySelectorAll('[data-exercise-pick]').forEach((exercise) => {
 	});
 });
 
-/**
- * add the events for all template exercises
- */
+// add the events for all template exercises
 document.querySelectorAll('[data-exercise-id]')?.forEach((exercise) => {
 	exercise
 		.querySelector('[data-add-set]')
@@ -190,5 +186,24 @@ document.querySelectorAll('[data-exercise-id]')?.forEach((exercise) => {
 
 	exercise.querySelectorAll('[data-set]').forEach((set) => {
 		addSetEvents(set);
-	})
-})
+	});
+});
+
+// open modal
+document
+	.querySelector('[data-save-modal-open]')
+	.addEventListener('click', () => {
+		const exercise = document.querySelectorAll('[data-exercise-id]');
+
+		// check if the tempalte contains and exersise before going to the next step
+		if (exercise.length !== 0) {
+			document.querySelector('[data-save-modal]').classList.remove('hidden');
+		}
+	});
+
+// close modal
+document
+	.querySelector('[data-save-modal-close]')
+	.addEventListener('click', () => {
+		document.querySelector('[data-save-modal]').classList.add('hidden');
+	});

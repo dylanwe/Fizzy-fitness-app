@@ -2,7 +2,7 @@
  * get all data needed to create a tempalte
  */
 const getFormData = () => {
-	const name = document.querySelector('[data-modal-name]').value;
+	const name = document.querySelector('[data-workout-name]').value;
 
 	let data = {
 		name,
@@ -46,23 +46,6 @@ const postTemplate = async (template) => {
 		window.location.replace('/dashboard');
 	}
 }
-
-document
-	.querySelector('[data-save-modal-open]')
-	.addEventListener('click', () => {
-		const exercise = document.querySelectorAll('[data-exercise-id]');
-
-		// check if the tempalte contains and exersise before going to the next step
-		if (exercise.length !== 0) {
-			document.querySelector('[data-save-modal]').classList.remove('hidden');
-		}
-	});
-
-document
-	.querySelector('[data-save-modal-close]')
-	.addEventListener('click', () => {
-		document.querySelector('[data-save-modal]').classList.add('hidden');
-	});
 
 document.querySelector('[data-save]').addEventListener('click', async () => {
 	const template = getFormData();
