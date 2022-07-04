@@ -18,10 +18,11 @@ router.get('/', async (req: Request | any, res: Response) => {
 		const template = {
 			id: temp.id,
 			name: temp.name,
-			exercises: []
-		}
+			exercises: [],
+		};
 
-		const [names]: any = await db.query(`
+		const [names]: any = await db.query(
+			`
 			SELECT E.name FROM
 			template AS T
 			INNER JOIN template_set AS TS
@@ -39,8 +40,10 @@ router.get('/', async (req: Request | any, res: Response) => {
 		templates.push(template);
 	});
 
+	// get the 5 most recent workouts
 	const [workouts] = await db.query(
-		'SELECT name, DATE_FORMAT(date, "%d-%m-%Y") as date FROM `workout`'
+		'SELECT name, DATE_FORMAT(date, "%d-%m-%Y") as date FROM `workout` AS W WHERE user_id = ? ORDER BY W.id DESC LIMIT 5;',
+		[user.id]
 	);
 
 	res.render('dashboard/dashboard', { user, templates, workouts });
