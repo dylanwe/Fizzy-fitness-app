@@ -42,7 +42,13 @@ router.get('/', async (req: Request | any, res: Response) => {
 
 	// get the 5 most recent workouts
 	const [workouts] = await db.query(
-		'SELECT name, DATE_FORMAT(date, "%d-%m-%Y") as date FROM `workout` AS W WHERE user_id = ? ORDER BY W.id DESC LIMIT 5;',
+		`
+		SELECT W.name, DATE_FORMAT(W.date, "%d-%m-%Y") AS date, HOUR(W.time) as time_hour, MINUTE(W.time) as time_minute
+		FROM workout AS W
+		WHERE user_id = ?
+		ORDER BY W.id DESC
+		LIMIT 5;
+		`,
 		[user.id]
 	);
 
