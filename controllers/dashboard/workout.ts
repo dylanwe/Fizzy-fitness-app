@@ -102,6 +102,12 @@ router.get('/:templateId', async (req: Request, res: Response) => {
 router.post('/', async (req: Request | any, res: Response) => {
 	const { workout }: any = req.body;
 
+	// get workout time ready for database
+	const timeNow = new Date(Date.now());
+	const convertedTime = `${timeNow.getFullYear()}-${timeNow.getMonth()}-${timeNow.getDate()} ${
+		workout.time.length > 5 ? workout.time : `00:${workout.time}`
+	}`;
+
 	try {
 		// the structure of a set from the request
 		type Set = {
@@ -112,8 +118,8 @@ router.post('/', async (req: Request | any, res: Response) => {
 
 		// insert a new workout
 		const [insertedWorkout]: any = await db.execute(
-			'INSERT INTO `workout` ( name, user_id ) VALUES( ?, ? )',
-			[workout.name, req.user.id]
+			'INSERT INTO `workout` ( name, time, user_id ) VALUES( ?, ?, ? )',
+			[workout.name, convertedTime, req.user.id]
 		);
 
 		// insert sets beloning to the workout

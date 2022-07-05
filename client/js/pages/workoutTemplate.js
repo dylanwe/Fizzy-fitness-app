@@ -47,6 +47,7 @@ const postTemplate = async (template) => {
 	}
 }
 
+// save data event
 document.querySelector('[data-save]').addEventListener('click', async () => {
 	const template = getFormData();
 

@@ -48,17 +48,19 @@ setInterval(() => {
  *
  * @returns all exercises with its sets
  */
- const getFormData = () => {
+const getFormData = () => {
 	const name = document.querySelector('[data-workout-name]').value;
+	const time = document.querySelector('[data-time]').innerText;
 
 	let data = {
 		name,
+		time,
 		sets: [],
 	};
-    
+
 	document.querySelectorAll('[data-exercise-id]').forEach((exceresise) => {
 		const id = parseInt(exceresise.getAttribute('data-exercise-id'));
-		
+
 		exceresise.querySelectorAll('[data-set]').forEach((set) => {
 			if (set.querySelector('input[name="completed"]').checked) {
 				const setData = {
@@ -81,7 +83,7 @@ setInterval(() => {
 
 /**
  * Store the workout in the database
- * 
+ *
  * @param {Array} workout the workout you want to post
  */
 const postWorkout = async (workout) => {
@@ -98,12 +100,11 @@ const postWorkout = async (workout) => {
 	}
 };
 
-document
-	.querySelector('[data-save]')
-	.addEventListener('click', async () => {
-		const workout = getFormData();
+// save data event
+document.querySelector('[data-save]').addEventListener('click', async () => {
+	const workout = getFormData();
 
-		if (workout.sets.length !== 0 && workout.name !== '') {
-			await postWorkout(workout);
-		}
-	});
+	if (workout.sets.length !== 0 && workout.name !== '') {
+		await postWorkout(workout);
+	}
+});

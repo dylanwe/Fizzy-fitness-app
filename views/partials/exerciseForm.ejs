@@ -21,7 +21,7 @@
                             </th>
                             <% if (active) { %>
                                 <th scope="col" class="px-6 py-3">
-                                    <span class="sr-only">Completeded</span>
+                                    <span class="sr-only">Completed</span>
                                 </th>
                             <% } %>
                         </tr>
@@ -159,5 +159,14 @@
                     set</button>
             </div>
         <% }) %>
+    <% } %>
+ 
+    <%- include('./exercisePicker', { exercises }) %>
+    
+    <%# the modal which holds the save modal, depends on a [data-save-modal-open] button in html somewhere %> 
+    <% if (locals.template) { %>
+        <%- include('./saveWorkoutModal', { name: template.name }) %>
+    <% } else { %>
+        <%- include('./saveWorkoutModal') %>
     <% } %>
 </form>

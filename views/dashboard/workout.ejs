@@ -35,7 +35,6 @@
                     <button data-save-modal-open type="button" class="mt-2 w-full border-2 border-cyan-300 bg-cyan-300 rounded-lg hover:border-cyan-500 transition-colors text-cyan-900 p-2 flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" fill="currentColor"><path d="M5.486 9.73a.997.997 0 0 1-.707-.292L.537 5.195A1 1 0 1 1 1.95 3.78l3.535 3.535L11.85.952a1 1 0 0 1 1.415 1.414L6.193 9.438a.997.997 0 0 1-.707.292z"></path></svg>
                         <span class="ml-2">Complete workout</span>
-                        
                     </button>
                 </div>
 
@@ -53,15 +52,6 @@
                     </ul>
                 </div>
             </div>
-
-            <%- include('./../partials/exercisePicker', { exercises }) %>
-
-            <% if (locals.template) { %>
-                <%- include('./../partials/saveWorkoutModal', { name: template.name }) %>
-            <% } else { %>
-                <%- include('./../partials/saveWorkoutModal') %>
-            <% } %>
-            
         </main>
     </div>
 </body>
