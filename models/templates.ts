@@ -1,29 +1,76 @@
 import db from '../db/connection';
 
 export interface Set {
-	template_name: string;
 	reps: number;
 	weight: number;
+}
+
+export interface TemplateSet extends Set {
+	template_name: string;
 	id: number;
 	name: string;
 }
 
-export interface InsertSet {
+export interface InsertSet extends Set {
 	exerciseId: number;
-	weight: number;
-	reps: number;
 }
 
 export interface Exercise {
 	id: number;
 	name: string;
-	sets: Set[];
+	sets: TemplateSet[];
 }
 
 export interface Template {
+	id?: string;
 	name: string;
 	exercises: Exercise[];
 }
+
+/**
+ * Get all of the given users template workouts
+ * 
+ * @param userId the user from who you want the templates of
+ * @returns templates of the given user
+ */
+export const getAllTemplatesForUser = async (userId: string): Promise<Template[]> => {
+	const templates: Template[] = [];
+
+	// get the template names and id
+	const [templateNames]: any = await db.query(
+		'SELECT id, name FROM template WHERE user_id = ?;',
+		[userId]
+	);
+
+	// get all exercises that belong to the template
+	templateNames.forEach(async (temp: any) => {
+		const template: Template = {
+			id: temp.id,
+			name: temp.name,
+			exercises: [],
+		};
+
+		const [names]: any = await db.query(
+			`
+			SELECT E.name FROM
+			template AS T
+			INNER JOIN template_set AS TS
+			ON TS.template_id = T.id
+			INNER JOIN exercise AS E
+			ON TS.exercise_id = E.id
+			WHERE T.id = ?
+			GROUP BY E.name;
+			`,
+			[temp.id]
+		);
+
+		template.exercises = names;
+
+		templates.push(template);
+	});
+
+	return templates;
+};
 
 /**
  * Get the template with the given information
@@ -70,7 +117,6 @@ export const getTemplateById = async (
 			};
 			template.exercises[raw.id].sets.push(raw);
 		}
-		console.log(template.exercises[4]);
 	});
 
 	return template;
@@ -78,7 +124,7 @@ export const getTemplateById = async (
 
 /**
  * Post a new template
- * 
+ *
  * @param templateName what name you want to give the new template
  * @param sets the sets contained in the template
  * @param userId the id of to whom this template will belong to
