@@ -50,7 +50,7 @@ export const getTemplateById = async (
 		[userId, templateId]
 	);
 
-	const template: any = {
+	const template: Template = {
 		name: rawTemplate[0].template_name,
 		exercises: [],
 	};
