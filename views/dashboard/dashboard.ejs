@@ -3,7 +3,8 @@
 
 <head>
     <%- include('./../partials/head.ejs') %>
-        <title>Workout</title>
+    <script src="/js/pages/dashboard.js" defer></script>
+    <title>Dashboard</title>
 </head>
 
 <body>
@@ -22,8 +23,13 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                     <% templates.forEach(template => { %>
-                        <a href="/dashboard/workout/<%= template.id%> " class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
-                            <h4 class="font-semibold text-lg"><%= template.name %></h4>
+                        <a href="/dashboard/workout/<%= template.id%>" class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
+                            <h4 class="font-semibold text-lg flex items-start">
+                                <span class="flex-1"><%= template.name %></span>
+                                <button data-edit-template="<%= template.id%>" class="text-slate-600 bg-slate-100 p-2 rounded-md hover:bg-slate-200 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -2.5 24 24" width="24" fill="currentColor"><path d="M12.238 5.472L3.2 14.51l-.591 2.016 1.975-.571 9.068-9.068-1.414-1.415zM13.78 3.93l1.414 1.414 1.318-1.318a.5.5 0 0 0 0-.707l-.708-.707a.5.5 0 0 0-.707 0L13.781 3.93zm3.439-2.732l.707.707a2.5 2.5 0 0 1 0 3.535L5.634 17.733l-4.22 1.22a1 1 0 0 1-1.237-1.241l1.248-4.255 12.26-12.26a2.5 2.5 0 0 1 3.535 0z"></path></svg>
+                                </button>
+                            </h4>
                             <ul class="list-none text-slate-400 text-ellipsis whitespace-nowrap overflow-hidden text-sm">
                                 <% template.exercises.forEach(exercise => { %>
                                     <li class="capitalize"><%= exercise.name %> </li>
@@ -95,53 +101,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
     <script>
-        // create the chart
-        const ctx = document.getElementById('myChart').getContext('2d');
-
-        var gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(103, 232, 249, 1)');   
-        gradient.addColorStop(0.4, 'rgba(103, 232, 249, 0)');
-
-        const data = [65, 59, 80, 81, 56, 55, 90];
-
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['24-06-2022', '25-06-2022', '26-06-2022', '27-06-2022', '28-06-2022', '29-06-2022', '30-06-2022'],
-                datasets: [{
-                    label: 'Squat',
-                    data: data,
-                    borderColor: [
-                        'rgba(6, 182, 212)',
-                        'rgba(103, 232, 249, 1)',
-                    ],
-                    backgroundColor: gradient,
-                    fill: true,
-                    tension: 0,
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false,
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        suggestedMax: (Math.max(...data) + 20),
-                        ticks: {
-                            display: false,
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            display: false,
-                        }
-                    }
-                }
-            }
-        });
+        // data for pinned stats
+        const data = [{
+            exercise: 'Squats',
+            labels: ['24-06-2022', '25-06-2022', '26-06-2022', '27-06-2022', '28-06-2022', '29-06-2022', '30-06-2022'],
+            data: [65, 59, 80, 81, 56, 55, 90]
+        }]
     </script>
 </body>
 
