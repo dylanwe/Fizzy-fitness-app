@@ -38,8 +38,13 @@ app.use(passport.authenticate('session'));
 
 // render the homepage
 app.get('/', (req: Request, res: Response) => {
-	const user = req.user ? req.user : undefined;
-	res.render('homepage', { user });
+	// if user is logged in than redirect him to the dashboard
+	if (req.isAuthenticated()) {
+		res.redirect('/dashboard');
+		return;	
+	}
+	
+	res.render('homepage');
 });
 
 // sub routers
