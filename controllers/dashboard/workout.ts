@@ -37,7 +37,50 @@ router.get('/template', async (req: Request, res: Response) => {
  * Render the template edit page
  */
 router.get('/template/:templateId', async (req: Request, res: Response) => {
-	res.send('template edit');
+	const [exercises]: any = await db.query('SElECT * FROM exercise');
+	const { user }: any = req;
+	const { templateId } = req.params;
+
+	// get all templates
+	const [rawTemplate]: any = await db.query(
+		`
+		SELECT T.name AS template_name, TS.reps, TS.weight, E.id, E.name FROM
+		template AS T
+		INNER JOIN template_set AS TS
+		ON TS.template_id = T.id
+		INNER JOIN exercise AS E
+		ON TS.exercise_id = E.id
+		WHERE T.user_id = ? && T.id = ?;	
+	`,
+		[user.id, templateId]
+	);
+
+	const template: any = {
+		name: rawTemplate[0].template_name,
+		exercises: [],
+	};
+
+	let lastExercise: string = '';
+
+	// collect every rawTemplate nicely into the template object
+	rawTemplate.forEach((raw: any) => {
+		if (raw.id === lastExercise) {
+			template.exercises[raw.id].sets.push(raw);
+		} else {
+			lastExercise = raw.id;
+			template.exercises[raw.id] = {
+				id: raw.id,
+				name: raw.name,
+				sets: [],
+			};
+			template.exercises[raw.id].sets.push(raw);
+		}
+	});
+	res.render('dashboard/template', {
+		user,
+		exercises,
+		template,
+	});
 });
 
 /**

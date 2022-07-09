@@ -4,7 +4,11 @@
 <head>
     <%- include('./../partials/head.ejs') %>
     <script src="/js/partials/workoutForm.js" defer></script>
-    <script src="/js/pages/workoutTemplate.js" defer></script>
+    <%# Add template creation js if template isn't defined %> 
+    <% if (!locals.template) { %>
+        <script src="/js/pages/workoutTemplate.js" defer></script>
+    <% } %>
+    
     <title>Workout</title>
 </head>
 
@@ -13,7 +17,7 @@
         <%- include('./../partials/sidebar', { user }) %>
         
         <main class="w-full max-w-xl mx-auto px-4 py-12">
-            <h1 class="text-4xl text-slate-800 font-bold">Build template 🏋️‍♂️</h1>
+            <h1 class="text-4xl text-slate-800 font-bold"><%= (locals.template) ? template.name : 'Build template' %> 🏋️‍♂️</h1>
 
             <p class="mt-2 text-slate-500">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum, unde ipsa ex
                 omnis accusantium.</p>
