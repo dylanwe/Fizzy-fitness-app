@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from 'express';
+import { getTemplateById, postTemplate } from '../../models/templates'
 import db from '../../db/connection';
 
 const router = express.Router();
@@ -40,46 +41,11 @@ router.get('/template/:templateId', async (req: Request, res: Response) => {
 	const [exercises]: any = await db.query('SElECT * FROM exercise');
 	const { user }: any = req;
 	const { templateId } = req.params;
-
-	// get all templates
-	const [rawTemplate]: any = await db.query(
-		`
-		SELECT T.name AS template_name, TS.reps, TS.weight, E.id, E.name FROM
-		template AS T
-		INNER JOIN template_set AS TS
-		ON TS.template_id = T.id
-		INNER JOIN exercise AS E
-		ON TS.exercise_id = E.id
-		WHERE T.user_id = ? && T.id = ?;	
-	`,
-		[user.id, templateId]
-	);
-
-	const template: any = {
-		name: rawTemplate[0].template_name,
-		exercises: [],
-	};
-
-	let lastExercise: string = '';
-
-	// collect every rawTemplate nicely into the template object
-	rawTemplate.forEach((raw: any) => {
-		if (raw.id === lastExercise) {
-			template.exercises[raw.id].sets.push(raw);
-		} else {
-			lastExercise = raw.id;
-			template.exercises[raw.id] = {
-				id: raw.id,
-				name: raw.name,
-				sets: [],
-			};
-			template.exercises[raw.id].sets.push(raw);
-		}
-	});
+	
 	res.render('dashboard/template', {
 		user,
 		exercises,
-		template,
+		template: await getTemplateById(user.id, templateId),
 	});
 });
 
@@ -91,42 +57,6 @@ router.get('/:templateId', async (req: Request, res: Response) => {
 	const { user }: any = req;
 	const { templateId } = req.params;
 
-	// get all templates
-	const [rawTemplate]: any = await db.query(
-		`
-		SELECT T.name AS template_name, TS.reps, TS.weight, E.id, E.name FROM
-		template AS T
-		INNER JOIN template_set AS TS
-		ON TS.template_id = T.id
-		INNER JOIN exercise AS E
-		ON TS.exercise_id = E.id
-		WHERE T.user_id = ? && T.id = ?;	
-	`,
-		[user.id, templateId]
-	);
-
-	const template: any = {
-		name: rawTemplate[0].template_name,
-		exercises: [],
-	};
-
-	let lastExercise: string = '';
-
-	// collect every rawTemplate nicely into the template object
-	rawTemplate.forEach((raw: any) => {
-		if (raw.id === lastExercise) {
-			template.exercises[raw.id].sets.push(raw);
-		} else {
-			lastExercise = raw.id;
-			template.exercises[raw.id] = {
-				id: raw.id,
-				name: raw.name,
-				sets: [],
-			};
-			template.exercises[raw.id].sets.push(raw);
-		}
-	});
-
 	// get todays date
 	const today: Date = new Date(Date.now());
 	const formattedDate: string = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
@@ -135,7 +65,7 @@ router.get('/:templateId', async (req: Request, res: Response) => {
 		user,
 		exercises,
 		formattedDate,
-		template,
+		template: await getTemplateById(user.id, templateId),
 	});
 });
 
@@ -179,30 +109,14 @@ router.post('/', async (req: Request | any, res: Response) => {
 	}
 });
 
+/**
+ * Post a new template
+ */
 router.post('/template', async (req: Request | any, res: Response) => {
 	try {
 		const { name, sets } = req.body;
 
-		// the structure of a set from the request
-		type Set = {
-			exerciseId: number;
-			weight: number;
-			reps: number;
-		};
-
-		// save a template
-		const [template]: any = await db.execute(
-			'INSERT INTO `template` ( name, user_id ) VALUES( ?, ? )',
-			[name, req.user.id]
-		);
-
-		// save sets that belong to the workout
-		sets.forEach(async (set: Set) => {
-			await db.execute(
-				'INSERT INTO `template_set` (reps, weight, exercise_id, template_id) VALUES ( ?, ?, ?, ?)',
-				[set.reps, set.weight, set.exerciseId, template.insertId]
-			);
-		});
+		await postTemplate(name, sets, req.user.id);
 
 		res.status(200).send({ msg: 'Saved template' });
 	} catch (error) {
