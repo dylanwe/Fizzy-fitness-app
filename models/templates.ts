@@ -133,7 +133,7 @@ export const postTemplate = async (
 	templateName: string,
 	sets: InsertSet[],
 	userId: string
-) => {
+): Promise<void> => {
 	try {
 		// create new workout tempalte
 		const [template]: any = await db.execute(
