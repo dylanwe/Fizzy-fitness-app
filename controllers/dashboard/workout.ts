@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import { getTemplateById, postTemplate } from '../../models/templates'
+import { getAllExercises } from '../../models/exercises'
 import db from '../../db/connection';
 
 const router = express.Router();
@@ -8,7 +9,7 @@ const router = express.Router();
  * Render the empty workout page
  */
 router.get('/', async (req: any, res: Response) => {
-	const [exercises] = await db.query('SElECT * FROM exercise');
+	const [exercises] = await getAllExercises();
 	const { user } = req;
 
 	// get todays date
@@ -26,7 +27,7 @@ router.get('/', async (req: any, res: Response) => {
  * Render the template creation page
  */
 router.get('/template', async (req: Request, res: Response) => {
-	const [exercises] = await db.query('SElECT * FROM exercise');
+	const [exercises] = await getAllExercises();
 
 	res.render('dashboard/template', {
 		user: req.user,
@@ -38,7 +39,7 @@ router.get('/template', async (req: Request, res: Response) => {
  * Render the template edit page
  */
 router.get('/template/:templateId', async (req: Request, res: Response) => {
-	const [exercises]: any = await db.query('SElECT * FROM exercise');
+	const [exercises]: any = await getAllExercises();
 	const { user }: any = req;
 	const { templateId } = req.params;
 	
@@ -53,7 +54,7 @@ router.get('/template/:templateId', async (req: Request, res: Response) => {
  * Render the workout page loaded with the given template
  */
 router.get('/:templateId', async (req: Request, res: Response) => {
-	const [exercises]: any = await db.query('SElECT * FROM exercise');
+	const [exercises]: any = await getAllExercises();
 	const { user }: any = req;
 	const { templateId } = req.params;
 
