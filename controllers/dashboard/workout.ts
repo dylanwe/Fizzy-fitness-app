@@ -9,7 +9,7 @@ const router = express.Router();
  * Render the empty workout page
  */
 router.get('/', async (req: any, res: Response) => {
-	const [exercises] = await getAllExercises();
+	const exercises = await getAllExercises();
 	const { user } = req;
 
 	// get todays date
@@ -27,7 +27,7 @@ router.get('/', async (req: any, res: Response) => {
  * Render the template creation page
  */
 router.get('/template', async (req: Request, res: Response) => {
-	const [exercises] = await getAllExercises();
+	const exercises = await getAllExercises();
 
 	res.render('dashboard/template', {
 		user: req.user,
@@ -39,7 +39,7 @@ router.get('/template', async (req: Request, res: Response) => {
  * Render the template edit page
  */
 router.get('/template/:templateId', async (req: Request, res: Response) => {
-	const [exercises]: any = await getAllExercises();
+	const exercises: any = await getAllExercises();
 	const { user }: any = req;
 	const { templateId } = req.params;
 	
@@ -54,7 +54,7 @@ router.get('/template/:templateId', async (req: Request, res: Response) => {
  * Render the workout page loaded with the given template
  */
 router.get('/:templateId', async (req: Request, res: Response) => {
-	const [exercises]: any = await getAllExercises();
+	const exercises: any = await getAllExercises();
 	const { user }: any = req;
 	const { templateId } = req.params;
 
