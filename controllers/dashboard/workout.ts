@@ -1,7 +1,11 @@
 import express, { Express, Request, Response } from 'express';
-import { getTemplateById, postTemplate } from '../../models/templates'
-import { getAllExercises } from '../../models/exercises'
-import db from '../../db/connection';
+import {
+	getTemplateById,
+	postTemplate,
+	InsertSet,
+} from '../../models/templates';
+import { getAllExercises } from '../../models/exercises';
+import { saveSet, saveWorkout } from '../../models/workouts';
 
 const router = express.Router();
 
@@ -42,7 +46,7 @@ router.get('/template/:templateId', async (req: Request, res: Response) => {
 	const exercises: any = await getAllExercises();
 	const { user }: any = req;
 	const { templateId } = req.params;
-	
+
 	res.render('dashboard/template', {
 		user,
 		exercises,
@@ -83,25 +87,16 @@ router.post('/', async (req: Request | any, res: Response) => {
 	}`;
 
 	try {
-		// the structure of a set from the request
-		type Set = {
-			exerciseId: number;
-			weight: number;
-			reps: number;
-		};
-
 		// insert a new workout
-		const [insertedWorkout]: any = await db.execute(
-			'INSERT INTO `workout` ( name, time, user_id ) VALUES( ?, ?, ? )',
-			[workout.name, convertedTime, req.user.id]
+		const insertedWorkout = await saveWorkout(
+			workout.name,
+			convertedTime,
+			req.user.id
 		);
 
 		// insert sets beloning to the workout
-		workout.sets.forEach(async (set: Set) => {
-			await db.execute(
-				'INSERT INTO `set` ( reps, weight, exercise_id, workout_id ) VALUES( ?, ?, ?, ? )',
-				[set.reps, set.weight, set.exerciseId, insertedWorkout.insertId]
-			);
+		workout.sets.forEach(async (set: InsertSet) => {
+			await saveSet(set, insertedWorkout.insertId);
 		});
 
 		res.status(200).send({ msg: 'Workout posted!' });
