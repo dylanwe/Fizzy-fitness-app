@@ -6,13 +6,17 @@
     <script src="/js/partials/workoutForm.js" defer></script>
     <%# Add template creation js if template isn't defined %> 
     <% if (!locals.template) { %>
-        <script src="/js/pages/workoutTemplate.js" defer></script>
-    <% } %>
+        <script src="/js/pages/template/create.js" defer></script>
+    <% }
+    // show edit if the page has a templateId
+    else if (locals.templateId) { %>
+        <script src="/js/pages/template/edit.js" defer></script>
+    <% } %> 
     
     <title>Workout</title>
 </head>
 
-<body>
+<body data-template="<%= (locals.templateId) ? templateId : 'no_template_id' %>">
     <div class="flex flex-row-reverse md:flex-row">
         <%- include('./../partials/sidebar', { user }) %>
         

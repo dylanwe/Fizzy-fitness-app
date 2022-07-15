@@ -29,11 +29,13 @@ export interface Template {
 
 /**
  * Get all of the given users template workouts
- * 
+ *
  * @param userId the user from who you want the templates of
  * @returns templates of the given user
  */
-export const getAllTemplatesForUser = async (userId: string): Promise<Template[]> => {
+export const getAllTemplatesForUser = async (
+	userId: string
+): Promise<Template[]> => {
 	const templates: Template[] = [];
 
 	// get the template names and id
@@ -144,11 +146,43 @@ export const postTemplate = async (
 		// save sets that belong to the workout
 		sets.forEach(async (set: InsertSet) => {
 			await db.execute(
-				'INSERT INTO `template_set` (reps, weight, exercise_id, template_id) VALUES ( ?, ?, ?, ?)',
+				'INSERT INTO `template_set` (reps, weight, exercise_id, template_id) VALUES (?, ?, ?, ?)',
 				[set.reps, set.weight, set.exerciseId, template.insertId]
 			);
 		});
 	} catch (error) {
 		console.log(error);
+		throw error;
+	}
+};
+
+export const updateTemplate = async (
+	templateId: number,
+	templateName: string,
+	sets: InsertSet[],
+	userId: string
+): Promise<void> => {
+	try {
+		// update the name of the template
+		await db.execute(
+			'UPDATE template SET name = ? WHERE id = ? AND user_id = ?',
+			[templateName, templateId, userId]
+		);
+
+		// remove all sets from template
+		await db.execute('DELETE FROM template_set WHERE template_id = ?', [
+			templateId,
+		]);
+
+		// add new sets to template
+		sets.forEach(async (set: InsertSet) => {
+			await db.execute(
+				'INSERT INTO `template_set` (reps, weight, exercise_id, template_id) VALUES (?, ?, ?, ?)',
+				[set.reps, set.weight, set.exerciseId, templateId]
+			);
+		});
+	} catch (error) {
+		console.log(error);
+		throw error;
 	}
 };

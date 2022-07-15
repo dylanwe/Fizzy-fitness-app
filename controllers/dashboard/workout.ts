@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import {
 	getTemplateById,
 	postTemplate,
+	updateTemplate,
 	InsertSet,
 } from '../../models/templates';
 import { getAllExercises } from '../../models/exercises';
@@ -51,6 +52,7 @@ router.get('/template/:templateId', async (req: Request, res: Response) => {
 		user,
 		exercises,
 		template: await getTemplateById(user.id, templateId),
+		templateId,
 	});
 });
 
@@ -113,6 +115,23 @@ router.post('/template', async (req: Request | any, res: Response) => {
 		const { name, sets } = req.body;
 
 		await postTemplate(name, sets, req.user.id);
+
+		res.status(200).send({ msg: 'Saved template' });
+	} catch (error) {
+		console.log(error);
+		res.status(500).send({ msg: "Couldn't save template" });
+	}
+});
+
+/**
+ * Update a tempalte
+ */
+ router.put('/template/:templateId', async (req: Request | any, res: Response) => {
+	try {
+		const { name, sets } = req.body;
+		const templateId =  parseInt(req.params.templateId);
+
+		await updateTemplate(templateId, name, sets, req.user.id);
 
 		res.status(200).send({ msg: 'Saved template' });
 	} catch (error) {
