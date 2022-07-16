@@ -56,6 +56,34 @@ export const getWorkoutHistory = async (
 		`,
 		[userId, rows]
 	);
-	
+
+	// get all exercises, best sets and sets count per exercise beloning to that workout
+	await Promise.all(workouts.map(async (workout: any) => {
+		const [exercises]: any = await db.query(
+			`
+			SELECT DISTINCT E.name, reps, weight, (
+				SELECT COUNT(exercise_id)
+				FROM \`set\`
+				WHERE exercise_id = S.exercise_id
+				AND workout_id = S.workout_id
+				GROUP BY exercise_id
+			) as sets
+			FROM \`set\` AS S
+			LEFT JOIN exercise AS E
+			ON S.exercise_id = E.id
+			WHERE S.workout_id = ?
+			AND (S.reps * IF(S.weight != 0, S.weight, 1)) IN (
+				SELECT MAX((reps * IF(weight != 0, weight, 1)))
+				FROM \`set\`
+				WHERE workout_id = ?
+				GROUP BY exercise_id
+			);
+			`,
+			[workout.id, workout.id]
+		);
+
+		workout['exercises'] = exercises;
+	}));
+
 	return workouts;
 };
