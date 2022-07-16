@@ -62,7 +62,20 @@
                     <span class="ml-2">Stats</span>
                 </h2>
     
-                <h4 class="mt-4 text-xl text-slate-500 font-medium">Squat</h4>
+                <div class="flex justify-between items-center my-2">
+                    <h4 class="text-xl text-slate-500 font-medium flex-1">Squat</h4>
+                    
+                    <select id="countries" class="ml-4 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-48 p-2.5">
+                        <option value="US">Volume</option>
+                        <option value="CA">Best set</option>
+                        <option value="FR">PR</option>
+                        <option value="FR">Reps</option>
+                    </select>
+                    <button class="ml-4 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block p-2.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -2.5 24 24" width="24" fill="currentColor"><path d="M12.626 11.346l-.184-1.036 4.49-4.491-2.851-2.852-4.492 4.49-1.035-.184a5.05 5.05 0 0 0-2.734.269l6.538 6.537a5.05 5.05 0 0 0 .268-2.733zm-4.25 1.604L2.67 18.654a1.008 1.008 0 0 1-1.426-1.426l5.705-5.704L2.67 7.245a7.051 7.051 0 0 1 6.236-1.958l3.747-3.747a2.017 2.017 0 0 1 2.853 0l2.852 2.853a2.017 2.017 0 0 1 0 2.852l-3.747 3.747a7.051 7.051 0 0 1-1.958 6.236L8.376 12.95z"></path></svg>
+                    </button>
+
+                </div>
                 <div>
                     <canvas id="myChart" class="w-full max-h-40"></canvas>
                 </div>
@@ -107,10 +120,10 @@
                                     <tbody>
                                         <% workout.exercises.forEach(exercise => { %>
                                             <tr>
-                                                <td class="py-2 pr-6">
+                                                <td class="py-1 pr-6">
                                                     <%= exercise.sets %>x <%= exercise.name %> 
                                                 </td>
-                                                <td class="py-2 px-6">
+                                                <td class="py-1 px-6">
                                                     <%= exercise.reps %> x <%= exercise.weight %>  
                                                 </td>
                                             </tr>
@@ -129,11 +142,38 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
     <script>
-        // data for pinned stats
+        // data for pinned stats HARDCODED FOW NOW
+
+        const getRandom = () => Math.floor((Math.random() * 100) + 1);
+
         const data = [{
-            exercise: 'Squats',
-            labels: ['24-06-2022', '25-06-2022', '26-06-2022', '27-06-2022', '28-06-2022', '29-06-2022', '30-06-2022'],
-            data: [65, 59, 80, 81, 56, 55, 90]
+            exercise: 'kg',
+            data: [
+                {x: '18-06-2022', y: getRandom()},
+                {x: '19-06-2022', y: getRandom()},
+                {x: '20-06-2022', y: getRandom()},
+                {x: '21-06-2022', y: getRandom()},
+                {x: '22-06-2022', y: getRandom()},
+                {x: '23-06-2022', y: getRandom()},
+                {x: '24-06-2022', y: getRandom()},
+                {x: '25-06-2022', y: getRandom()},
+                {x: '26-06-2022', y: getRandom()},
+                {x: '27-06-2022', y: getRandom()},
+                {x: '28-06-2022', y: getRandom()},
+                {x: '29-06-2022', y: getRandom()},
+                {x: '18-07-2022', y: getRandom()},
+                {x: '19-07-2022', y: getRandom()},
+                {x: '20-07-2022', y: getRandom()},
+                {x: '21-07-2022', y: getRandom()},
+                {x: '22-07-2022', y: getRandom()},
+                {x: '23-07-2022', y: getRandom()},
+                {x: '24-07-2022', y: getRandom()},
+                {x: '25-07-2022', y: getRandom()},
+                {x: '26-07-2022', y: getRandom()},
+                {x: '27-07-2022', y: getRandom()},
+                {x: '28-07-2022', y: getRandom()},
+                {x: '29-07-2022', y: getRandom()},
+            ]
         }]
     </script>
 </body>

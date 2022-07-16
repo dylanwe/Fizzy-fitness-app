@@ -19,7 +19,7 @@ router.get('/', async (req: any, res: Response) => {
 
 	// get todays date
 	const today: Date = new Date(Date.now());
-	const formattedDate: string = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
+	const formattedDate: string = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
 
 	res.render('dashboard/workout', {
 		user,

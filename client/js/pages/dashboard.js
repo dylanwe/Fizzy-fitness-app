@@ -32,9 +32,11 @@ const myChart = new Chart(ctx, {
             borderColor: [
                 'rgba(6, 182, 212)',
                 'rgba(103, 232, 249, 1)',
-            ],
-            backgroundColor: gradient,
-            fill: true,
+            ],  
+            pointBorderColor: 'rgba(6, 182, 212)',
+            backgroundColor: 'rgba(255, 255, 255)',
+            borderWidth: 2,
+            pointRadius: 4,
             tension: 0,
         }]
     },
@@ -47,13 +49,19 @@ const myChart = new Chart(ctx, {
         scales: {
             y: {
                 beginAtZero: true,
-                suggestedMax: (Math.max(...data) + 20),
+                suggestedMax: 100 + (100 * 0.2), // put highest value + 20% for padding here
                 ticks: {
+                    display: false,
+                },
+                grid: {
                     display: false,
                 }
             },
             x: {
                 ticks: {
+                    display: false,
+                },
+                grid: {
                     display: false,
                 }
             }
