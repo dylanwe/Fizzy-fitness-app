@@ -66,7 +66,7 @@ router.get('/:templateId', async (req: Request, res: Response) => {
 
 	// get todays date
 	const today: Date = new Date(Date.now());
-	const formattedDate: string = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
+	const formattedDate: string = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
 
 	res.render('dashboard/workout', {
 		user,
@@ -84,7 +84,7 @@ router.post('/', async (req: Request | any, res: Response) => {
 
 	// get workout time ready for database
 	const timeNow = new Date(Date.now());
-	const convertedTime = `${timeNow.getFullYear()}-${timeNow.getMonth()}-${timeNow.getDate()} ${
+	const convertedTime = `${timeNow.getFullYear()}-${timeNow.getMonth() + 1}-${timeNow.getDate()} ${
 		workout.time.length > 5 ? workout.time : `00:${workout.time}`
 	}`;
 

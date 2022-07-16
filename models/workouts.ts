@@ -36,16 +36,19 @@ export const saveSet = async (set: any, workoutId: string): Promise<void> => {
 
 /**
  * Get the given amount of most recent completed workouts of the user
- * 
+ *
  * @param rows The limit of rows you want from the history
  * @param userId The id user you want to get his history from
  * @returns The history of the workouts completed
  */
-export const getWorkoutHistory = async (rows: number, userId: string): Promise<any[]> => {
-	// get the 5 most recent workouts
+export const getWorkoutHistory = async (
+	rows: number,
+	userId: string
+): Promise<any[]> => {
+	// get the *rows* amount of recent workouts
 	const [workouts]: any = await db.query(
 		`
-		SELECT W.name, DATE_FORMAT(W.date, "%d-%m-%Y") AS date, HOUR(W.time) as time_hour, MINUTE(W.time) as time_minute
+		SELECT W.id, W.name, DATE_FORMAT(W.date, "%d-%m-%Y") AS date, HOUR(W.time) as time_hour, MINUTE(W.time) as time_minute
 		FROM workout AS W
 		WHERE user_id = ?
 		ORDER BY W.id DESC
@@ -53,6 +56,6 @@ export const getWorkoutHistory = async (rows: number, userId: string): Promise<a
 		`,
 		[userId, rows]
 	);
-
+	
 	return workouts;
-}
+};
