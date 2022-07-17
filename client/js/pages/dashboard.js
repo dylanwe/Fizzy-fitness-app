@@ -17,18 +17,14 @@ document.querySelectorAll('[data-edit-template]').forEach((template) => {
 
 // Create all charts
 const ctx = document.getElementById('myChart').getContext('2d');
-// create gradient for charts
-var gradient = ctx.createLinearGradient(0, 0, 0, 400);
-gradient.addColorStop(0, 'rgba(103, 232, 249, 1)');   
-gradient.addColorStop(0.4, 'rgba(103, 232, 249, 0)');
 
 const myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: pinnedStat.dates,
         datasets: [{
-            label: 'Reps',
-            data: pinnedStat.reps,
+            label: 'Exercise volume',
+            data: pinnedStat.volumes,
             borderColor: [
                 'rgba(6, 182, 212)',
                 'rgba(103, 232, 249, 1)',
@@ -37,7 +33,6 @@ const myChart = new Chart(ctx, {
             backgroundColor: 'rgba(255, 255, 255)',
             borderWidth: 2,
             pointRadius: 4,
-            tension: 0,
         }]
     },
     options: {
@@ -49,10 +44,7 @@ const myChart = new Chart(ctx, {
         scales: {
             y: {
                 beginAtZero: true,
-                suggestedMax: Math.max(...pinnedStat.reps) + (Math.max(...pinnedStat.reps) * 0.2), // put highest value + 20% for padding here
-                ticks: {
-                    // display: false,
-                },
+                suggestedMax: Math.max(...pinnedStat.volumes) + (Math.max(...pinnedStat.volumes) * 0.2), // put highest value + 20% for padding here
                 grid: {
                     display: false,
                 }
