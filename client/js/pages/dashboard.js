@@ -25,10 +25,10 @@ gradient.addColorStop(0.4, 'rgba(103, 232, 249, 0)');
 const myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: data[0].labels,
+        labels: pinnedStat.dates,
         datasets: [{
-            label: data[0].exercise,
-            data: data[0].data,
+            label: 'Reps',
+            data: pinnedStat.reps,
             borderColor: [
                 'rgba(6, 182, 212)',
                 'rgba(103, 232, 249, 1)',
@@ -49,9 +49,9 @@ const myChart = new Chart(ctx, {
         scales: {
             y: {
                 beginAtZero: true,
-                suggestedMax: 100 + (100 * 0.2), // put highest value + 20% for padding here
+                suggestedMax: Math.max(...pinnedStat.reps) + (Math.max(...pinnedStat.reps) * 0.2), // put highest value + 20% for padding here
                 ticks: {
-                    display: false,
+                    // display: false,
                 },
                 grid: {
                     display: false,

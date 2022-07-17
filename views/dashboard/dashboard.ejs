@@ -63,11 +63,10 @@
                 </h2>
     
                 <div class="flex justify-between items-center my-2">
-                    <h4 class="text-xl text-slate-500 font-medium flex-1">Squat</h4>
+                    <h4 class="text-xl text-slate-500 font-medium flex-1 capitalize"><%= stat.name %> </h4>
                     
                     <select id="countries" class="ml-4 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-48 p-2.5">
                         <option value="US">Volume</option>
-                        <option value="CA">Best set</option>
                         <option value="FR">PR</option>
                         <option value="FR">Reps</option>
                     </select>
@@ -138,43 +137,10 @@
         </main>
     </div>
 
-    
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
     <script>
-        // data for pinned stats HARDCODED FOW NOW
-
-        const getRandom = () => Math.floor((Math.random() * 100) + 1);
-
-        const data = [{
-            exercise: 'kg',
-            data: [
-                {x: '18-06-2022', y: getRandom()},
-                {x: '19-06-2022', y: getRandom()},
-                {x: '20-06-2022', y: getRandom()},
-                {x: '21-06-2022', y: getRandom()},
-                {x: '22-06-2022', y: getRandom()},
-                {x: '23-06-2022', y: getRandom()},
-                {x: '24-06-2022', y: getRandom()},
-                {x: '25-06-2022', y: getRandom()},
-                {x: '26-06-2022', y: getRandom()},
-                {x: '27-06-2022', y: getRandom()},
-                {x: '28-06-2022', y: getRandom()},
-                {x: '29-06-2022', y: getRandom()},
-                {x: '18-07-2022', y: getRandom()},
-                {x: '19-07-2022', y: getRandom()},
-                {x: '20-07-2022', y: getRandom()},
-                {x: '21-07-2022', y: getRandom()},
-                {x: '22-07-2022', y: getRandom()},
-                {x: '23-07-2022', y: getRandom()},
-                {x: '24-07-2022', y: getRandom()},
-                {x: '25-07-2022', y: getRandom()},
-                {x: '26-07-2022', y: getRandom()},
-                {x: '27-07-2022', y: getRandom()},
-                {x: '28-07-2022', y: getRandom()},
-                {x: '29-07-2022', y: getRandom()},
-            ]
-        }]
+        // data for pinned stats
+        const pinnedStat = JSON.parse(`<%- JSON.stringify(stat) %>`);
     </script>
 </body>
 
