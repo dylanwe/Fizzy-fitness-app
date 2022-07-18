@@ -10,11 +10,14 @@ router.get('/', async (req: Request | any, res: Response) => {
 	
 	const templates = await getAllTemplatesForUser(user.id);
 
-	const stat: Stat = await getAllExerciseStat(4, user.id);
+	const stat1: Stat = await getAllExerciseStat(4, user.id);
+	const stat2: Stat = await getAllExerciseStat(8, user.id);
+
+	const stats: Stat[] = [stat1, stat2];
 	
 	const workouts = await getWorkoutHistory(4, user.id);
 
-	res.render('dashboard/dashboard', { user, templates, stat, workouts });
+	res.render('dashboard/dashboard', { user, templates, stats, workouts });
 });
 
 export default router;

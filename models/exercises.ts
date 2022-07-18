@@ -1,6 +1,7 @@
 import db from '../db/connection';
 
 export interface Stat {
+    id: number;
 	name: string;
 	dates: string[];
 	reps: number[];
@@ -29,7 +30,7 @@ export const getAllExercises = async (): Promise<any[]> => {
 export const getAllExerciseStat = async (exerciseId: number, userId: string): Promise<Stat> => {
     // get the raw stat data
     const [rawStats]: any = await db.query(`
-        SELECT MAX(E.name) AS name, DATE_FORMAT(MAX(date), "%d-%m-%Y") as date, MAX(S.reps) AS most_reps, SUM(S.reps * IF(S.weight, S.weight, 1)) AS exercise_volume, MAX(IF(S.weight != 0, S.weight, S.reps)) AS pr
+        SELECT MAX(E.id) as id, MAX(E.name) AS name, DATE_FORMAT(MAX(date), "%d-%m-%Y") as date, MAX(S.reps) AS most_reps, SUM(S.reps * IF(S.weight, S.weight, 1)) AS exercise_volume, MAX(IF(S.weight != 0, S.weight, S.reps)) AS pr
         FROM workout AS W
         INNER JOIN \`set\` AS S
         ON S.workout_id = W.id
@@ -42,6 +43,7 @@ export const getAllExerciseStat = async (exerciseId: number, userId: string): Pr
 
     // construct a stat
     const stat: Stat = {
+        id: rawStats[0].id,
         name: rawStats[0].name,
         dates: [],
         reps: [],
