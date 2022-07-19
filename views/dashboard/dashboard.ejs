@@ -4,6 +4,7 @@
 <head>
     <%- include('./../partials/head.ejs') %>
     <script src="/js/pages/dashboard.js" defer></script>
+    <script src="/js/pages/stats.js" defer></script>
     <title>Dashboard</title>
 </head>
 
@@ -62,17 +63,17 @@
                     <span class="ml-2">Stats</span>
                 </h2>
                 
-                <% stats.forEach((pinnedStat) => { %>
-                    <div data-stat="<%= pinnedStat.id %>">
+                <% stats.forEach((stat) => { %>
+                    <div data-stat="<%= stat.id %>">
                         <div class="flex justify-between items-center my-2">
-                            <h4 class="text-xl text-slate-500 font-medium flex-1 capitalize"><%= pinnedStat.name %> </h4>
+                            <h4 class="text-xl text-slate-500 font-medium flex-1 capitalize"><%= stat.name %> </h4>
                             
-                            <select data-stat-type autocomplete="off" class="ml-4 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-48 p-2.5">
+                            <select data-stat-type autocomplete="off" class="ml-4 bg-slate-50 border-2 border-slate-100 hover:border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-48 p-2.5 transition-colors">
                                 <option value="volume">Exercise volume</option>
-                                <option value="pr">PR</option>
-                                <option value="reps">Reps</option>
+                                <option value="pr">PR Weight</option>
+                                <option value="reps">PR Reps</option>
                             </select>
-                            <button class="ml-4 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block p-2.5">
+                            <button class="ml-4 <%= (stat.pinned) ? 'bg-cyan-300 text-cyan-900 border-cyan-300 hover:border-cyan-500' : 'bg-slate-50 text-slate-900 border-slate-100 hover:border-slate-300' %> border-2 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block p-2.5 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -2.5 24 24" width="24" fill="currentColor"><path d="M12.626 11.346l-.184-1.036 4.49-4.491-2.851-2.852-4.492 4.49-1.035-.184a5.05 5.05 0 0 0-2.734.269l6.538 6.537a5.05 5.05 0 0 0 .268-2.733zm-4.25 1.604L2.67 18.654a1.008 1.008 0 0 1-1.426-1.426l5.705-5.704L2.67 7.245a7.051 7.051 0 0 1 6.236-1.958l3.747-3.747a2.017 2.017 0 0 1 2.853 0l2.852 2.853a2.017 2.017 0 0 1 0 2.852l-3.747 3.747a7.051 7.051 0 0 1-1.958 6.236L8.376 12.95z"></path></svg>
                             </button>
         
@@ -82,7 +83,6 @@
                         </div>
                     </div>
                 <% }) %>
-                
             </section>
     
             <%# history %>
@@ -91,7 +91,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -2 24 24" width="24" fill="currentColor"><path d="M13.106 9h3.953c.546 0 .988.448.988 1s-.442 1-.988 1h-4.941a.994.994 0 0 1-.988-1V4c0-.552.442-1 .988-1s.988.448.988 1v5zm6-6.071A10.029 10.029 0 0 1 22 10c0 5.523-4.424 10-9.882 10v-2c4.366 0 7.906-3.582 7.906-8a8.02 8.02 0 0 0-2.316-5.657A7.834 7.834 0 0 0 12.118 2C8.574 2 5.574 4.36 4.571 7.612l1.352-.923a.981.981 0 0 1 1.372.27 1.007 1.007 0 0 1-.267 1.388l-3.277 2.237a.981.981 0 0 1-1.372-.27L.17 6.998a1.007 1.007 0 0 1 .267-1.389.981.981 0 0 1 1.372.27l.839 1.259C3.863 3.01 7.643 0 12.118 0c2.729 0 5.2 1.12 6.988 2.929z"></path></svg>
                     <span class="ml-2">Recent workouts</span>
                 </h2>
-                <div class="grid grid-cols-2 gap-4 mt-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                     <% workouts.forEach(workout => { %>
                         <div class="p-4 border-2 border-slate-100 rounded-lg hover:border-slate-300 transition-colors cursor-pointer">
                             <h2 class="font-semibold text-lg">
@@ -145,7 +145,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
     <script>
         // data for pinned stats
-        const pinnedStats = JSON.parse(`<%- JSON.stringify(stats) %>`);
+        const stats = JSON.parse(`<%- JSON.stringify(stats) %>`);
     </script>
 </body>
 
