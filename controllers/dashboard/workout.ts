@@ -6,7 +6,7 @@ import {
 	InsertSet,
 } from '../../models/templates';
 import { getAllExercises } from '../../models/exercises';
-import { saveSet, saveWorkout } from '../../models/workouts';
+import { saveSet, saveWorkout, getWorkout, updateWorkout } from '../../models/workouts';
 
 const router = express.Router();
 
@@ -19,9 +19,11 @@ router.get('/', async (req: any, res: Response) => {
 
 	// get todays date
 	const today: Date = new Date(Date.now());
-	const formattedDate: string = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+	const formattedDate: string = `${today.getDate()}-${
+		today.getMonth() + 1
+	}-${today.getFullYear()}`;
 
-	res.render('dashboard/workout', {
+	res.render('dashboard/workout/workout', {
 		user,
 		exercises,
 		formattedDate,
@@ -66,13 +68,31 @@ router.get('/:templateId', async (req: Request, res: Response) => {
 
 	// get todays date
 	const today: Date = new Date(Date.now());
-	const formattedDate: string = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+	const formattedDate: string = `${today.getDate()}-${
+		today.getMonth() + 1
+	}-${today.getFullYear()}`;
 
-	res.render('dashboard/workout', {
+	res.render('dashboard/workout/workout', {
 		user,
 		exercises,
 		formattedDate,
 		template: await getTemplateById(user.id, templateId),
+	});
+});
+
+/**
+ * Render the edit workout page
+ */
+router.get('/edit/:workoutId', async (req: Request, res: Response) => {
+	const exercises: any = await getAllExercises();
+	const { user }: any = req;
+	const { workoutId } = req.params;
+
+	res.render('dashboard/workout/edit', {
+		user,
+		exercises,
+		workout: await getWorkout(parseInt(workoutId), user.id),
+		workoutId: workoutId
 	});
 });
 
@@ -84,7 +104,9 @@ router.post('/', async (req: Request | any, res: Response) => {
 
 	// get workout time ready for database
 	const timeNow = new Date(Date.now());
-	const convertedTime = `${timeNow.getFullYear()}-${timeNow.getMonth() + 1}-${timeNow.getDate()} ${
+	const convertedTime = `${timeNow.getFullYear()}-${
+		timeNow.getMonth() + 1
+	}-${timeNow.getDate()} ${
 		workout.time.length > 5 ? workout.time : `00:${workout.time}`
 	}`;
 
@@ -108,6 +130,23 @@ router.post('/', async (req: Request | any, res: Response) => {
 });
 
 /**
+ * Post a completed workout
+ */
+ router.put('/:workoutId', async (req: Request | any, res: Response) => {
+	const { user }: any = req;
+	const { workout }: any = req.body;
+	const { workoutId }: any = req.params;
+
+	try {
+		updateWorkout(workout, workoutId, user.id);
+
+		res.status(200).send({ msg: 'Workout saved!' });
+	} catch (error) {
+		res.status(500).send({ msg: "Couldn't save workout" });
+	}
+});
+
+/**
  * Post a new template
  */
 router.post('/template', async (req: Request | any, res: Response) => {
@@ -126,18 +165,21 @@ router.post('/template', async (req: Request | any, res: Response) => {
 /**
  * Update a tempalte
  */
- router.put('/template/:templateId', async (req: Request | any, res: Response) => {
-	try {
-		const { name, sets } = req.body;
-		const templateId =  parseInt(req.params.templateId);
+router.put(
+	'/template/:templateId',
+	async (req: Request | any, res: Response) => {
+		try {
+			const { name, sets } = req.body;
+			const templateId = parseInt(req.params.templateId);
 
-		await updateTemplate(templateId, name, sets, req.user.id);
+			await updateTemplate(templateId, name, sets, req.user.id);
 
-		res.status(200).send({ msg: 'Saved template' });
-	} catch (error) {
-		console.log(error);
-		res.status(500).send({ msg: "Couldn't save template" });
+			res.status(200).send({ msg: 'Saved template' });
+		} catch (error) {
+			console.log(error);
+			res.status(500).send({ msg: "Couldn't save template" });
+		}
 	}
-});
+);
 
 export default router;

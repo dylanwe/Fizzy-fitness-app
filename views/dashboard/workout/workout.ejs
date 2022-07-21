@@ -2,15 +2,15 @@
 <html lang="en">
 
 <head>
-    <%- include('./../partials/head.ejs') %>
+    <%- include('./../../partials/head.ejs') %>
     <script src="/js/partials/workoutForm.js" defer></script>
-    <script src="/js/pages/workout.js" defer></script>
+    <script src="/js/pages/workout/workout.js" defer></script>
     <title>Workout</title>
 </head>
 
 <body>
     <div class="flex flex-row-reverse md:flex-row">
-        <%- include('./../partials/sidebar', { user }) %>
+        <%- include('./../../partials/sidebar', { user }) %>
         
         <main class="max-w-2xl mx-auto px-4 py-12">
             <h1 class="text-4xl text-slate-800 font-bold capitalize">
@@ -23,9 +23,9 @@
                         omnis accusantium.</p>
                     
                     <% if (locals.template) { %>
-                        <%- include('./../partials/exerciseForm', { active: true, template }) %>
+                        <%- include('./../../partials/exerciseForm', { active: true, template }) %>
                     <% } else { %>
-                        <%- include('./../partials/exerciseForm', { active: true }) %>
+                        <%- include('./../../partials/exerciseForm', { active: true }) %>
                     <% } %>
         
                     <button data-add-exercise type="button" class="block w-full bg-cyan-50 border-2 border-cyan-100 hover:border-cyan-300 text-cyan-900 rounded-md transition-all p-2">
@@ -34,7 +34,7 @@
         
                     <button data-save-modal-open type="button" class="mt-2 w-full border-2 border-cyan-300 bg-cyan-300 rounded-lg hover:border-cyan-500 transition-colors text-cyan-900 p-2 flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" fill="currentColor"><path d="M5.486 9.73a.997.997 0 0 1-.707-.292L.537 5.195A1 1 0 1 1 1.95 3.78l3.535 3.535L11.85.952a1 1 0 0 1 1.415 1.414L6.193 9.438a.997.997 0 0 1-.707.292z"></path></svg>
-                        <span class="ml-2">Complete workout</span>
+                        <span class="ml-2">Save workout</span>
                     </button>
                 </div>
 
