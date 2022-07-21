@@ -152,6 +152,45 @@ const removeSet = (set) => {
 	}
 };
 
+/**
+ * Collect the data of the workout form
+ *
+ * @returns all exercises with its sets
+ */
+const getFormData = () => {
+	const name = document.querySelector('[data-workout-name]').value;
+	const time = document.querySelector('[data-time]')?.innerText;
+	const hasCheckBoxes = !! document.querySelector('input[name="completed"]');
+
+	let data = {
+		name,
+		time,
+		sets: [],
+	};
+
+	document.querySelectorAll('[data-exercise-id]').forEach((exceresise) => {
+		const id = parseInt(exceresise.getAttribute('data-exercise-id'));
+
+		exceresise.querySelectorAll('[data-set]').forEach((set) => {
+			if (hasCheckBoxes && set.querySelector('input[name="completed"]').checked === false) {
+				return;
+			}
+
+			const setData = {
+				exerciseId: id,
+				weight: parseInt(
+					set.querySelector('input[name="weight"]').value
+				),
+				reps: parseInt(set.querySelector('input[name="reps"]').value),
+			};
+
+			data.sets.push(setData);
+		});
+	});
+
+	return data;
+};
+
 // open modal
 document.querySelector('[data-add-exercise]').addEventListener('click', () => {
 	document.querySelector('[data-exercise-picker]').classList.remove('hidden');

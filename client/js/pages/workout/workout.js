@@ -44,44 +44,6 @@ setInterval(() => {
 }, 1000);
 
 /**
- * Collect the data of the workout form
- *
- * @returns all exercises with its sets
- */
-const getFormData = () => {
-	const name = document.querySelector('[data-workout-name]').value;
-	const time = document.querySelector('[data-time]').innerText;
-
-	let data = {
-		name,
-		time,
-		sets: [],
-	};
-
-	document.querySelectorAll('[data-exercise-id]').forEach((exceresise) => {
-		const id = parseInt(exceresise.getAttribute('data-exercise-id'));
-
-		exceresise.querySelectorAll('[data-set]').forEach((set) => {
-			if (set.querySelector('input[name="completed"]').checked) {
-				const setData = {
-					exerciseId: id,
-					weight: parseInt(
-						set.querySelector('input[name="weight"]').value
-					),
-					reps: parseInt(
-						set.querySelector('input[name="reps"]').value
-					),
-				};
-
-				data.sets.push(setData);
-			}
-		});
-	});
-
-	return data;
-};
-
-/**
  * Store the workout in the database
  *
  * @param {Array} workout the workout you want to post

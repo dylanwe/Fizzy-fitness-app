@@ -137,7 +137,7 @@ router.put('/:workoutId', async (req: Request, res: Response) => {
 	const { workoutId }: any = req.params;
 
 	try {
-		updateWorkout(workout, workoutId, req.user!.id);
+		await updateWorkout(workout, workoutId, req.user!.id);
 
 		res.status(200).send({ msg: 'Workout saved!' });
 	} catch (error) {
