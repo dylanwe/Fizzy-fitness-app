@@ -32,13 +32,43 @@
     chart.update();
 };
 
-// add event to all edit buttons
-document.querySelectorAll('[data-edit-template]').forEach((template) => {
-	const templateId = template.getAttribute('data-edit-template');
-	template.addEventListener('click', (event) =>
-		editTemplate(event, templateId)
-	);
-});
+const changePin = async (container, stat) => {
+	// send request than change classes;
+	const pin = container.querySelector('[data-pin]');
+	let isPinned = pin.getAttribute('data-pin') === 'pinned';
+
+	const resp = await fetch(`/dashboard/stats/${stat.id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ isPinned }),
+	});
+
+	if (resp.status === 200) {
+		isPinned = !isPinned;
+		const pinClasses = {
+			pinned: ['bg-cyan-300', 'text-cyan-900', 'border-cyan-300', 'hover:border-cyan-500'],
+			notPinned: ['bg-slate-50', 'text-slate-900', 'border-slate-100', 'hover:border-slate-300']
+		}
+
+		if (isPinned) {
+			pin.setAttribute('data-pin', 'pinned');
+			pin.classList.add(...pinClasses.pinned);
+			pin.classList.remove(...pinClasses.notPinned);
+		} else {
+			// remove element if not on stats page
+			if (window.location.href.includes('stats')) {
+				pin.setAttribute('data-pin', '');
+				pin.classList.remove(...pinClasses.pinned);
+				pin.classList.add(...pinClasses.notPinned);
+			} else {
+				console.log(container);
+				container.remove();
+			}
+		}
+	}
+}
 
 // drawChart and add events to chart
 stats.forEach((stat) => {
@@ -95,4 +125,5 @@ stats.forEach((stat) => {
 
     // add events
     container.querySelector('[data-stat-type]').addEventListener('change', (e) => changeChartType(e, chart, stat));
+	container.querySelector('[data-pin]').addEventListener('click', () => changePin(container, stat));
 });

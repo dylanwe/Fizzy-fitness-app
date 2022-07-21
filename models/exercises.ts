@@ -132,3 +132,23 @@ export const getAllPinnedExerciseStats = async (
     
     return stats;
 };
+
+export const changePin = async (isPinned: boolean, exerciseId: string, userId: string) => {
+    try {
+        if (isPinned === false) {
+            await db.execute(
+                `INSERT INTO pinned_stat ( exercise_id, user_id ) VALUES ( ?, ? )`,
+                [exerciseId, userId]
+            );
+        } else {
+            await db.execute(
+                `DELETE FROM pinned_stat WHERE exercise_id = ? AND user_id = ?`,
+                [exerciseId, userId]
+            );
+        }
+
+        return true;
+    } catch (error) {
+        return false;
+    }
+}

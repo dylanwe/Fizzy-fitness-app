@@ -3,6 +3,7 @@ import { getAllTemplatesForUser } from '../../models/templates';
 import {
 	getAllPinnedExerciseStats,
 	getAllExerciseStats,
+	changePin,
 } from '../../models/exercises';
 import { rowsWorkoutHistory, allWorkoutHistory } from '../../models/workouts';
 
@@ -24,6 +25,21 @@ router.get('/', async (req: Request, res: Response) => {
 router.get('/stats', async (req: Request, res: Response) => {
 	const stats: Stat[] = await getAllExerciseStats(req.user!.id);
 	res.render('dashboard/stats', { user: req.user, stats });
+});
+
+router.put('/stats/:exerciseId', async (req: Request, res: Response) => {
+	// get exerciseId and userId
+	const { isPinned } = req.body;
+	const { exerciseId } = req.params;
+	const changed: boolean = await changePin(isPinned, exerciseId, req.user!.id);
+
+	if (changed) {
+		res.sendStatus(200);
+		return;
+	}
+
+	res.sendStatus(500);
+	 
 });
 
 router.get('/history', async (req: Request, res: Response) => {
