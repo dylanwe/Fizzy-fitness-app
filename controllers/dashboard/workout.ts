@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import {
 	getTemplateById,
 	postTemplate,
@@ -15,7 +15,6 @@ const router = express.Router();
  */
 router.get('/', async (req: any, res: Response) => {
 	const exercises = await getAllExercises();
-	const { user } = req;
 
 	// get todays date
 	const today: Date = new Date(Date.now());
@@ -24,7 +23,7 @@ router.get('/', async (req: any, res: Response) => {
 	}-${today.getFullYear()}`;
 
 	res.render('dashboard/workout/workout', {
-		user,
+		user: req.user,
 		exercises,
 		formattedDate,
 	});
@@ -47,13 +46,12 @@ router.get('/template', async (req: Request, res: Response) => {
  */
 router.get('/template/:templateId', async (req: Request, res: Response) => {
 	const exercises: any = await getAllExercises();
-	const { user }: any = req;
 	const { templateId } = req.params;
 
 	res.render('dashboard/template', {
-		user,
+		user: req.user,
 		exercises,
-		template: await getTemplateById(user.id, templateId),
+		template: await getTemplateById(req.user!.id, templateId),
 		templateId,
 	});
 });
@@ -63,7 +61,6 @@ router.get('/template/:templateId', async (req: Request, res: Response) => {
  */
 router.get('/:templateId', async (req: Request, res: Response) => {
 	const exercises: any = await getAllExercises();
-	const { user }: any = req;
 	const { templateId } = req.params;
 
 	// get todays date
@@ -73,10 +70,10 @@ router.get('/:templateId', async (req: Request, res: Response) => {
 	}-${today.getFullYear()}`;
 
 	res.render('dashboard/workout/workout', {
-		user,
+		user: req.user,
 		exercises,
 		formattedDate,
-		template: await getTemplateById(user.id, templateId),
+		template: await getTemplateById(req.user!.id, templateId),
 	});
 });
 
@@ -85,13 +82,12 @@ router.get('/:templateId', async (req: Request, res: Response) => {
  */
 router.get('/edit/:workoutId', async (req: Request, res: Response) => {
 	const exercises: any = await getAllExercises();
-	const { user }: any = req;
 	const { workoutId } = req.params;
 
 	res.render('dashboard/workout/edit', {
-		user,
+		user: req.user,
 		exercises,
-		workout: await getWorkout(parseInt(workoutId), user.id),
+		workout: await getWorkout(workoutId, req.user!.id),
 		workoutId: workoutId
 	});
 });
@@ -99,7 +95,7 @@ router.get('/edit/:workoutId', async (req: Request, res: Response) => {
 /**
  * Post a completed workout
  */
-router.post('/', async (req: Request | any, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
 	const { workout }: any = req.body;
 
 	// get workout time ready for database
@@ -115,7 +111,7 @@ router.post('/', async (req: Request | any, res: Response) => {
 		const insertedWorkout = await saveWorkout(
 			workout.name,
 			convertedTime,
-			req.user.id
+			req.user!.id
 		);
 
 		// insert sets beloning to the workout
@@ -132,13 +128,12 @@ router.post('/', async (req: Request | any, res: Response) => {
 /**
  * Post a completed workout
  */
- router.put('/:workoutId', async (req: Request | any, res: Response) => {
-	const { user }: any = req;
+ router.put('/:workoutId', async (req: Request, res: Response) => {
 	const { workout }: any = req.body;
 	const { workoutId }: any = req.params;
 
 	try {
-		updateWorkout(workout, workoutId, user.id);
+		updateWorkout(workout, workoutId, req.user!.id);
 
 		res.status(200).send({ msg: 'Workout saved!' });
 	} catch (error) {
@@ -149,11 +144,11 @@ router.post('/', async (req: Request | any, res: Response) => {
 /**
  * Post a new template
  */
-router.post('/template', async (req: Request | any, res: Response) => {
+router.post('/template', async (req: Request, res: Response) => {
 	try {
 		const { name, sets } = req.body;
 
-		await postTemplate(name, sets, req.user.id);
+		await postTemplate(name, sets, req.user!.id);
 
 		res.status(200).send({ msg: 'Saved template' });
 	} catch (error) {
@@ -167,12 +162,12 @@ router.post('/template', async (req: Request | any, res: Response) => {
  */
 router.put(
 	'/template/:templateId',
-	async (req: Request | any, res: Response) => {
+	async (req: Request, res: Response) => {
 		try {
 			const { name, sets } = req.body;
 			const templateId = parseInt(req.params.templateId);
 
-			await updateTemplate(templateId, name, sets, req.user.id);
+			await updateTemplate(templateId, name, sets, req.user!.id);
 
 			res.status(200).send({ msg: 'Saved template' });
 		} catch (error) {

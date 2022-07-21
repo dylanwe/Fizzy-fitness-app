@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { getAllTemplatesForUser } from '../../models/templates';
 import {
 	getAllPinnedExerciseStats,
@@ -9,32 +9,28 @@ import { rowsWorkoutHistory, allWorkoutHistory } from '../../models/workouts';
 
 const router = express.Router();
 
-router.get('/', async (req: Request | any, res: Response) => {
-	const { user } = req;
+router.get('/', async (req: Request, res: Response) => {
+	const templates = await getAllTemplatesForUser(req.user!.id);
+	const stats: Stat[] = await getAllPinnedExerciseStats(req.user!.id);
+	const workouts = await rowsWorkoutHistory(4, req.user!.id);
 
-	const templates = await getAllTemplatesForUser(user.id);
-
-	const stats: Stat[] = await getAllPinnedExerciseStats(user.id);
-
-	const workouts = await rowsWorkoutHistory(4, user.id);
-
-	res.render('dashboard/dashboard', { user, templates, stats, workouts });
+	res.render('dashboard/dashboard', {
+		user: req.user,
+		templates,
+		stats,
+		workouts,
+	});
 });
 
-router.get('/stats', async (req: Request | any, res: Response) => {
-	const { user } = req;
-
-	const stats: Stat[] = await getAllExerciseStats(user.id);
-
-	res.render('dashboard/stats', { user, stats });
+router.get('/stats', async (req: Request, res: Response) => {
+	const stats: Stat[] = await getAllExerciseStats(req.user!.id);
+	res.render('dashboard/stats', { user: req.user, stats });
 });
 
-router.get('/history', async (req: Request | any, res: Response) => {
-	const { user } = req;
+router.get('/history', async (req: Request, res: Response) => {
+	const workouts: any[] = await allWorkoutHistory(req.user!.id);
 
-	const workouts: any[] = await allWorkoutHistory(user.id);
-
-	res.render('dashboard/history', { user, workouts });
+	res.render('dashboard/history', { user: req.user, workouts });
 });
 
 export default router;

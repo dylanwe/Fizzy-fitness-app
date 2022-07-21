@@ -1,21 +1,5 @@
 import db from '../db/connection';
 
-export interface Set {
-	reps: number;
-	weight: number;
-}
-
-export interface Exercise {
-	id: number;
-	name: string;
-	sets: Set[];
-}
-
-interface Workout {
-	name: string;
-	exercises: Exercise[];
-}
-
 /**
  * Save a workout to the database
  *
@@ -37,7 +21,7 @@ export const saveWorkout = async (
 	return insertedWorkout;
 };
 
-export const getWorkout = async (workoutId: number, userId: number): Promise<Workout> => {
+export const getWorkout = async (workoutId: string, userId: string): Promise<Workout> => {
 	const [rawExercises]: any = await db.query(
 		`
 		SELECT W.name as workout_name, S.reps, S.weight, E.id, E.name
@@ -63,7 +47,7 @@ export const getWorkout = async (workoutId: number, userId: number): Promise<Wor
 	};
 
 	for (const rawExercise of rawExercises) {
-		const set: Set = {reps: rawExercise.reps, weight: rawExercise.weight}
+		const set: ExerciseSet = {reps: rawExercise.reps, weight: rawExercise.weight}
 
 		// Check if current exercise is the same as last
 		if (rawExercise.id === lastExercise.id) {
