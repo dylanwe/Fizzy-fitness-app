@@ -1,15 +1,5 @@
 import db from '../db/connection';
 
-export interface Stat {
-	id: number;
-	name: string;
-    pinned: boolean;
-	dates: string[];
-	reps: number[];
-	volumes: string[];
-	prs: string[];
-}
-
 /**
  * Get all the exercises
  *

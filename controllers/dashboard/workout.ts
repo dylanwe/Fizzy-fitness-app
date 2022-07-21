@@ -3,10 +3,14 @@ import {
 	getTemplateById,
 	postTemplate,
 	updateTemplate,
-	InsertSet,
 } from '../../models/templates';
 import { getAllExercises } from '../../models/exercises';
-import { saveSet, saveWorkout, getWorkout, updateWorkout } from '../../models/workouts';
+import {
+	saveSet,
+	saveWorkout,
+	getWorkout,
+	updateWorkout,
+} from '../../models/workouts';
 
 const router = express.Router();
 
@@ -88,7 +92,7 @@ router.get('/edit/:workoutId', async (req: Request, res: Response) => {
 		user: req.user,
 		exercises,
 		workout: await getWorkout(workoutId, req.user!.id),
-		workoutId: workoutId
+		workoutId,
 	});
 });
 
@@ -128,7 +132,7 @@ router.post('/', async (req: Request, res: Response) => {
 /**
  * Post a completed workout
  */
- router.put('/:workoutId', async (req: Request, res: Response) => {
+router.put('/:workoutId', async (req: Request, res: Response) => {
 	const { workout }: any = req.body;
 	const { workoutId }: any = req.params;
 
@@ -160,21 +164,18 @@ router.post('/template', async (req: Request, res: Response) => {
 /**
  * Update a tempalte
  */
-router.put(
-	'/template/:templateId',
-	async (req: Request, res: Response) => {
-		try {
-			const { name, sets } = req.body;
-			const templateId = parseInt(req.params.templateId);
+router.put('/template/:templateId', async (req: Request, res: Response) => {
+	try {
+		const { name, sets } = req.body;
+		const templateId = parseInt(req.params.templateId);
 
-			await updateTemplate(templateId, name, sets, req.user!.id);
+		await updateTemplate(templateId, name, sets, req.user!.id);
 
-			res.status(200).send({ msg: 'Saved template' });
-		} catch (error) {
-			console.log(error);
-			res.status(500).send({ msg: "Couldn't save template" });
-		}
+		res.status(200).send({ msg: 'Saved template' });
+	} catch (error) {
+		console.log(error);
+		res.status(500).send({ msg: "Couldn't save template" });
 	}
-);
+});
 
 export default router;

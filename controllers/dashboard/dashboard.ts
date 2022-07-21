@@ -3,7 +3,6 @@ import { getAllTemplatesForUser } from '../../models/templates';
 import {
 	getAllPinnedExerciseStats,
 	getAllExerciseStats,
-	Stat,
 } from '../../models/exercises';
 import { rowsWorkoutHistory, allWorkoutHistory } from '../../models/workouts';
 

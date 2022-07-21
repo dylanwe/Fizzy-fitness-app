@@ -1,32 +1,5 @@
 import db from '../db/connection';
 
-export interface Set {
-	reps: number;
-	weight: number;
-}
-
-export interface TemplateSet extends Set {
-	template_name: string;
-	id: number;
-	name: string;
-}
-
-export interface InsertSet extends Set {
-	exerciseId: number;
-}
-
-export interface Exercise {
-	id: number;
-	name: string;
-	sets: TemplateSet[];
-}
-
-export interface Template {
-	id?: string;
-	name: string;
-	exercises: Exercise[];
-}
-
 /**
  * Get all of the given users template workouts
  *
