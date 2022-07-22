@@ -14,9 +14,9 @@ To start developing run `npm run dev`.
 - [x] Project setup
 - [x] Login & auth
 - [x] Posting workouts
-- [ ] Creating workout templates
-- [ ] Workout history
-- [ ] User stats
-- [ ] User dashboard
+- [x] Creating workout templates
+- [x] Workout history
+- [x] User stats
+- [x] User dashboard
 - [ ] User setting page
-- [ ] Friend list
+- [ ] Homepage and sign-in / sign-up frontend

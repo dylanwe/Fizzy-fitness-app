@@ -12,20 +12,21 @@ export const getAllTemplatesForUser = async (
 	const templates: Template[] = [];
 
 	// get the template names and id
-	const [templateNames]: any = await db.query(
+	const [rawTemplates]: any = await db.query(
 		'SELECT id, name FROM template WHERE user_id = ?;',
 		[userId]
 	);
 
 	// get all exercises that belong to the template
-	templateNames.forEach(async (temp: any) => {
+	for (const rawTemplate of rawTemplates) {
 		const template: Template = {
-			id: temp.id,
-			name: temp.name,
+			id: rawTemplate.id,
+			name: rawTemplate.name,
 			exercises: [],
 		};
 
-		const [names]: any = await db.query(
+		// get exercise name and count of sets it has
+		const [exercises]: any = await db.query(
 			`
 			SELECT E.name, COUNT(E.id) as set_count FROM
 			template AS T
@@ -36,13 +37,13 @@ export const getAllTemplatesForUser = async (
 			WHERE T.id = ?
 			GROUP BY E.name
 			`,
-			[temp.id]
+			[rawTemplate.id]
 		);
 
-		template.exercises = names;
+		template.exercises = exercises;
 
 		templates.push(template);
-	});
+	}
 
 	return templates;
 };
@@ -77,22 +78,36 @@ export const getTemplateById = async (
 		exercises: [],
 	};
 
-	let lastExercise: string = '';
+	// Keep track of workout exercises order
+	let lastExercise = {
+		id: -1, // id of the last exercise
+		index: 0, // index of where this last exercise went
+	};
 
 	// collect every rawTemplate nicely into the template object
-	rawTemplate.forEach((raw: any) => {
-		if (raw.id === lastExercise) {
-			template.exercises[raw.id].sets.push(raw);
+	for (const rawExercise of rawTemplate) {
+		const set: ExerciseSet = {
+			reps: rawExercise.reps,
+			weight: rawExercise.weight,
+		};
+
+		// Check if current exercise is the same as last
+		if (rawExercise.id === lastExercise.id) {
+			// add the set to the group of exercises it belongs to
+			template.exercises[lastExercise.index].sets.push(set);
 		} else {
-			lastExercise = raw.id;
-			template.exercises[raw.id] = {
-				id: raw.id,
-				name: raw.name,
-				sets: [],
-			};
-			template.exercises[raw.id].sets.push(raw);
+			// add new exercise to the exercises list
+			template.exercises.push({
+				id: rawExercise.id,
+				name: rawExercise.name,
+				sets: [set],
+			});
+
+			// change information if the exercises had a different id than the one before
+			lastExercise.id = rawExercise.id;
+			lastExercise.index = template.exercises.length - 1;
 		}
-	});
+	};
 
 	return template;
 };
@@ -117,12 +132,13 @@ export const postTemplate = async (
 		);
 
 		// save sets that belong to the workout
-		sets.forEach(async (set: InsertSet) => {
+		for (const set of sets) {
 			await db.execute(
 				'INSERT INTO `template_set` (reps, weight, exercise_id, template_id) VALUES (?, ?, ?, ?)',
 				[set.reps, set.weight, set.exerciseId, template.insertId]
 			);
-		});
+		}
+		
 	} catch (error) {
 		console.log(error);
 		throw error;
@@ -148,12 +164,13 @@ export const updateTemplate = async (
 		]);
 
 		// add new sets to template
-		sets.forEach(async (set: InsertSet) => {
+		for (const set of sets) {
 			await db.execute(
 				'INSERT INTO `template_set` (reps, weight, exercise_id, template_id) VALUES (?, ?, ?, ?)',
 				[set.reps, set.weight, set.exerciseId, templateId]
 			);
-		});
+		}
+		
 	} catch (error) {
 		console.log(error);
 		throw error;

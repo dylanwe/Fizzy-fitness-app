@@ -119,9 +119,9 @@ router.post('/', async (req: Request, res: Response) => {
 		);
 
 		// insert sets beloning to the workout
-		workout.sets.forEach(async (set: InsertSet) => {
+		for (const set of workout.sets as InsertSet[]) {
 			await saveSet(set, insertedWorkout.insertId);
-		});
+		}
 
 		res.status(200).send({ msg: 'Workout posted!' });
 	} catch (error) {

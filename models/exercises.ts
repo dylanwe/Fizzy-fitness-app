@@ -53,12 +53,12 @@ const getExerciseStat = async (
 	};
 
 	// format the raw stat data into the clean constructed stat object
-	rawStats.forEach((rawStat: any) => {
+	for (const rawStat of rawStats) {
 		stat.dates.push(rawStat.date);
 		stat.reps.push(rawStat.most_reps);
 		stat.volumes.push(rawStat.exercise_volume);
 		stat.prs.push(rawStat.pr);
-	});
+	}
 
 	return stat;
 };
@@ -88,9 +88,8 @@ export const getAllExerciseStats = async (userId: string): Promise<Stat[]> => {
 
 	const stats: Stat[] = [];
 
-	for await (const exercise of exercises) {
-		const stat = await getExerciseStat(exercise.exercise_id, userId);
-		stats.push(stat);
+	for (const exercise of exercises) {
+		stats.push(await getExerciseStat(exercise.exercise_id, userId));
 	}
 
 	return stats;
@@ -123,9 +122,9 @@ export const getAllPinnedExerciseStats = async (
 
 	const stats: Stat[] = [];
 
-	for await (const exercise of exercises) {
-		const stat = await getExerciseStat(exercise.exercise_id, userId);
-		stats.push(stat);
+	// get stats for each exercise
+	for (const exercise of exercises) {
+		stats.push( await getExerciseStat(exercise.exercise_id, userId));
 	}
 
 	return stats;

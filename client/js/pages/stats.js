@@ -74,7 +74,6 @@ const changePin = async (container, stat) => {
 				pin.classList.remove(...pinClasses.pinned);
 				pin.classList.add(...pinClasses.notPinned);
 			} else {
-				console.log(container);
 				container.remove();
 			}
 		}
