@@ -2,31 +2,23 @@
 <html lang="en">
 
 <head>
-    <%- include('./../partials/head.ejs') %>
+    <%- include('./../../partials/head.ejs') %>
     <script src="/js/partials/workoutForm.js" defer></script>
-    <%# Add template creation js if template isn't defined %> 
-    <% if (!locals.template) { %>
-        <script src="/js/pages/template/create.js" defer></script>
-    <% }
-    // show edit if the page has a templateId
-    else if (locals.templateId) { %>
-        <script src="/js/pages/template/edit.js" defer></script>
-    <% } %> 
-    
+    <script src="/js/pages/template/edit.js" defer></script>
     <title>Workout</title>
 </head>
 
-<body data-template="<%= (locals.templateId) ? templateId : 'no_template_id' %>">
+<body data-template="<%= templateId %>">
     <div class="flex flex-row-reverse md:flex-row">
-        <%- include('./../partials/sidebar', { user }) %>
+        <%- include('./../../partials/sidebar', { user }) %>
         
         <main class="w-full max-w-xl mx-auto px-4 py-12">
-            <h1 class="text-4xl text-slate-800 font-bold"><%= (locals.template) ? template.name : 'Build template' %> 🏋️‍♂️</h1>
+            <h1 class="text-4xl text-slate-800 font-bold"><%= template.name %> 🏋️‍♂️</h1>
 
             <p class="mt-2 text-slate-500">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum, unde ipsa ex
                 omnis accusantium.</p>
             
-            <%- include('./../partials/exerciseForm', { active: false }) %>
+            <%- include('./../../partials/exerciseForm', { active: false }) %>
 
             <button data-add-exercise type="button" class="block w-full bg-cyan-50 border-2 border-cyan-100 hover:border-cyan-300 text-cyan-900 rounded-md transition-all p-2">
                 Add excerise
@@ -37,7 +29,7 @@
                 <span class="ml-2">Save template</span>
             </button>
             
-            <%- include('./../partials/saveWorkoutModal') %>
+            <%- include('./../../partials/saveWorkoutModal') %>
         </main>
     </div>
 </body>

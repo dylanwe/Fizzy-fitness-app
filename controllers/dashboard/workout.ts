@@ -39,7 +39,7 @@ router.get('/', async (req: any, res: Response) => {
 router.get('/template', async (req: Request, res: Response) => {
 	const exercises = await getAllExercises();
 
-	res.render('dashboard/template', {
+	res.render('dashboard/template/template', {
 		user: req.user,
 		exercises,
 	});
@@ -52,7 +52,7 @@ router.get('/template/:templateId', async (req: Request, res: Response) => {
 	const exercises: any = await getAllExercises();
 	const { templateId } = req.params;
 
-	res.render('dashboard/template', {
+	res.render('dashboard/template/edit', {
 		user: req.user,
 		exercises,
 		template: await getTemplateById(req.user!.id, templateId),
