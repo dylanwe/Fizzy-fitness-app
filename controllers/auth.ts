@@ -6,7 +6,7 @@ import express, { Express, Request, Response } from 'express';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcrypt';
-import db from '../db/connection';
+import { getUserByEmail, getUserById, createUser } from '../models/user';
 
 /**
  * Verify the user login
@@ -17,16 +17,11 @@ import db from '../db/connection';
  */
 const verify = async (email: string, password: string, done: any) => {
 	try {
-		const [rows]: any = await db.query(
-			'SElECT * FROM user WHERE email = ?',
-			[email]
-		);
-
-		const user: any = rows[0];
+		const user: User = await getUserByEmail(email);
 
 		if (!user) return done(null, false, { message: 'Incorrect email.' });
 
-		if (!(await bcrypt.compare(password, user.password))) {
+		if (!(await bcrypt.compare(password, user.password!))) {
 			return done(null, false, { message: 'password incorrect' });
 		}
 
@@ -56,12 +51,7 @@ passport.serializeUser((user: any, callback: any) => {
 passport.deserializeUser((id: number, callback: any) => {
 	process.nextTick(async () => {
 		try {
-			const [rows]: any = await db.query(
-				'SElECT id, email, username FROM user WHERE id = ?',
-				[id]
-			);
-
-			const user: Object = rows[0];
+			const user: User = await getUserById(id);
 
 			return callback(null, user);
 		} catch (error) {
@@ -108,11 +98,7 @@ router.post('/signup', async (req: Request, res: Response) => {
 	try {
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-		// add the new user to the database
-		await db.execute(
-			'INSERT INTO `user` (email, password, username) VALUES( ?, ?, ? )',
-			[req.body.email, hashedPassword, req.body.username]
-		);
+		await createUser(req.body.email, hashedPassword, req.body.username);
 
 		res.redirect('/login');
 	} catch (err) {

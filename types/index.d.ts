@@ -11,6 +11,13 @@ declare namespace Express {
 	}
 }
 
+interface User {
+	id: number;
+	email: string;
+	username: string;
+	password?: string;
+}
+
 interface Workout {
 	name: string;
 	exercises: Exercise[];
