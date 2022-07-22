@@ -3,6 +3,7 @@ import {
 	getTemplateById,
 	postTemplate,
 	updateTemplate,
+	deleteTemplate,
 } from '../../models/templates';
 import { getAllExercises } from '../../models/exercises';
 import {
@@ -10,6 +11,7 @@ import {
 	saveWorkout,
 	getWorkout,
 	updateWorkout,
+	deleteWorkout,
 } from '../../models/workouts';
 
 const router = express.Router();
@@ -97,7 +99,7 @@ router.get('/edit/:workoutId', async (req: Request, res: Response) => {
 });
 
 /**
- * Post a completed workout
+ * Save a completed workout
  */
 router.post('/', async (req: Request, res: Response) => {
 	const { workout }: any = req.body;
@@ -130,7 +132,7 @@ router.post('/', async (req: Request, res: Response) => {
 });
 
 /**
- * Post a completed workout
+ * Edit a completed workout
  */
 router.put('/:workoutId', async (req: Request, res: Response) => {
 	const { workout }: any = req.body;
@@ -138,6 +140,21 @@ router.put('/:workoutId', async (req: Request, res: Response) => {
 
 	try {
 		await updateWorkout(workout, workoutId, req.user!.id);
+
+		res.status(200).send({ msg: 'Workout saved!' });
+	} catch (error) {
+		res.status(500).send({ msg: "Couldn't save workout" });
+	}
+});
+
+/**
+ * Delete a completed workout
+ */
+ router.delete('/:workoutId', async (req: Request, res: Response) => {
+	const workoutId: number = parseInt(req.params!.workoutId);
+
+	try {
+		await deleteWorkout(workoutId, req.user!.id);
 
 		res.status(200).send({ msg: 'Workout saved!' });
 	} catch (error) {
@@ -162,7 +179,7 @@ router.post('/template', async (req: Request, res: Response) => {
 });
 
 /**
- * Update a tempalte
+ * Update a template
  */
 router.put('/template/:templateId', async (req: Request, res: Response) => {
 	try {
@@ -170,6 +187,22 @@ router.put('/template/:templateId', async (req: Request, res: Response) => {
 		const templateId = parseInt(req.params.templateId);
 
 		await updateTemplate(templateId, name, sets, req.user!.id);
+
+		res.status(200).send({ msg: 'Saved template' });
+	} catch (error) {
+		console.log(error);
+		res.status(500).send({ msg: "Couldn't save template" });
+	}
+});
+
+/**
+ * Delete a template
+ */
+ router.delete('/template/:templateId', async (req: Request, res: Response) => {
+	try {
+		const templateId = parseInt(req.params.templateId);
+
+		await deleteTemplate(templateId, req.user!.id);
 
 		res.status(200).send({ msg: 'Saved template' });
 	} catch (error) {

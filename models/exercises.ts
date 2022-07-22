@@ -21,7 +21,7 @@ export const getAllExercises = async (): Promise<any[]> => {
  */
 const getExerciseStat = async (
 	exerciseId: number,
-	userId: string
+	userId: number
 ): Promise<Stat> => {
 	// get the raw stat data
 	const [rawStats]: any = await db.query(
@@ -69,7 +69,7 @@ const getExerciseStat = async (
  * @param userId the id of the user you want the stats from
  * @returns A list of exercise stats
  */
-export const getAllExerciseStats = async (userId: string): Promise<Stat[]> => {
+export const getAllExerciseStats = async (userId: number): Promise<Stat[]> => {
 	const [exercises]: any = await db.query(
 		`
         SELECT DISTINCT S.exercise_id, E.name, PS.id
@@ -102,7 +102,7 @@ export const getAllExerciseStats = async (userId: string): Promise<Stat[]> => {
  * @returns A list of pinned exercise stats
  */
 export const getAllPinnedExerciseStats = async (
-	userId: string
+	userId: number
 ): Promise<Stat[]> => {
 	const [exercises]: any = await db.query(
 		`
@@ -141,7 +141,7 @@ export const getAllPinnedExerciseStats = async (
 export const changePin = async (
 	isPinned: boolean,
 	exerciseId: string,
-	userId: string
+	userId: number
 ) => {
 	try {
 		// if not pinned than create a pin for it remove the pin otherwise

@@ -7,7 +7,7 @@ import db from '../db/connection';
  * @returns templates of the given user
  */
 export const getAllTemplatesForUser = async (
-	userId: string
+	userId: number
 ): Promise<Template[]> => {
 	const templates: Template[] = [];
 
@@ -56,7 +56,7 @@ export const getAllTemplatesForUser = async (
  * @returns the template with the given templateId and userId
  */
 export const getTemplateById = async (
-	userId: string,
+	userId: number,
 	templateId: string
 ): Promise<Template> => {
 	// get all templates
@@ -107,7 +107,7 @@ export const getTemplateById = async (
 			lastExercise.id = rawExercise.id;
 			lastExercise.index = template.exercises.length - 1;
 		}
-	};
+	}
 
 	return template;
 };
@@ -122,10 +122,10 @@ export const getTemplateById = async (
 export const postTemplate = async (
 	templateName: string,
 	sets: InsertSet[],
-	userId: string
+	userId: number
 ): Promise<void> => {
 	try {
-		// create new workout tempalte
+		// create new workout template
 		const [template]: any = await db.execute(
 			'INSERT INTO `template` ( name, user_id ) VALUES( ?, ? )',
 			[templateName, userId]
@@ -138,18 +138,25 @@ export const postTemplate = async (
 				[set.reps, set.weight, set.exerciseId, template.insertId]
 			);
 		}
-		
 	} catch (error) {
 		console.log(error);
 		throw error;
 	}
 };
 
+/**
+ * Update a template with a new name or new exercises / sets
+ * 
+ * @param templateId The id of the template
+ * @param templateName The new name for the template
+ * @param sets All sets that you want in the new template
+ * @param userId The id of the user that owns this template
+ */
 export const updateTemplate = async (
 	templateId: number,
 	templateName: string,
 	sets: InsertSet[],
-	userId: string
+	userId: number
 ): Promise<void> => {
 	try {
 		// update the name of the template
@@ -170,7 +177,37 @@ export const updateTemplate = async (
 				[set.reps, set.weight, set.exerciseId, templateId]
 			);
 		}
-		
+	} catch (error) {
+		console.log(error);
+		throw error;
+	}
+};
+
+/**
+ * Delete a template
+ * 
+ * @param templateId The id of the template to delete
+ * @param userId The user to whom the template belongs to
+ */
+export const deleteTemplate = async (templateId: number, userId: number) => {
+	try {
+		// delete sets
+		await db.execute(
+			`
+			DELETE TS
+			FROM template_set as TS
+			INNER JOIN template AS T
+			ON TS.template_id = T.id
+			WHERE TS.template_id = ? AND T.user_id = ?
+			`, [
+			templateId, userId
+		]);
+
+		// delete template
+		await db.execute(`DELETE FROM template WHERE id = ? AND user_id = ?`, [
+			templateId,
+			userId,
+		]);
 	} catch (error) {
 		console.log(error);
 		throw error;

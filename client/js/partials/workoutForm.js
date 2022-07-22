@@ -194,12 +194,12 @@ const getFormData = () => {
 	return data;
 };
 
-// open modal
+// open exercise modal
 document.querySelector('[data-add-exercise]').addEventListener('click', () => {
 	document.querySelector('[data-exercise-picker]').classList.remove('hidden');
 });
 
-// close modal
+// close exercise modal
 document.querySelector('[data-modal-toggle]').addEventListener('click', () => {
 	document.querySelector('[data-exercise-picker]').classList.add('hidden');
 });
@@ -231,13 +231,13 @@ document.querySelectorAll('[data-exercise-id]')?.forEach((exercise) => {
 	});
 });
 
-// open modal
+// open save modal
 document
 	.querySelector('[data-save-modal-open]')
 	.addEventListener('click', () => {
 		const exercise = document.querySelectorAll('[data-exercise-id]');
 
-		// check if the tempalte contains and exersise before going to the next step
+		// check if the tempalte contains an exersise before going to the next step
 		if (exercise.length !== 0) {
 			document
 				.querySelector('[data-save-modal]')
@@ -245,9 +245,25 @@ document
 		}
 	});
 
-// close modal
+// close save modal
 document
 	.querySelector('[data-save-modal-close]')
 	.addEventListener('click', () => {
 		document.querySelector('[data-save-modal]').classList.add('hidden');
+	});
+
+// open delete modal
+document
+	.querySelector('[data-delete-modal-open]')
+	?.addEventListener('click', () => {
+		document
+			.querySelector('[data-delete-modal]')
+			?.classList.remove('hidden');
+	});
+
+// close delete modal
+document
+	.querySelector('[data-delete-modal-close]')
+	?.addEventListener('click', () => {
+		document.querySelector('[data-delete-modal]')?.classList.add('hidden');
 	});

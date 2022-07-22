@@ -5,7 +5,7 @@
 // declare User type for express
 declare namespace Express {
 	interface User {
-		id: string;
+		id: number;
 		email: string;
 		username: string;
 	}

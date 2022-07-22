@@ -11,7 +11,7 @@ import db from '../db/connection';
 export const saveWorkout = async (
 	name: string,
 	time: string,
-	userId: string
+	userId: number
 ): Promise<any> => {
 	const [insertedWorkout]: any = await db.execute(
 		'INSERT INTO `workout` ( name, time, user_id ) VALUES( ?, ?, ? )',
@@ -23,7 +23,7 @@ export const saveWorkout = async (
 
 export const getWorkout = async (
 	workoutId: string,
-	userId: string
+	userId: number
 ): Promise<Workout> => {
 	const [rawExercises]: any = await db.query(
 		`
@@ -86,7 +86,7 @@ export const getWorkout = async (
 export const updateWorkout = async (
 	workout: any,
 	workoutId: string,
-	userId: string
+	userId: number
 ) => {
 	try {
 		// update workout name
@@ -106,6 +106,34 @@ export const updateWorkout = async (
 		}
 	} catch (error) {
 		console.log(error);
+	}
+};
+/**
+ * Delete a workout
+ * 
+ * @param workoutId The id of the workout you want to delete
+ * @param userId The id of the workout owner
+ */
+export const deleteWorkout = async (workoutId: number, userId: number) => {
+	try {
+		// delete sets
+		await db.execute(
+			`DELETE S
+			FROM \`set\` as S
+			INNER JOIN workout AS W
+			ON S.workout_id = W.id
+			WHERE S.workout_id = ? AND W.user_id = ?`,
+			[ workoutId, userId]
+		);
+
+		// delete workout
+		await db.execute(`DELETE FROM workout WHERE id = ? AND user_id = ?`, [
+			workoutId,
+			userId,
+		]);
+	} catch (error) {
+		console.log(error);
+		throw error;
 	}
 };
 
@@ -128,7 +156,7 @@ export const saveSet = async (set: any, workoutId: string): Promise<void> => {
  * @param userId The id user you want to get his history from
  * @returns The history of the workouts completed
  */
-export const allWorkoutHistory = async (userId: string): Promise<any[]> => {
+export const allWorkoutHistory = async (userId: number): Promise<any[]> => {
 	// get the *rows* amount of recent workouts
 	const [workouts]: any = await db.query(
 		`
@@ -182,7 +210,7 @@ export const allWorkoutHistory = async (userId: string): Promise<any[]> => {
  */
 export const rowsWorkoutHistory = async (
 	rows: number,
-	userId: string
+	userId: number
 ): Promise<any[]> => {
 	// get the *rows* amount of recent workouts
 	const [workouts]: any = await db.query(

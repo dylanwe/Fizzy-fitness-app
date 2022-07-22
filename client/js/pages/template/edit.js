@@ -32,3 +32,22 @@ document.querySelector('[data-save]').addEventListener('click', async () => {
 		await postTemplate(template);
 	}
 });
+
+// delete template event
+document.querySelector('[data-delete]').addEventListener('click', async () => {
+	const templateId = parseInt(document.querySelector('[data-template]').getAttribute('data-template'));
+
+	const resp = await fetch(
+		`http://localhost:3000/dashboard/workout/template/${templateId}`,
+		{
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+	);
+
+	if (resp.status === 200) {
+		window.location.replace('/dashboard');
+	}
+});
