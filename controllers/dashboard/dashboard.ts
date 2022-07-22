@@ -9,6 +9,7 @@ import { rowsWorkoutHistory, allWorkoutHistory } from '../../models/workouts';
 
 const router = express.Router();
 
+// render the dashboard
 router.get('/', async (req: Request, res: Response) => {
 	const templates = await getAllTemplatesForUser(req.user!.id);
 	const stats: Stat[] = await getAllPinnedExerciseStats(req.user!.id);
@@ -22,6 +23,7 @@ router.get('/', async (req: Request, res: Response) => {
 	});
 });
 
+// render the stats page
 router.get('/stats', async (req: Request, res: Response) => {
 	const stats: Stat[] = await getAllExerciseStats(req.user!.id);
 	res.render('dashboard/stats', { user: req.user, stats });
@@ -31,7 +33,11 @@ router.put('/stats/:exerciseId', async (req: Request, res: Response) => {
 	// get exerciseId and userId
 	const { isPinned } = req.body;
 	const { exerciseId } = req.params;
-	const changed: boolean = await changePin(isPinned, exerciseId, req.user!.id);
+	const changed: boolean = await changePin(
+		isPinned,
+		exerciseId,
+		req.user!.id
+	);
 
 	if (changed) {
 		res.sendStatus(200);
@@ -39,9 +45,9 @@ router.put('/stats/:exerciseId', async (req: Request, res: Response) => {
 	}
 
 	res.sendStatus(500);
-	 
 });
 
+// render the history page
 router.get('/history', async (req: Request, res: Response) => {
 	const workouts: any[] = await allWorkoutHistory(req.user!.id);
 

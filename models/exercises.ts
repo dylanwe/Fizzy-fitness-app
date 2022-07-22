@@ -19,7 +19,7 @@ export const getAllExercises = async (): Promise<any[]> => {
  * @param userId The id of the use the workouts belong to
  * @returns stats
  */
- const getExerciseStat = async (
+const getExerciseStat = async (
 	exerciseId: number,
 	userId: string
 ): Promise<Stat> => {
@@ -45,7 +45,7 @@ export const getAllExercises = async (): Promise<any[]> => {
 	const stat: Stat = {
 		id: rawStats[0].id,
 		name: rawStats[0].name,
-        pinned: rawStats[0].pinned_stat !== null,
+		pinned: rawStats[0].pinned_stat !== null,
 		dates: [],
 		reps: [],
 		volumes: [],
@@ -65,13 +65,11 @@ export const getAllExercises = async (): Promise<any[]> => {
 
 /**
  * Get stats for all done exercises
- * 
+ *
  * @param userId the id of the user you want the stats from
  * @returns A list of exercise stats
  */
-export const getAllExerciseStats = async (
-	userId: string
-): Promise<Stat[]> => {
+export const getAllExerciseStats = async (userId: string): Promise<Stat[]> => {
 	const [exercises]: any = await db.query(
 		`
         SELECT DISTINCT S.exercise_id, E.name, PS.id
@@ -90,17 +88,17 @@ export const getAllExerciseStats = async (
 
 	const stats: Stat[] = [];
 
-    for await (const exercise of exercises) {
-        const stat = await getExerciseStat(exercise.exercise_id, userId);
-        stats.push(stat);
-    }
-    
-    return stats;
+	for await (const exercise of exercises) {
+		const stat = await getExerciseStat(exercise.exercise_id, userId);
+		stats.push(stat);
+	}
+
+	return stats;
 };
 
 /**
  * Get stats for all pinned exercises
- * 
+ *
  * @param userId the id of the user you want the stats from
  * @returns A list of pinned exercise stats
  */
@@ -125,30 +123,43 @@ export const getAllPinnedExerciseStats = async (
 
 	const stats: Stat[] = [];
 
-    for await (const exercise of exercises) {
-        const stat = await getExerciseStat(exercise.exercise_id, userId);
-        stats.push(stat);
-    }
-    
-    return stats;
+	for await (const exercise of exercises) {
+		const stat = await getExerciseStat(exercise.exercise_id, userId);
+		stats.push(stat);
+	}
+
+	return stats;
 };
 
-export const changePin = async (isPinned: boolean, exerciseId: string, userId: string) => {
-    try {
-        if (isPinned === false) {
-            await db.execute(
-                `INSERT INTO pinned_stat ( exercise_id, user_id ) VALUES ( ?, ? )`,
-                [exerciseId, userId]
-            );
-        } else {
-            await db.execute(
-                `DELETE FROM pinned_stat WHERE exercise_id = ? AND user_id = ?`,
-                [exerciseId, userId]
-            );
-        }
+/**
+ * Add or remove a pinned stat based on it's current state
+ *
+ * @param isPinned the current pin state
+ * @param exerciseId the exercise of this stat
+ * @param userId the user of to whom this stat belongs to
+ * @returns true if the status succesfully changed
+ */
+export const changePin = async (
+	isPinned: boolean,
+	exerciseId: string,
+	userId: string
+) => {
+	try {
+		// if not pinned than create a pin for it remove the pin otherwise
+		if (isPinned === false) {
+			await db.execute(
+				`INSERT INTO pinned_stat ( exercise_id, user_id ) VALUES ( ?, ? )`,
+				[exerciseId, userId]
+			);
+		} else {
+			await db.execute(
+				`DELETE FROM pinned_stat WHERE exercise_id = ? AND user_id = ?`,
+				[exerciseId, userId]
+			);
+		}
 
-        return true;
-    } catch (error) {
-        return false;
-    }
-}
+		return true;
+	} catch (error) {
+		return false;
+	}
+};

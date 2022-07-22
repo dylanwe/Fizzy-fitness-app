@@ -4,11 +4,11 @@
 
 // declare User type for express
 declare namespace Express {
-    interface User {
-       	id: string;
-    	email: string;
-    	username: string;
-    }
+	interface User {
+		id: string;
+		email: string;
+		username: string;
+	}
 }
 
 interface Workout {
@@ -30,7 +30,7 @@ interface ExerciseSet {
 interface Stat {
 	id: number;
 	name: string;
-    pinned: boolean;
+	pinned: boolean;
 	dates: string[];
 	reps: number[];
 	volumes: string[];

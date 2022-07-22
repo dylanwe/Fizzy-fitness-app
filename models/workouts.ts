@@ -21,7 +21,10 @@ export const saveWorkout = async (
 	return insertedWorkout;
 };
 
-export const getWorkout = async (workoutId: string, userId: string): Promise<Workout> => {
+export const getWorkout = async (
+	workoutId: string,
+	userId: string
+): Promise<Workout> => {
 	const [rawExercises]: any = await db.query(
 		`
 		SELECT W.name as workout_name, S.reps, S.weight, E.id, E.name
@@ -42,12 +45,15 @@ export const getWorkout = async (workoutId: string, userId: string): Promise<Wor
 
 	// Keep track of workout exercises order
 	let lastExercise = {
-		id: -1, 	// id of the last exercise
-		index: 0, 	// index of where this last exercise went
+		id: -1, // id of the last exercise
+		index: 0, // index of where this last exercise went
 	};
 
 	for (const rawExercise of rawExercises) {
-		const set: ExerciseSet = {reps: rawExercise.reps, weight: rawExercise.weight}
+		const set: ExerciseSet = {
+			reps: rawExercise.reps,
+			weight: rawExercise.weight,
+		};
 
 		// Check if current exercise is the same as last
 		if (rawExercise.id === lastExercise.id) {
@@ -60,7 +66,7 @@ export const getWorkout = async (workoutId: string, userId: string): Promise<Wor
 				name: rawExercise.name,
 				sets: [set],
 			});
-			
+
 			// change information if the exercises had a different id than the one before
 			lastExercise.id = rawExercise.id;
 			lastExercise.index = workout.exercises.length - 1;
@@ -72,12 +78,16 @@ export const getWorkout = async (workoutId: string, userId: string): Promise<Wor
 
 /**
  * Update a given workout with new information
- * 
+ *
  * @param workout The new workout information
  * @param workoutId The id of the workout from which you want to update the name
  * @param userId The id of to whom the workout belongs
  */
-export const updateWorkout = async (workout: any, workoutId: string, userId: string) => {
+export const updateWorkout = async (
+	workout: any,
+	workoutId: string,
+	userId: string
+) => {
 	try {
 		// update workout name
 		await db.execute(
@@ -86,10 +96,9 @@ export const updateWorkout = async (workout: any, workoutId: string, userId: str
 		);
 
 		// delete all old sets
-		await db.execute(
-			`DELETE FROM \`set\` WHERE workout_id = ?`,
-			[workoutId]
-		);
+		await db.execute(`DELETE FROM \`set\` WHERE workout_id = ?`, [
+			workoutId,
+		]);
 
 		// save new sets
 		for await (const set of workout.sets) {
@@ -98,7 +107,7 @@ export const updateWorkout = async (workout: any, workoutId: string, userId: str
 	} catch (error) {
 		console.log(error);
 	}
-}
+};
 
 /**
  * Save tbe set of the given workout to the database
@@ -119,7 +128,7 @@ export const saveSet = async (set: any, workoutId: string): Promise<void> => {
  * @param userId The id user you want to get his history from
  * @returns The history of the workouts completed
  */
- export const allWorkoutHistory = async ( userId: string ): Promise<any[]> => {
+export const allWorkoutHistory = async (userId: string): Promise<any[]> => {
 	// get the *rows* amount of recent workouts
 	const [workouts]: any = await db.query(
 		`

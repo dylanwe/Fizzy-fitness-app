@@ -4,15 +4,20 @@
  * @param {Array} workout the workout you want to post
  */
 const postWorkout = async (workout) => {
-    const workoutId = document.querySelector('[data-workout]').getAttribute('data-workout');
+	const workoutId = document
+		.querySelector('[data-workout]')
+		.getAttribute('data-workout');
 
-	const resp = await fetch(`http://localhost:3000/dashboard/workout/${workoutId}`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ workout }),
-	});
+	const resp = await fetch(
+		`http://localhost:3000/dashboard/workout/${workoutId}`,
+		{
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ workout }),
+		}
+	);
 
 	if (resp.status === 200) {
 		window.location.replace('/dashboard');

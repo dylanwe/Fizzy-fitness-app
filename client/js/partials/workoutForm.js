@@ -160,7 +160,7 @@ const removeSet = (set) => {
 const getFormData = () => {
 	const name = document.querySelector('[data-workout-name]').value;
 	const time = document.querySelector('[data-time]')?.innerText;
-	const hasCheckBoxes = !! document.querySelector('input[name="completed"]');
+	const hasCheckBoxes = !!document.querySelector('input[name="completed"]');
 
 	let data = {
 		name,
@@ -172,7 +172,10 @@ const getFormData = () => {
 		const id = parseInt(exceresise.getAttribute('data-exercise-id'));
 
 		exceresise.querySelectorAll('[data-set]').forEach((set) => {
-			if (hasCheckBoxes && set.querySelector('input[name="completed"]').checked === false) {
+			if (
+				hasCheckBoxes &&
+				set.querySelector('input[name="completed"]').checked === false
+			) {
 				return;
 			}
 
@@ -236,7 +239,9 @@ document
 
 		// check if the tempalte contains and exersise before going to the next step
 		if (exercise.length !== 0) {
-			document.querySelector('[data-save-modal]').classList.remove('hidden');
+			document
+				.querySelector('[data-save-modal]')
+				.classList.remove('hidden');
 		}
 	});
 

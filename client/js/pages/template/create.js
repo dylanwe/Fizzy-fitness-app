@@ -1,21 +1,24 @@
 /**
  * Send the template to the controller to be uploaded to the database
- * 
- * @param {Object} template the template you want to upload 
+ *
+ * @param {Object} template the template you want to upload
  */
 const postTemplate = async (template) => {
-	const resp = await fetch('http://localhost:3000/dashboard/workout/template', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ name: template.name, sets: template.sets }),
-	});
+	const resp = await fetch(
+		'http://localhost:3000/dashboard/workout/template',
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ name: template.name, sets: template.sets }),
+		}
+	);
 
 	if (resp.status === 200) {
 		window.location.replace('/dashboard');
 	}
-}
+};
 
 // save data event
 document.querySelector('[data-save]').addEventListener('click', async () => {

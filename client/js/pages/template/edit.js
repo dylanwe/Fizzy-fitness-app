@@ -4,7 +4,9 @@
  * @param {Object} template the template you want to upload
  */
 const postTemplate = async (template) => {
-    const templateId = document.querySelector('[data-template]').getAttribute('data-template');
+	const templateId = document
+		.querySelector('[data-template]')
+		.getAttribute('data-template');
 
 	const resp = await fetch(
 		`http://localhost:3000/dashboard/workout/template/${templateId}`,
