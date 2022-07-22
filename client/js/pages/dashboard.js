@@ -8,3 +8,11 @@ const editTemplate = (e, templateId) => {
 	e.preventDefault();
 	window.location.href = `/dashboard/workout/template/${templateId}`;
 };
+
+// add event to all edit buttons
+document.querySelectorAll('[data-edit-template]').forEach((template) => {
+	const templateId = template.getAttribute('data-edit-template');
+	template.addEventListener('click', (event) =>
+		editTemplate(event, templateId)
+	);
+});
