@@ -33,7 +33,7 @@
                             </h4>
                             <ul class="list-none text-slate-400 text-ellipsis whitespace-nowrap overflow-hidden text-sm">
                                 <% template.exercises.forEach(exercise => { %>
-                                    <li class="capitalize"><%= exercise.name %> </li>
+                                    <li class="capitalize"><%= exercise.set_count %>x <%= exercise.name %>, </li>
                                 <% }) %>
                             </ul>
                         </a>

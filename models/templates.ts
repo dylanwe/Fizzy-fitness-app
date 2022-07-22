@@ -27,14 +27,14 @@ export const getAllTemplatesForUser = async (
 
 		const [names]: any = await db.query(
 			`
-			SELECT E.name FROM
+			SELECT E.name, COUNT(E.id) as set_count FROM
 			template AS T
 			INNER JOIN template_set AS TS
 			ON TS.template_id = T.id
 			INNER JOIN exercise AS E
 			ON TS.exercise_id = E.id
 			WHERE T.id = ?
-			GROUP BY E.name;
+			GROUP BY E.name
 			`,
 			[temp.id]
 		);
