@@ -9,7 +9,7 @@ const postTemplate = async (template) => {
 		.getAttribute('data-template');
 
 	const resp = await fetch(
-		`http://localhost:3000/dashboard/workout/template/${templateId}`,
+		`/dashboard/workout/template/${templateId}`,
 		{
 			method: 'PUT',
 			headers: {
@@ -38,7 +38,7 @@ document.querySelector('[data-delete]').addEventListener('click', async () => {
 	const templateId = parseInt(document.querySelector('[data-template]').getAttribute('data-template'));
 
 	const resp = await fetch(
-		`http://localhost:3000/dashboard/workout/template/${templateId}`,
+		`/dashboard/workout/template/${templateId}`,
 		{
 			method: 'DELETE',
 			headers: {

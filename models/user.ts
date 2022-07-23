@@ -49,6 +49,7 @@ export const createUser = async (
 };
 
 /**
+ * Update the users information
  * 
  * @param email the new email
  * @param username the new username

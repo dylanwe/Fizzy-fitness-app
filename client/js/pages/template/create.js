@@ -5,7 +5,7 @@
  */
 const postTemplate = async (template) => {
 	const resp = await fetch(
-		'http://localhost:3000/dashboard/workout/template',
+		'/dashboard/workout/template',
 		{
 			method: 'POST',
 			headers: {

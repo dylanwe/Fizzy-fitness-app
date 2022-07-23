@@ -49,7 +49,7 @@ setInterval(() => {
  * @param {Array} workout the workout you want to post
  */
 const postWorkout = async (workout) => {
-	const resp = await fetch('http://localhost:3000/dashboard/workout', {
+	const resp = await fetch('/dashboard/workout', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
