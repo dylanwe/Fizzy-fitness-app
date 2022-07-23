@@ -17,6 +17,7 @@ app.set('view engine', 'ejs');
 
 // create static for the client css and js
 app.use('/', express.static('client'));
+app.use('/ts/', express.static('dist/client/ts'));
 // parse the body and make the data readable
 app.use(
 	bodyParser.urlencoded({

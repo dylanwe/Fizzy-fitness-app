@@ -59,6 +59,13 @@ interface InsertSet extends ExerciseSet {
 	exerciseId: number;
 }
 
+interface workoutFormData {
+	name: string;
+	time: string;
+	sets: InsertSet[];
+}
+
+
 interface Exercise {
 	id: number;
 	name: string;
