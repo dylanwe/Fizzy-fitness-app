@@ -56,8 +56,8 @@ const getExerciseStat = async (
 	for (const rawStat of rawStats) {
 		stat.dates.push(rawStat.date);
 		stat.reps.push(rawStat.most_reps);
-		stat.volumes.push(rawStat.exercise_volume);
-		stat.prs.push(rawStat.pr);
+		stat.volumes.push(parseFloat(rawStat.exercise_volume));
+		stat.prs.push((rawStat.pr));
 	}
 
 	return stat;

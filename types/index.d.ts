@@ -45,8 +45,8 @@ interface Stat {
 	pinned: boolean;
 	dates: string[];
 	reps: number[];
-	volumes: string[];
-	prs: string[];
+	volumes: number[];
+	prs: number[];
 }
 
 interface TemplateSet extends ExerciseSet {
