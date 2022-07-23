@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./../partials/head.ejs') %>
+    <script src="/js/pages/settings.js" defer></script>
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="flex flex-row-reverse md:flex-row">
+        <%- include('./../partials/sidebar', { user }) %>
+        <main class="w-screen max-w-2xl mx-auto px-4 py-12">
+            <h2 class="text-4xl text-slate-900 font-semibold mb-4">🧑🏻‍💻 Settings</h2>
+            <form>
+                <div class="grid grid-cols-1 gap-4">
+                    <div data-input="email">
+                        <label data-label for="email" class="block mb-2 text-sm font-medium text-slate-900 dark:text-slate-300">Your email</label>
+                        <input data-input type="email" name="email" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="email" required value="<%= user.email %>">
+                        <p data-error class="hidden mt-2 text-sm text-red-600"></p>
+                      </div>
+                    <div data-input="username">
+                        <label data-label for="username" class="block mb-2 text-sm font-medium text-slate-900 dark:text-slate-300">Username</label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 text-sm text-slate-900 bg-slate-200 rounded-l-md border border-r-0 border-slate-300 dark:bg-slate-600 dark:text-slate-400 dark:border-slate-600">
+                                @
+                            </span>
+                            <input data-input type="text" name="username" class="rounded-none rounded-r-lg bg-slate-50 border text-slate-900 focus:ring-cyan-500 focus:border-cyan-500 block flex-1 min-w-0 w-full text-sm border-slate-300 p-2.5  dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" required value="<%= user.username %>">
+                        </div>
+                        <p data-error class="hidden mt-2 text-sm text-red-600"></p>
+                    </div>
+                    <div data-input="newPassword">
+                        <label data-label for="newPassword" class="block mb-2 text-sm font-medium text-slate-900 dark:text-slate-300">New password</label>
+                        <input data-input type="password" name="newPassword" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500">
+                        <p data-error class="hidden mt-2 text-sm text-red-600"></p>
+                    </div>
+                    <div data-input="password">
+                        <label data-label for="password" class="block mb-2 text-sm font-medium text-slate-900 dark:text-slate-300">Password for confirmation * </label>
+                        <input data-input type="password" name="password" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" required>
+                        <p data-error class="hidden mt-2 text-sm text-red-600"></p>
+                    </div>
+                </div>
+                <button autocomplete="off" type="button" disabled data-save-settings type="button" class="mt-4 w-full border-2 border-cyan-300 bg-cyan-300 rounded-lg hover:border-cyan-500 transition-colors text-cyan-900 p-2 flex items-center justify-center disabled:bg-slate-100 disabled:hover:border-slate-300 disabled:border-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+
+                    <svg data-spinner class="hidden animate-spin -ml-1 mr-3 h-5 w-5 text-cyan-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <svg data-save-icon xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" fill="currentColor"><path d="M5.486 9.73a.997.997 0 0 1-.707-.292L.537 5.195A1 1 0 1 1 1.95 3.78l3.535 3.535L11.85.952a1 1 0 0 1 1.415 1.414L6.193 9.438a.997.997 0 0 1-.707.292z"></path></svg>
+                    <span class="ml-2">Save profile</span>
+                </button>
+            </form>
+
+        </main>
+    </div>
+</body>
+
+</html>

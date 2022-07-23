@@ -18,6 +18,11 @@ interface User {
 	password?: string;
 }
 
+interface updateUserError {
+	field: string;
+	error: string;
+}
+
 interface Workout {
 	name: string;
 	exercises: Exercise[];

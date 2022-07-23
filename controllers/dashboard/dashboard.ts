@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { getAllTemplatesForUser } from '../../models/templates';
+import { updateUser } from '../../models/user';
 import {
 	getAllPinnedExerciseStats,
 	getAllExerciseStats,
@@ -29,6 +30,38 @@ router.get('/stats', async (req: Request, res: Response) => {
 	res.render('dashboard/stats', { user: req.user, stats });
 });
 
+// render the history page
+router.get('/history', async (req: Request, res: Response) => {
+	const workouts: any[] = await allWorkoutHistory(req.user!.id);
+
+	res.render('dashboard/history', { user: req.user, workouts });
+});
+
+// render the settings page
+router.get('/settings', async (req: Request, res: Response) => {
+	res.render('dashboard/settings', { user: req.user });
+});
+
+// render the settings page
+router.put('/settings', async (req: Request, res: Response) => {
+	const { email, username, newPassword, password }: any = req.body;
+
+	const update = await updateUser(
+		email.replace(/\s/g, ''),
+		username.replace(/\s/g, ''),
+		(newPassword) ? newPassword.replace(/\s/g, '') : newPassword,
+		password.replace(/\s/g, ''),
+		req.user!
+	);
+
+	if (update.length === 0 ) {
+		res.sendStatus(200);
+		return;
+	}
+
+	res.status(500).json({ errors: update });
+});
+
 router.put('/stats/:exerciseId', async (req: Request, res: Response) => {
 	// get exerciseId and userId
 	const { isPinned } = req.body;
@@ -45,13 +78,6 @@ router.put('/stats/:exerciseId', async (req: Request, res: Response) => {
 	}
 
 	res.sendStatus(500);
-});
-
-// render the history page
-router.get('/history', async (req: Request, res: Response) => {
-	const workouts: any[] = await allWorkoutHistory(req.user!.id);
-
-	res.render('dashboard/history', { user: req.user, workouts });
 });
 
 export default router;
