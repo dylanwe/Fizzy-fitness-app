@@ -1,14 +1,11 @@
-import db from './db/connection';
+import { getUserByEmail } from "./models/user";
 const bcrypt = require('bcrypt');
 
 const LocalStrategy = require('passport-local').Strategy;
 
 async function initialize(passport: any) {
     const authenticateUser = async (email: string, password: string, done: any) => {
-        const userQuery = await db.query('SElECT * FROM user WHERE email = ?',
-        [email]);
-
-        const user:any = userQuery[0];
+        const user:User = await getUserByEmail(email);
 
         if (user == null) {
             return done(null, false, {message: 'no user with that email'});
@@ -27,8 +24,8 @@ async function initialize(passport: any) {
 
     passport.use(new LocalStrategy({usernameField: 'email'}), authenticateUser)
 
-    passport.serializeUser((user: any, done: any) => {})
-    passport.deserializeUser((id: any, done: any) => {})
+    passport.serializeUser((user: User, done: any) => {})
+    passport.deserializeUser((id: number, done: any) => {})
 }
 
 module.exports = initialize;
