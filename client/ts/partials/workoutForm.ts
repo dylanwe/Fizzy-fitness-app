@@ -116,7 +116,16 @@ const addSet = (addSetButton: HTMLElement) => {
 	const exercise = addSetButton.parentNode!;
 	const clone = <HTMLElement>setTemplate.content.cloneNode(true);
 
-	// fill set data
+	// get latestSetInfo
+	const lastSet = <HTMLElement> exercise.querySelector('[data-set]:last-child')!;
+	const latestInfo: ExerciseSet = {
+		reps: parseInt((<HTMLInputElement> lastSet.querySelector('input[name=reps]'))!.value),
+		weight: parseFloat((<HTMLInputElement> lastSet.querySelector('input[name=weight]'))!.value),
+	};
+	
+	// assign latest values to new set
+	(<HTMLInputElement> clone.querySelector('input[name=reps]'))!.value = latestInfo.reps.toString();
+	(<HTMLInputElement> clone.querySelector('input[name=weight]'))!.value = latestInfo.weight.toString();
 	(<HTMLElement>clone.querySelector('[data-set-number]'))!.innerText = (
 		exercise.querySelectorAll('[data-set]').length + 1
 	).toString();

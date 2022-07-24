@@ -65,7 +65,6 @@ interface workoutFormData {
 	sets: InsertSet[];
 }
 
-
 interface Exercise {
 	id: number;
 	name: string;
