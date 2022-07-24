@@ -2,16 +2,16 @@
 <div data-save-modal tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-full bg-black bg-opacity-40">
     <div class="relative p-4 w-full max-w-md h-full md:h-auto mx-auto">
         <%# modal content %> 
-        <div class="relative bg-white rounded-lg shadow dark:bg-slate-700">
-            <button type="button" class="absolute top-3 right-2.5 text-slate-400 bg-transparent hover:bg-slate-200 hover:text-slate-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-slate-800 dark:hover:text-white" data-save-modal-close>
+        <div class="relative bg-white rounded-lg shadow">
+            <button type="button" class="absolute top-3 right-2.5 text-slate-400 bg-transparent hover:bg-slate-200 hover:text-slate-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-save-modal-close>
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
             </button>
             <div class="py-6 px-6 lg:px-8">
-                <h3 class="mb-4 text-xl font-medium text-slate-900 dark:text-white">Are you finished?</h3>
+                <h3 class="mb-4 text-xl font-medium text-slate-900">Are you finished?</h3>
                 <form class="space-y-6" action="#">
                     <div>
-                        <label for="workoutName" class="block mb-2 text-sm font-medium text-slate-900 dark:text-slate-300">Workout name</label>
-                        <input type="text" name="workoutName" data-workout-name class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-slate-600 dark:border-slate-500 dark:placeholder-slate-400 dark:text-white" placeholder="Push workout" required value="<%= (locals.name) ? name : '' %>">
+                        <label for="workoutName" class="block mb-2 text-sm font-medium text-slate-900">Workout name</label>
+                        <input type="text" name="workoutName" data-workout-name class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5" placeholder="Push workout" required value="<%= (locals.name) ? name : '' %>">
                     </div>
                     <button data-save type="button" class="mt-2 w-full border-2 border-cyan-300 bg-cyan-300 rounded-lg hover:border-cyan-500 transition-colors text-cyan-900 p-2 flex items-center justify-center">Save workout</button>
                 </form>

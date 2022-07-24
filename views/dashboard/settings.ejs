@@ -15,28 +15,28 @@
             <form>
                 <div class="grid grid-cols-1 gap-4">
                     <div data-input="email">
-                        <label data-label for="email" class="block mb-2 text-sm font-medium text-slate-900 dark:text-slate-300">Your email</label>
-                        <input data-input type="email" name="email" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="email" required value="<%= user.email %>">
+                        <label data-label for="email" class="block mb-2 text-sm font-medium text-slate-900">Your email</label>
+                        <input data-input type="email" name="email" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5" placeholder="email" required value="<%= user.email %>">
                         <p data-error class="hidden mt-2 text-sm text-red-600"></p>
                       </div>
                     <div data-input="username">
-                        <label data-label for="username" class="block mb-2 text-sm font-medium text-slate-900 dark:text-slate-300">Username</label>
+                        <label data-label for="username" class="block mb-2 text-sm font-medium text-slate-900">Username</label>
                         <div class="flex">
-                            <span class="inline-flex items-center px-3 text-sm text-slate-900 bg-slate-200 rounded-l-md border border-r-0 border-slate-300 dark:bg-slate-600 dark:text-slate-400 dark:border-slate-600">
+                            <span class="inline-flex items-center px-3 text-sm text-slate-900 bg-slate-200 rounded-l-md border border-r-0 border-slate-300">
                                 @
                             </span>
-                            <input data-input type="text" name="username" class="rounded-none rounded-r-lg bg-slate-50 border text-slate-900 focus:ring-cyan-500 focus:border-cyan-500 block flex-1 min-w-0 w-full text-sm border-slate-300 p-2.5  dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" required value="<%= user.username %>">
+                            <input data-input type="text" name="username" class="rounded-none rounded-r-lg bg-slate-50 border text-slate-900 focus:ring-cyan-500 focus:border-cyan-500 block flex-1 min-w-0 w-full text-sm border-slate-300 p-2.5 " required value="<%= user.username %>">
                         </div>
                         <p data-error class="hidden mt-2 text-sm text-red-600"></p>
                     </div>
                     <div data-input="newPassword">
-                        <label data-label for="newPassword" class="block mb-2 text-sm font-medium text-slate-900 dark:text-slate-300">New password</label>
-                        <input data-input type="password" name="newPassword" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500">
+                        <label data-label for="newPassword" class="block mb-2 text-sm font-medium text-slate-900">New password</label>
+                        <input data-input type="password" name="newPassword" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5">
                         <p data-error class="hidden mt-2 text-sm text-red-600"></p>
                     </div>
                     <div data-input="password">
-                        <label data-label for="password" class="block mb-2 text-sm font-medium text-slate-900 dark:text-slate-300">Password for confirmation * </label>
-                        <input data-input type="password" name="password" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" required>
+                        <label data-label for="password" class="block mb-2 text-sm font-medium text-slate-900">Password for confirmation * </label>
+                        <input data-input type="password" name="password" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5" required>
                         <p data-error class="hidden mt-2 text-sm text-red-600"></p>
                     </div>
                 </div>
