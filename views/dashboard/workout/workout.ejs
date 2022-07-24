@@ -11,6 +11,21 @@
 <body>
     <div class="flex flex-row-reverse md:flex-row">
         <%- include('./../../partials/sidebar', { user }) %>
+
+        <%# rest modal %> 
+        <div data-open-rest class="hidden bg-slate-900 bg-opacity-60 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-full justify-center items-center">
+            <div class="relative p-4 w-full max-w-md h-auto">
+                <div class="relative bg-white rounded-lg shadow">
+                    <div class="p-6 text-center">
+                        <div class="flex mb-5 items-center mx-auto w-fit">
+                            <svg class="text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="-4 -2 24 24" width="36" fill="currentColor"><path d="M9 11h2a1 1 0 0 1 0 2H8a.997.997 0 0 1-1-1V8a1 1 0 1 1 2 0v3zM1.869 6.861a1.5 1.5 0 1 1 2.077-1.76 7.967 7.967 0 0 1 1.126-.548A2.5 2.5 0 0 1 6.5 0h3a2.5 2.5 0 0 1 1.428 4.553c.39.154.767.337 1.126.548a1.5 1.5 0 1 1 2.077 1.76 8 8 0 1 1-12.263 0zM8 18A6 6 0 1 0 8 6a6 6 0 0 0 0 12zM6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3z"></path></svg>
+                            <h3 data-rest-seconds class="font-normal text-slate-500 text-2xl">30</h3>
+                        </div>
+                        <button data-close-rest type="button" class="text-slate-500 bg-slate-50 hover:bg-slate-100 focus:ring-4 focus:outline-none focus:ring-slate-200 rounded-lg border-2 border-slate-200 text-sm font-medium px-5 py-2.5 hover:text-slate-900 focus:z-10">Cancel rest</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <main class="max-w-2xl mx-auto px-4 py-12">
             <h1 class="text-4xl text-slate-800 font-bold capitalize">

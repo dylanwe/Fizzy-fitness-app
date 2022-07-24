@@ -83,6 +83,31 @@ const addexercise = (id: string, name: string) => {
 	addSetEvents(set);
 };
 
+let countdown: any;
+
+/**
+ * Start tge timer for the rest
+ */
+const startRest = async () => {
+	document.querySelector('[data-open-rest]')!.classList.remove('hidden');
+	document.querySelector('[data-open-rest]')!.classList.add('flex');
+
+	const rest = 30;
+
+	for (let i = 0; i < rest; i++) {
+		(<HTMLElement> document.querySelector('[data-rest-seconds]'))!.innerText = (rest - i).toString();
+
+		// wait one second
+		await new Promise(r => countdown = setTimeout(r, 1000));
+
+		// close modal
+		if (i === rest - 1) {
+			document.querySelector('[data-open-rest]')!.classList.add('hidden');
+			document.querySelector('[data-open-rest]')!.classList.remove('flex');
+		}
+	}
+}
+
 /**
  * Add the classes to mark the set as complete based on the checkbox state
  *
@@ -91,6 +116,7 @@ const addexercise = (id: string, name: string) => {
  */
 const completeSet = (checkbox: HTMLInputElement, set: HTMLElement) => {
 	if (checkbox.checked) {
+		startRest();
 		set.classList.add('bg-green-100');
 	} else {
 		set.classList.remove('bg-green-100');
@@ -294,3 +320,12 @@ document
 	?.addEventListener('click', () => {
 		document.querySelector('[data-delete-modal]')?.classList.add('hidden');
 	});
+
+// close rest modal
+document.querySelector('[data-close-rest]')?.addEventListener('click', () => {
+	document.querySelector('[data-open-rest]')!.classList.add('hidden');
+	document.querySelector('[data-open-rest]')!.classList.remove('flex');
+
+	// stop the countdown
+	clearTimeout(countdown);
+})
