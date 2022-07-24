@@ -7,7 +7,7 @@
  */
  const changeChartType = (e: Event, chart: any, stat: Stat) => {
 	const statType = (<HTMLInputElement> e.target).value;
-	let data = [];
+	let data: number[] = [];
 	let label = '';
 
 	switch (statType) {
@@ -33,6 +33,12 @@
 	chart.update();
 };
 
+/**
+ * Change if exercise should be pinned to the dashboard
+ * 
+ * @param container the element in which the all exercise data is
+ * @param stat the statistics for this pin
+ */
 const changePin = async (container: HTMLElement, stat: Stat) => {
 	// send request than change classes;
 	const pin = container.querySelector('[data-pin]')!;
