@@ -6,9 +6,12 @@ import {
 	getAllExerciseStats,
 	changePin,
 } from '../../models/exercises';
+import workoutRouter from './workout';
 import { rowsWorkoutHistory, allWorkoutHistory } from '../../models/workouts';
 
 const router = express.Router();
+// add other routers
+router.use('/workout', workoutRouter);
 
 // render the dashboard
 router.get('/', async (req: Request, res: Response) => {
