@@ -24,7 +24,7 @@ export const getUserByEmail = async (email: string): Promise<User> => {
  */
 export const getUserById = async (id: number): Promise<User> => {
 	const [users]: any = await db.query(
-		'SElECT id, email, username FROM user WHERE id = ?',
+		'SElECT id, email, username, apikey FROM user WHERE id = ?',
 		[id]
 	);
 
@@ -39,7 +39,7 @@ export const getUserById = async (id: number): Promise<User> => {
  */
  export const getUserByApikey = async (apikey: string): Promise<User> => {
 	const [users]: any = await db.query(
-		'SElECT id, email, username FROM user WHERE apikey = ?',
+		'SElECT id, email, username, apikey FROM user WHERE apikey = ?',
 		[apikey]
 	);
 

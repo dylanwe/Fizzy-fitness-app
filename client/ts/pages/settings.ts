@@ -186,8 +186,23 @@ const saveSettings = async () => {
 }
 
 // add event to save settings button
-document.querySelector('[data-save-settings]')!.addEventListener('click', async () => {
+document.querySelector('[data-save-settings]')!.addEventListener('click', () => {
     if (!errorExists()) {
         saveSettings();
     }
 });
+
+document.querySelector('[data-save-dev]')!.addEventListener('click',  async () => {
+    const resp = await fetch('/dashboard/settings/apikey', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (resp.status === 200) {
+        const { newKey } = await resp.json();
+
+        (<HTMLInputElement> document.querySelector('input[name="apikey"]'))!.value = newKey;
+    } 
+})

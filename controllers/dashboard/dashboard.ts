@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { getAllTemplatesForUser } from '../../models/templates';
-import { updateUser } from '../../models/user';
+import { updateUser, giveUserApikey } from '../../models/user';
 import {
 	getAllPinnedExerciseStats,
 	getAllExerciseStats,
@@ -63,6 +63,18 @@ router.put('/settings', async (req: Request, res: Response) => {
 	}
 
 	res.status(500).json({ errors: update });
+});
+
+// give or update user apikey
+router.put('/settings/apikey', async (req: Request, res: Response) => {
+	const apikey = await giveUserApikey(req.user!.id);
+
+	if (apikey) {
+		res.status(200).json({ newKey: apikey });
+		return;
+	}
+
+	res.status(500).json({ errors: 'Couldn\'t give user apikey' });
 });
 
 router.put('/stats/:exerciseId', async (req: Request, res: Response) => {
