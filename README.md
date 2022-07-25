@@ -10,7 +10,7 @@ Fizzy is an open-source fitness app that helps you log your workouts and keep tr
 - Workout template creation
 - See progression in charts
 - Check past completed workouts
-- API for developers so they can pull their own data.
+- Small [API](https://github.com/dylanwe/fizzy-fitness-app/blob/main/controllers/api/README.md) for developers so they can pull their own data.
 
 ## To start
 1. build the database from the `db` folder `database.sql`
