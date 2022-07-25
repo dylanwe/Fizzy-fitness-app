@@ -1,4 +1,4 @@
-# Fizzy - An opens-ource fitness app
+# Fizzy - An opens-source fitness app
 
 ![Showcase](/client/img/fizzy-thumbnail.png)
 
