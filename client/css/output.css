@@ -949,6 +949,10 @@ select {
   margin-left: -0.25rem;
 }
 
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -963,10 +967,6 @@ select {
 
 .mb-5 {
   margin-bottom: 1.25rem;
-}
-
-.mb-1 {
-  margin-bottom: 0.25rem;
 }
 
 .block {
@@ -1023,6 +1023,10 @@ select {
 
 .h-\[calc\(100vh-82px\)\] {
   height: calc(100vh - 82px);
+}
+
+.h-48 {
+  height: 12rem;
 }
 
 .h-full {

@@ -4,7 +4,7 @@
 <head>
     <%- include('./../partials/head.ejs') %>
     <script src="/ts/pages/settings.js" defer></script>
-    <title>Dashboard</title>
+    <title>Fizzy | Settings</title>
 </head>
 
 <body>
@@ -52,8 +52,10 @@
                 </button>
             </form>
             <hr class="my-12">
+
+            <%# Developer settings %> 
             <h2 class="text-2xl text-slate-700 mb-1">Developer settings</h2>
-            <p class="text-slate-500 mb-4">To read more about the API check <a href="#" target="_blank" rel="noopener noreferrer" class="text-slate-900 underline">API docs</a></p>
+            <p class="text-slate-500 mb-4">To read more about the API check <a href="https://github.com/dylanwe/fitness-app/blob/main/controllers/api/README.md" arget="_blank" rel="noopener noreferrer" class="text-slate-900 underline">API docs</a></p>
             <form>
                 <div>
                     <label data-label for="apikey" class="block mb-2 text-sm font-medium text-slate-900">API key</label>
