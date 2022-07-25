@@ -1,3 +1,8 @@
+// add nav toggle button for non signin pages
+document.querySelector('[data-nav-toggle]')?.addEventListener('click', () => {
+	document.querySelector('[data-nav]')!.classList.toggle('hidden');
+});
+
 // if logout button is available add the logout event
 document.querySelector('[data-logout]')?.addEventListener('click', () => {
 	fetch('/logout', {

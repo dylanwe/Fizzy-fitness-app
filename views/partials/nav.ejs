@@ -3,7 +3,7 @@
         <a href="/" class="flex items-center">
             <span class="self-center text-2xl font-semibold whitespace-nowrap">Fitness</span>
         </a>
-        <button data-collapse-toggle="mobile-menu" type="button"
+        <button data-nav-toggle type="button"
             class="inline-flex items-center p-2 ml-3 text-sm text-slate-500 rounded-lg md:hidden hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200"
             aria-controls="mobile-menu" aria-expanded="false">
             <span class="sr-only">Open main menu</span>
@@ -18,15 +18,15 @@
                     clip-rule="evenodd"></path>
             </svg>
         </button>
-        <div class="hidden w-full md:block md:w-auto">
+        <div data-nav class="hidden w-full md:block md:w-auto">
             <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium items-center">
-                <li class="w-full md:w-auto">
+                <li class="mb-2 w-full md:mb-0 md:w-auto">
                     <a href="/"
-                        class="block py-4 pr-4 pl-3 text-slate-700 hover:bg-slate-50 md:hover:text-cyan-500 md:p-0">Home</a>
+                        class="block py-4 pr-4 pl-3 text-slate-700 rounded-md md:rounded-none hover:bg-slate-50 md:hover:bg-transparent md:hover:text-cyan-500 md:p-0">Home</a>
                 </li>
-                <li class="w-full md:w-auto">
+                <li class="mb-2 w-full md:mb-0 md:w-auto">
                     <a href="/login"
-                        class="block py-4 pr-4 pl-3 text-slate-700 hover:bg-slate-50 md:hover:text-cyan-500 md:p-0">Login</a>
+                        class="block py-4 pr-4 pl-3 text-slate-700 rounded-md md:rounded-none hover:bg-slate-50 md:hover:bg-transparent md:hover:text-cyan-500 md:p-0">Login</a>
                 </li>
                 <li class="w-full md:w-auto">
                     <a href="/signup"
