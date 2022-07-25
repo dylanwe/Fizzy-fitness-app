@@ -4,6 +4,8 @@
 
 Fizzy is an open-source fitness app that helps you log your workouts and keep track of you workouts.
 
+## [Demo](https://youtu.be/RcGxFgKqzA4)
+
 ## Features
 - Log workouts live
 - Account creation
