@@ -1,4 +1,5 @@
 import db from '../db/connection';
+import uuidAPIKey from "uuid-apikey";
 import bcrypt from 'bcrypt';
 
 /**
@@ -28,6 +29,40 @@ export const getUserById = async (id: number): Promise<User> => {
 	);
 
 	return users[0] as User;
+};
+
+/**
+ * Get a user by his apikey
+ *
+ * @param apikey the apikey of the user
+ * @returns a user
+ */
+ export const getUserByApikey = async (apikey: string): Promise<User> => {
+	const [users]: any = await db.query(
+		'SElECT id, email, username FROM user WHERE apikey = ?',
+		[apikey]
+	);
+
+	return users[0] as User;
+};
+
+/**
+ * Give a user an apikey
+ * 
+ * @param id the id of the user
+ * @returns the new apikey or false if an error happend
+ */
+export const giveUserApikey = async (id: number) => {
+	const newKey = uuidAPIKey.create().apiKey;
+	try {
+		await db.execute(
+			`UPDATE user SET apikey = ? WHERE id = ?`,
+			[newKey, id]
+		);
+		return newKey;
+	} catch (error) {
+		return false;
+	}
 };
 
 /**

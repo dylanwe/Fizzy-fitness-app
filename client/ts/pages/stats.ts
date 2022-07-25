@@ -17,7 +17,7 @@
 			break;
 
 		case 'pr':
-			data = stat.prs;
+			data = stat.weight;
 			label = 'PR of workout';
 			break;
 

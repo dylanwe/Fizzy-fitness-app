@@ -5,6 +5,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import authRouter, { checkAuthenticated } from './controllers/auth';
 import dashboardRouter from './controllers/dashboard/dashboard';
+import apiRouter from './controllers/api';
 const MySQLStore = require('express-mysql-session')(session);
 import db from './db/connection';
 
@@ -50,6 +51,7 @@ app.get('/', (req: Request, res: Response) => {
 // sub routers
 app.use('/', authRouter);
 app.use('/dashboard', checkAuthenticated, dashboardRouter);
+app.use('/api', apiRouter);
 
 app.listen(port, () => {
 	console.log(`Example app listening on port http://localhost:${port}`);

@@ -16,6 +16,7 @@ interface User {
 	email: string;
 	username: string;
 	password?: string;
+	apikey?: string;
 }
 
 interface updateUserError {
@@ -46,7 +47,7 @@ interface Stat {
 	dates: string[];
 	reps: number[];
 	volumes: number[];
-	prs: number[];
+	weight: number[];
 }
 
 interface TemplateSet extends ExerciseSet {

@@ -19,14 +19,14 @@ export const getAllExercises = async (): Promise<any[]> => {
  * @param userId The id of the use the workouts belong to
  * @returns stats
  */
-const getExerciseStat = async (
+export const getExerciseStat = async (
 	exerciseId: number,
 	userId: number
 ): Promise<Stat> => {
 	// get the raw stat data
 	const [rawStats]: any = await db.query(
 		`
-        SELECT MAX(E.id) as id, MAX(E.name) AS name, DATE_FORMAT(MAX(date), "%d-%m-%Y") as date, MAX(S.reps) AS most_reps, SUM(S.reps * IF(S.weight, S.weight, 1)) AS exercise_volume, MAX(S.weight) AS pr, MAX(PS.id) AS pinned_stat
+        SELECT MAX(E.id) as id, MAX(E.name) AS name, DATE_FORMAT(MAX(date), "%d-%m-%Y") as date, MAX(S.reps) AS most_reps, SUM(S.reps * IF(S.weight, S.weight, 1)) AS exercise_volume, MAX(S.weight) AS weight, MAX(PS.id) AS pinned_stat
         FROM workout AS W
         INNER JOIN \`set\` AS S
         ON S.workout_id = W.id
@@ -49,7 +49,7 @@ const getExerciseStat = async (
 		dates: [],
 		reps: [],
 		volumes: [],
-		prs: [],
+		weight: [],
 	};
 
 	// format the raw stat data into the clean constructed stat object
@@ -57,7 +57,7 @@ const getExerciseStat = async (
 		stat.dates.push(rawStat.date);
 		stat.reps.push(rawStat.most_reps);
 		stat.volumes.push(parseFloat(rawStat.exercise_volume));
-		stat.prs.push((rawStat.pr));
+		stat.weight.push((rawStat.weight));
 	}
 
 	return stat;
